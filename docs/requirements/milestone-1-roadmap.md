@@ -34,7 +34,7 @@ Roadmap не задаёт выдуманные календарные обеща
 | M1-P17 | [#19 GamePix adapter/spike](https://github.com/dKorialstrasz/response-online/issues/19) | P1 | GP-01–07, DEP-04, OQ-05 | #7, #14, #16 |
 | M1-P18 | [#20 Rules/card QA и 72 smoke](https://github.com/dKorialstrasz/response-online/issues/20) | P0 | RULE-02–11, AC-04–05 | #12, #15, #17 |
 | M1-P19 | [#21 NFR/security QA](https://github.com/dKorialstrasz/response-online/issues/21) | P1 | NFR-04–13, SEC-01–10, AC-06–09 | #14, #17, #18 |
-| M1-P20 | [#22 Core acceptance](https://github.com/dKorialstrasz/response-online/issues/22) | P0 | AC-01–11, UC-01–12 | #4–#6, #9–#16, #18–#21 |
+| M1-P20 | [#22 Core acceptance](https://github.com/dKorialstrasz/response-online/issues/22) | P0 | AC-01–11, UC-01–12 | #4–#18, #20–#21 |
 | M1-P21 | [#23 GamePix submission](https://github.com/dKorialstrasz/response-online/issues/23) | P1 | GP-01–09, AC-12 | #7, #19, #22 |
 
 ## Исполнительный поток
