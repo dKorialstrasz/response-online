@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 1,
+  "locale": "ru-RU",
+  "setCode": "БАЗ",
+  "contentVersion": "base-decks-v1",
+  "reviewStatus": "pending",
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "deckId": "death-kassiy",
+  "displayName": "Кассий",
+  "factionName": "Смерть",
+  "source": {
+    "url": "https://response-game.ru/store/tproduct/167585109542-startovaya-koloda-kassii",
+    "checkedAt": "2026-10-17",
+    "sha256": "86572cf65d0839fc82f129a540f2efd5b409572cec4cdf2912e15407e0a1b2cf"
+  },
+  "hero": {
+    "definitionId": "baz-023",
+    "name": "Кассий, Осквернитель",
+    "printedNumber": 23,
+    "category": "hero",
+    "count": 1
+  },
+  "orders": [
+    {
+      "definitionId": "baz-040",
+      "name": "Дыхание Смерти",
+      "printedNumber": 40,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-041",
+      "name": "Призрачная форма",
+      "printedNumber": 41,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-042",
+      "name": "Возвращение к нежизни",
+      "printedNumber": 42,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-043",
+      "name": "Проклятое золото",
+      "printedNumber": 43,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-044",
+      "name": "Разложение",
+      "printedNumber": 44,
+      "category": "order",
+      "count": 1
+    }
+  ],
+  "main": [
+    {
+      "definitionId": "baz-024",
+      "name": "Рыцарь Смерти",
+      "printedNumber": 24,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-025",
+      "name": "Возвращающийся",
+      "printedNumber": 25,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-026",
+      "name": "Большой зомби",
+      "printedNumber": 26,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-027",
+      "name": "Мёртвый банкир",
+      "printedNumber": 27,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-028",
+      "name": "Призрак обманщика",
+      "printedNumber": 28,
+      "category": "unit",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-029",
+      "name": "Копающий Зомби",
+      "printedNumber": 29,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-030",
+      "name": "Неудержимый Дух",
+      "printedNumber": 30,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-031",
+      "name": "Заблудшая душа",
+      "printedNumber": 31,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-032",
+      "name": "Неуязвимый мертвец",
+      "printedNumber": 32,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-033",
+      "name": "Взрыв эссенции",
+      "printedNumber": 33,
+      "category": "spell",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-035",
+      "name": "Конец пути",
+      "printedNumber": 35,
+      "category": "spell",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-036",
+      "name": "Раскаяние",
+      "printedNumber": 36,
+      "category": "spell",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-038",
+      "name": "Глаз мертвеца",
+      "printedNumber": 38,
+      "category": "spell",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-034",
+      "name": "Зелье воскрешения",
+      "printedNumber": 34,
+      "category": "upgrade",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-037",
+      "name": "Костяной щит",
+      "printedNumber": 37,
+      "category": "upgrade",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-039",
+      "name": "Отравленный клинок",
+      "printedNumber": 39,
+      "category": "upgrade",
+      "count": 2
+    }
+  ]
+}

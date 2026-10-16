@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 1,
+  "locale": "ru-RU",
+  "setCode": "БАЗ",
+  "contentVersion": "base-decks-v1",
+  "reviewStatus": "pending",
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "deckId": "order-bjorn",
+  "displayName": "Бьёрн",
+  "factionName": "Порядок",
+  "source": {
+    "url": "https://response-game.ru/store/tproduct/978528586692-startovaya-koloda-byorn",
+    "checkedAt": "2026-10-17",
+    "sha256": "3e5e9a4a81282919f56bdca5bae1a0ac369280fa6e3a046ff96b02b0e97d9f0f"
+  },
+  "hero": {
+    "definitionId": "baz-111",
+    "name": "Бьёрн, Усилитель",
+    "printedNumber": 111,
+    "category": "hero",
+    "count": 1
+  },
+  "orders": [
+    {
+      "definitionId": "baz-128",
+      "name": "Обжигающий холод",
+      "printedNumber": 128,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-129",
+      "name": "Стойкий нрав",
+      "printedNumber": 129,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-130",
+      "name": "Зачарованный оберег",
+      "printedNumber": 130,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-131",
+      "name": "Узкая тропа",
+      "printedNumber": 131,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-132",
+      "name": "Ледяной поток",
+      "printedNumber": 132,
+      "category": "order",
+      "count": 1
+    }
+  ],
+  "main": [
+    {
+      "definitionId": "baz-112",
+      "name": "Джинн одного желания",
+      "printedNumber": 112,
+      "category": "unit",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-113",
+      "name": "Мистический странник",
+      "printedNumber": 113,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-114",
+      "name": "Рыцарь Порядка",
+      "printedNumber": 114,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-115",
+      "name": "Пурпурный ловкач",
+      "printedNumber": 115,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-116",
+      "name": "Ледяной голем",
+      "printedNumber": 116,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-117",
+      "name": "Страж Кхазалида",
+      "printedNumber": 117,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-118",
+      "name": "Статный воевода",
+      "printedNumber": 118,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-119",
+      "name": "Разрушитель планов",
+      "printedNumber": 119,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-120",
+      "name": "Адепт Регламента",
+      "printedNumber": 120,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-121",
+      "name": "Разумный выбор",
+      "printedNumber": 121,
+      "category": "spell",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-122",
+      "name": "Падение в шахту",
+      "printedNumber": 122,
+      "category": "spell",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-127",
+      "name": "Молниеносное смещение",
+      "printedNumber": 127,
+      "category": "spell",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-123",
+      "name": "Морозный клинок",
+      "printedNumber": 123,
+      "category": "upgrade",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-124",
+      "name": "Закалённый щит",
+      "printedNumber": 124,
+      "category": "upgrade",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-125",
+      "name": "Лёгкие доспехи",
+      "printedNumber": 125,
+      "category": "upgrade",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-126",
+      "name": "Зелье контроля",
+      "printedNumber": 126,
+      "category": "upgrade",
+      "count": 2
+    }
+  ]
+}

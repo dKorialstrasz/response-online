@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 1,
+  "locale": "ru-RU",
+  "setCode": "БАЗ",
+  "contentVersion": "base-decks-v1",
+  "reviewStatus": "pending",
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "deckId": "technology-dari",
+  "displayName": "Дари",
+  "factionName": "Технологии",
+  "source": {
+    "url": "https://response-game.ru/store/tproduct/961576141202-startovaya-koloda-dari",
+    "checkedAt": "2026-10-17",
+    "sha256": "ff5a02fb591ec473bea2f56dd7a5467d45a1fd7d33a6e2a7ceff6f7ad9df290d"
+  },
+  "hero": {
+    "definitionId": "baz-001",
+    "name": "Дари, Навигатор",
+    "printedNumber": 1,
+    "category": "hero",
+    "count": 1
+  },
+  "orders": [
+    {
+      "definitionId": "baz-018",
+      "name": "Перехват памяти",
+      "printedNumber": 18,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-019",
+      "name": "Дальнобойное орудие",
+      "printedNumber": 19,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-020",
+      "name": "Поиск ответа",
+      "printedNumber": 20,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-021",
+      "name": "Двойной удар",
+      "printedNumber": 21,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-022",
+      "name": "Отбросить в будущее",
+      "printedNumber": 22,
+      "category": "order",
+      "count": 1
+    }
+  ],
+  "main": [
+    {
+      "definitionId": "baz-002",
+      "name": "Рыцарь Технологий",
+      "printedNumber": 2,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-003",
+      "name": "Ускоряющий энобот",
+      "printedNumber": 3,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-004",
+      "name": "Анализатор потенциала",
+      "printedNumber": 4,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-005",
+      "name": "Упорный охотник",
+      "printedNumber": 5,
+      "category": "unit",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-006",
+      "name": "Наёмник из Эносити",
+      "printedNumber": 6,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-007",
+      "name": "Простейший энобот",
+      "printedNumber": 7,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-008",
+      "name": "Генератор пара",
+      "printedNumber": 8,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-009",
+      "name": "Патрульный энобот",
+      "printedNumber": 9,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-010",
+      "name": "Токсичный энобот",
+      "printedNumber": 10,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-011",
+      "name": "Передислокация",
+      "printedNumber": 11,
+      "category": "spell",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-012",
+      "name": "Выкинуть на свалку",
+      "printedNumber": 12,
+      "category": "spell",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-013",
+      "name": "Резервное копирование",
+      "printedNumber": 13,
+      "category": "spell",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-014",
+      "name": "Неудержимый натиск",
+      "printedNumber": 14,
+      "category": "spell",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-017",
+      "name": "Снаряд плазмы",
+      "printedNumber": 17,
+      "category": "spell",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-015",
+      "name": "Динамо-ускоритель",
+      "printedNumber": 15,
+      "category": "upgrade",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-016",
+      "name": "Зелье смещения",
+      "printedNumber": 16,
+      "category": "upgrade",
+      "count": 2
+    }
+  ]
+}
