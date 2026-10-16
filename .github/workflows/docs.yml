@@ -1,0 +1,26 @@
+name: Docs CI
+
+on:
+  pull_request:
+    paths:
+      - '**/*.md'
+      - 'scripts/check-docs.sh'
+      - '.github/workflows/docs.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - '**/*.md'
+      - 'scripts/check-docs.sh'
+      - '.github/workflows/docs.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check documentation consistency
+        run: bash scripts/check-docs.sh
