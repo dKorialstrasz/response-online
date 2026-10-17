@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "locale": "ru-RU",
+  "setCode": "БАЗ",
+  "contentVersion": "base-decks-v1",
+  "reviewStatus": "approved",
+  "reviewedBy": "dKorialstrasz",
+  "reviewedAt": "2026-10-17",
+  "deckId": "nature-medana",
+  "displayName": "Медана",
+  "factionName": "Природа",
+  "source": {
+    "url": "https://response-game.ru/store/tproduct/762054556062-startovaya-koloda-medana",
+    "checkedAt": "2026-10-17",
+    "sha256": "e181c29148cbbfebb4f4cb3086b58a908f81b4b220e7a92b3060675fc816e62e"
+  },
+  "hero": {
+    "definitionId": "baz-067",
+    "name": "Медана, Собирательница",
+    "printedNumber": 67,
+    "category": "hero",
+    "count": 1
+  },
+  "orders": [
+    {
+      "definitionId": "baz-084",
+      "name": "Сотрясающая буря",
+      "printedNumber": 84,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-085",
+      "name": "Шипастый покров",
+      "printedNumber": 85,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-086",
+      "name": "Буйный рост",
+      "printedNumber": 86,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-087",
+      "name": "Ослепляющие споры",
+      "sourceName": "Ослепляющие cпоры",
+      "printedNumber": 87,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-088",
+      "name": "Гнев друида",
+      "printedNumber": 88,
+      "category": "order",
+      "count": 1
+    }
+  ],
+  "main": [
+    {
+      "definitionId": "baz-068",
+      "name": "Рыцарь Природы",
+      "printedNumber": 68,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-069",
+      "name": "Древесный великан",
+      "printedNumber": 69,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-070",
+      "name": "Распыляющая пыльцу",
+      "printedNumber": 70,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-071",
+      "name": "Злобная мухоловка",
+      "printedNumber": 71,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-072",
+      "name": "Дриада нового посева",
+      "printedNumber": 72,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-073",
+      "name": "Искательница фруктов",
+      "printedNumber": 73,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-074",
+      "name": "Древесный дракон",
+      "printedNumber": 74,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-075",
+      "name": "Лаймовая кошка",
+      "printedNumber": 75,
+      "category": "unit",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-076",
+      "name": "Изумрудный ящер",
+      "printedNumber": 76,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-079",
+      "name": "Показать силу",
+      "printedNumber": 79,
+      "category": "spell",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-081",
+      "name": "Восстановление",
+      "printedNumber": 81,
+      "category": "spell",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-082",
+      "name": "Зов корней",
+      "printedNumber": 82,
+      "category": "spell",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-083",
+      "name": "Сонный паралич",
+      "printedNumber": 83,
+      "category": "spell",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-077",
+      "name": "Корневой покров",
+      "printedNumber": 77,
+      "category": "upgrade",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-078",
+      "name": "Зелье роста",
+      "printedNumber": 78,
+      "category": "upgrade",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-080",
+      "name": "Сфера изобилия",
+      "printedNumber": 80,
+      "category": "upgrade",
+      "count": 1
+    }
+  ]
+}

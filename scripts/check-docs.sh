@@ -49,4 +49,6 @@ contains_text 'техническое завершение через 90 с' doc
 contains_text 'GamePix полностью исключён из M1' docs/decisions/m1-product-decisions.md
 contains_text 'только на русском языке' docs/decisions/m1-product-decisions.md
 
+python3 scripts/validate_decks.py
+
 echo 'Docs checks passed.'

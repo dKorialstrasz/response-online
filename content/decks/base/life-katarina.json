@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 1,
+  "locale": "ru-RU",
+  "setCode": "БАЗ",
+  "contentVersion": "base-decks-v1",
+  "reviewStatus": "approved",
+  "reviewedBy": "dKorialstrasz",
+  "reviewedAt": "2026-10-17",
+  "deckId": "life-katarina",
+  "displayName": "Катарина",
+  "factionName": "Жизнь",
+  "source": {
+    "url": "https://response-game.ru/store/tproduct/370965877392-startovaya-koloda-katarina",
+    "checkedAt": "2026-10-17",
+    "sha256": "e8f486354d5725e5300985deb6680601ed43fe65a85eaf1a0298b92b9a5104a5"
+  },
+  "hero": {
+    "definitionId": "baz-089",
+    "name": "Катарина, Вдохновитель",
+    "printedNumber": 89,
+    "category": "hero",
+    "count": 1
+  },
+  "orders": [
+    {
+      "definitionId": "baz-106",
+      "name": "Освящённые клинки",
+      "printedNumber": 106,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-107",
+      "name": "Спираль космоса",
+      "printedNumber": 107,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-108",
+      "name": "Золотой покров",
+      "printedNumber": 108,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-109",
+      "name": "Призыв очистителя",
+      "printedNumber": 109,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-110",
+      "name": "Разгорающийся огонь",
+      "printedNumber": 110,
+      "category": "order",
+      "count": 1
+    }
+  ],
+  "main": [
+    {
+      "definitionId": "baz-090",
+      "name": "Рыцарь Жизни",
+      "printedNumber": 90,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-091",
+      "name": "Могучий очиститель",
+      "printedNumber": 91,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-092",
+      "name": "Отважный доброволец",
+      "printedNumber": 92,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-093",
+      "name": "Жрец легиона",
+      "printedNumber": 93,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-094",
+      "name": "Освятитель оружия",
+      "printedNumber": 94,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-095",
+      "name": "Хранитель башни",
+      "printedNumber": 95,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-096",
+      "name": "Верный рыцарь",
+      "printedNumber": 96,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-097",
+      "name": "Наставник героев",
+      "printedNumber": 97,
+      "category": "unit",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-098",
+      "name": "Молодой кузнец",
+      "printedNumber": 98,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-102",
+      "name": "Поиск новобранца",
+      "printedNumber": 102,
+      "category": "spell",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-103",
+      "name": "Отречение",
+      "printedNumber": 103,
+      "category": "spell",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-104",
+      "name": "Ослепляющая стрела",
+      "printedNumber": 104,
+      "category": "spell",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-105",
+      "name": "Познание космоса",
+      "printedNumber": 105,
+      "category": "spell",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-099",
+      "name": "Зелье стойкости",
+      "printedNumber": 99,
+      "category": "upgrade",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-100",
+      "name": "Сияющее копьё",
+      "printedNumber": 100,
+      "category": "upgrade",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-101",
+      "name": "Тяжёлый арбалет",
+      "printedNumber": 101,
+      "category": "upgrade",
+      "count": 2
+    }
+  ]
+}

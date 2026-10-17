@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "locale": "ru-RU",
+  "setCode": "БАЗ",
+  "contentVersion": "base-decks-v1",
+  "reviewStatus": "approved",
+  "reviewedBy": "dKorialstrasz",
+  "reviewedAt": "2026-10-17",
+  "deckId": "chaos-enitokl",
+  "displayName": "Энитокль",
+  "factionName": "Хаос",
+  "source": {
+    "url": "https://response-game.ru/store/tproduct/781431895752-startovaya-koloda-enitokl",
+    "checkedAt": "2026-10-17",
+    "sha256": "a3f52e339a3fefa8e4b2f2e4545014cb8f95a5dbb95c1f6398c3694d7c2070dc"
+  },
+  "hero": {
+    "definitionId": "baz-045",
+    "name": "Энитокль, Поджигатель",
+    "printedNumber": 45,
+    "category": "hero",
+    "count": 1
+  },
+  "orders": [
+    {
+      "definitionId": "baz-062",
+      "name": "Огненный шар",
+      "printedNumber": 62,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-063",
+      "name": "Неудержимая ярость",
+      "printedNumber": 63,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-064",
+      "name": "Завораживающий поток",
+      "printedNumber": 64,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-065",
+      "name": "Пылающие воспоминания",
+      "printedNumber": 65,
+      "category": "order",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-066",
+      "name": "Хаотический призыв",
+      "printedNumber": 66,
+      "category": "order",
+      "count": 1
+    }
+  ],
+  "main": [
+    {
+      "definitionId": "baz-046",
+      "name": "Рыцарь Хаоса",
+      "printedNumber": 46,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-047",
+      "name": "Противный гоблин",
+      "printedNumber": 47,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-048",
+      "name": "Огненный дуэлянт",
+      "printedNumber": 48,
+      "category": "unit",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-049",
+      "name": "Орк-созерцатель",
+      "sourceName": "Орк-cозерцатель",
+      "printedNumber": 49,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-050",
+      "name": "Бегущий по лаве",
+      "printedNumber": 50,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-051",
+      "name": "Демон-лучник",
+      "printedNumber": 51,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-052",
+      "name": "Самоуверенный демон",
+      "printedNumber": 52,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-053",
+      "name": "Верзила из ущелья",
+      "printedNumber": 53,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-054",
+      "name": "Медитирующий демон",
+      "printedNumber": 54,
+      "category": "unit",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-055",
+      "name": "Демонический крик",
+      "printedNumber": 55,
+      "category": "spell",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-056",
+      "name": "Огненный плевок",
+      "printedNumber": 56,
+      "category": "spell",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-057",
+      "name": "Неизвестные возможности",
+      "printedNumber": 57,
+      "category": "spell",
+      "count": 1
+    },
+    {
+      "definitionId": "baz-058",
+      "name": "Агрессивный взгляд",
+      "printedNumber": 58,
+      "category": "spell",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-061",
+      "name": "Гоблинская насмешка",
+      "printedNumber": 61,
+      "category": "spell",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-059",
+      "name": "Хаотичный обмен",
+      "printedNumber": 59,
+      "category": "upgrade",
+      "count": 2
+    },
+    {
+      "definitionId": "baz-060",
+      "name": "Зелье упорства",
+      "printedNumber": 60,
+      "category": "upgrade",
+      "count": 2
+    }
+  ]
+}
