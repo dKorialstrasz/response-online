@@ -1,0 +1,5149 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "galleryUrl": "https://response-game.ru/spoiler",
+    "apiUrl": "https://response-league.ru/api/v1/cards",
+    "checkedAt": "2026-10-17",
+    "catalogVersion": "6aa6a9a1fe7984148c7209427fb125053d190b2f1671149f9dc83bace02f0d35",
+    "pageCount": 5,
+    "catalogCardCount": 427
+  },
+  "selection": {
+    "set": "Базовый",
+    "setCode": "БАЗ",
+    "printingNumberRange": [
+      1,
+      132
+    ]
+  },
+  "cards": [
+    {
+      "id": "dari-navigator",
+      "name": "Дари, Навигатор",
+      "types": [
+        "Герой"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Технологии"
+      ],
+      "keywords": [],
+      "is_hero": true,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": null,
+      "levels": [
+        {
+          "influence": 5,
+          "text": "Действие: Переместите целевую карту на вашем поле влево или вправо, если клетка свободна."
+        }
+      ],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-001",
+          "set": "Базовый",
+          "number": "1",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/1fd1ff4c-e9a2-4542-8c7b-d4e640ef0c4e",
+              "medium_url": "https://response-league.ru/api/v1/card-images/18839a86-836c-41ff-804d-cb085577fd50"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rycar-texnologii",
+      "name": "Рыцарь Технологий",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Человек",
+        "Рыцарь"
+      ],
+      "factions": [
+        "Технологии"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": 2,
+      "durability": null,
+      "text": "Всадник",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-002",
+          "set": "Базовый",
+          "number": "2",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/6ffb35dc-52f4-4e06-b880-5b2fe7e302f5",
+              "medium_url": "https://response-league.ru/api/v1/card-images/8fb9d663-1217-4f21-9ee8-5588df1a7f4d"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "uskoriaiushhii-enobot",
+      "name": "Ускоряющий энобот",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Энобот"
+      ],
+      "factions": [
+        "Технологии"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 3,
+      "strength": 3,
+      "durability": null,
+      "text": "После того как оппонент разыграл приказ, вы получаете 1 влияние в начале следующего хода.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-003",
+          "set": "Базовый",
+          "number": "3",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/dc88b5bb-8bbd-42b3-9751-85a3eb95ae94",
+              "medium_url": "https://response-league.ru/api/v1/card-images/44d883d8-520e-4ccc-8a3b-8687605cbe14"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "analizator-potenciala",
+      "name": "Анализатор потенциала",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Энобот",
+        "Советник"
+      ],
+      "factions": [
+        "Технологии"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 4,
+      "strength": 2,
+      "durability": null,
+      "text": "Призыв: Целевой оппонент показывает верхнюю карту своей колоды. Если стоимость показанной карты не более 3, вы можете разыграть её бесплатно. Если вы этого не сделали, этот юнит получает +2 силы до конца хода.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-004",
+          "set": "Базовый",
+          "number": "4",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/46a074b5-4530-4482-860a-80f04dde878d",
+              "medium_url": "https://response-league.ru/api/v1/card-images/b5f1f415-4e69-4f4e-a794-5a3df857b367"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "upornyi-oxotnik",
+      "name": "Упорный охотник",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Человек",
+        "Убийца"
+      ],
+      "factions": [
+        "Технологии"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": 3,
+      "durability": null,
+      "text": "После того как этот юнит переместился, он получает +Х силы до конца хода, где Х — сила этого юнита.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-005",
+          "set": "Базовый",
+          "number": "5",
+          "rarity": "Золото",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/81d6c1b5-8331-4a78-a6b6-b9828b8c9b8d",
+              "medium_url": "https://response-league.ru/api/v1/card-images/11eefdeb-850b-44a1-ad63-e988317574ad"
+            }
+          ]
+        },
+        {
+          "id": "baz-005a",
+          "set": "Базовый",
+          "number": "5a",
+          "rarity": "Золото",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/d1dd9872-3648-4273-8937-d69195b09d8d",
+              "medium_url": "https://response-league.ru/api/v1/card-images/cbf3be2a-d98a-4588-bc2b-55d3f4a24efc"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "naemnik-iz-enositi",
+      "name": "Наёмник из Эносити",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Убийца",
+        "Человек"
+      ],
+      "factions": [
+        "Технологии"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 4,
+      "strength": 5,
+      "durability": null,
+      "text": "После того как юнит на вашем поле переместился, он получает +1 силы до конца хода.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-006",
+          "set": "Базовый",
+          "number": "6",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/80d1f346-6d57-4802-abe6-0d0be3c9bc7b",
+              "medium_url": "https://response-league.ru/api/v1/card-images/9888dd48-5b7f-4b1a-b105-2a7a8991c27c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prosteisii-enobot",
+      "name": "Простейший энобот",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Энобот",
+        "Крестьянин"
+      ],
+      "factions": [
+        "Технологии"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 1,
+      "strength": 2,
+      "durability": null,
+      "text": null,
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-007",
+          "set": "Базовый",
+          "number": "7",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/98fa1543-d6e3-45f0-9563-84bdc0341576",
+              "medium_url": "https://response-league.ru/api/v1/card-images/4d2ad564-f0cb-4f1d-8b8f-9256d75f01b6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "generator-para",
+      "name": "Генератор пара",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Энобот"
+      ],
+      "factions": [
+        "Технологии"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 3,
+      "strength": 2,
+      "durability": null,
+      "text": "Обход",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-008",
+          "set": "Базовый",
+          "number": "8",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/19812444-f5ac-4545-b8ad-d338bad14050",
+              "medium_url": "https://response-league.ru/api/v1/card-images/36607fda-31a4-42d1-b26c-98536195eb83"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "patrulnyi-enobot",
+      "name": "Патрульный энобот",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Энобот",
+        "Рыцарь"
+      ],
+      "factions": [
+        "Технологии"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 5,
+      "strength": 5,
+      "durability": null,
+      "text": "Призыв: Переместите не более 1 другой целевой карты на любом поле в целевую свободную клетку на том же поле.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-009",
+          "set": "Базовый",
+          "number": "9",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/b6b4b577-67dd-496e-ac8b-285ad8a9d9e5",
+              "medium_url": "https://response-league.ru/api/v1/card-images/4be3adc8-1fc4-41b6-9f90-e6994706a669"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "toksicnyi-enobot",
+      "name": "Токсичный энобот",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Энобот"
+      ],
+      "factions": [
+        "Технологии"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 3,
+      "strength": 3,
+      "durability": null,
+      "text": "Яд",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-010",
+          "set": "Базовый",
+          "number": "10",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/31128964-c992-4401-b71c-c9684c5f5aaf",
+              "medium_url": "https://response-league.ru/api/v1/card-images/a6e585f2-9e56-4cd6-8c97-bcac0753eda4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "peredislokaciia",
+      "name": "Передислокация",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Технологии"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 1,
+      "strength": null,
+      "durability": null,
+      "text": "Переместите целевой юнит на любом поле в целевую свободную клетку на том же поле.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-011",
+          "set": "Базовый",
+          "number": "11",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/da206cab-0ba7-4452-b28b-562059b4749b",
+              "medium_url": "https://response-league.ru/api/v1/card-images/7b111b7c-e2a3-4d56-a761-57940468b194"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vykinut-na-svalku",
+      "name": "Выкинуть на свалку",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Технологии"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 4,
+      "strength": null,
+      "durability": null,
+      "text": "Положите целевую карту, не являющуюся приказом, с поля в низ колоды владельца.\nВозьмите карту.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-012",
+          "set": "Базовый",
+          "number": "12",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/c445f988-9e50-497a-8ae2-39288e9b14ef",
+              "medium_url": "https://response-league.ru/api/v1/card-images/f7b5d391-96dc-4674-8deb-8f774d32b86e"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rezervnoe-kopirovanie",
+      "name": "Резервное копирование",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Технологии"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 1,
+      "strength": null,
+      "durability": null,
+      "text": "Положите целевую карту из вашего кладбища в низ колоды. Возьмите карту.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-013",
+          "set": "Базовый",
+          "number": "13",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/d3746c14-efcd-4640-9911-bfe18ae655c4",
+              "medium_url": "https://response-league.ru/api/v1/card-images/3b081be7-a72d-4844-9954-26531c63233e"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "neuderzimyi-natisk",
+      "name": "Неудержимый натиск",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Технологии"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": null,
+      "durability": null,
+      "text": "Целевой юнит получает +2 силы и Натиск до конца хода.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-014",
+          "set": "Базовый",
+          "number": "14",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/2bd9ffed-4f7b-4e94-840d-b7e018b0e293",
+              "medium_url": "https://response-league.ru/api/v1/card-images/d5c14f46-216d-4c36-a491-2e34cbdfa31d"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dinamo-uskoritel",
+      "name": "Динамо-ускоритель",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Технологии"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 1,
+      "strength": null,
+      "durability": null,
+      "text": "В начале боя вы можете переместить целевой юнит на вашем поле в клетку перед этой картой, если клетка свободна.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-015",
+          "set": "Базовый",
+          "number": "15",
+          "rarity": "Серебро",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/cca326e7-a607-41af-b751-232867e84233",
+              "medium_url": "https://response-league.ru/api/v1/card-images/fe9cc4b0-0fca-41a7-b553-b34e46cbc8ed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zele-smeshheniia",
+      "name": "Зелье смещения",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Зелье"
+      ],
+      "factions": [
+        "Технологии"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 3,
+      "strength": null,
+      "durability": null,
+      "text": "Действие: Возьмите карту. Пожертвуйте эту карту.\nСмерть: Переместите целевую карту на любом поле в целевую свободную клетку на том же поле.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-016",
+          "set": "Базовый",
+          "number": "16",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/32a07ecc-96f9-4e99-88c2-8a1ec59f9e5a",
+              "medium_url": "https://response-league.ru/api/v1/card-images/179dcf29-7623-4aca-ab56-4ecf60f7ea5e"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "snariad-plazmy",
+      "name": "Снаряд плазмы",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Технологии"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": null,
+      "durability": null,
+      "text": "Целевой юнит получает -Х силы до конца хода, где Х — количество карт в руке игрока, на поле которого он находится.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-017",
+          "set": "Базовый",
+          "number": "17",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/1fc35446-440d-4b1b-817c-d2ee949fdd76",
+              "medium_url": "https://response-league.ru/api/v1/card-images/7d558f3e-cbff-4670-836d-1bc6d0328e5c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "perexvat-pamiati",
+      "name": "Перехват памяти",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Технологии"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Целевой оппонент показывает 5 верхних карт своей колоды. Разыграйте не более 1 из них бесплатно, если её стоимость не более 3. Положите все не разыгранные таким образом карты в низ колоды владельца в случайном порядке.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-018",
+          "set": "Базовый",
+          "number": "18",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/f632cf1c-d05b-45fb-a66d-25a8b584a8fa",
+              "medium_url": "https://response-league.ru/api/v1/card-images/496e0336-c7c0-47a6-8ac2-404e3fef6903"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dalnoboinoe-orudie",
+      "name": "Дальнобойное орудие",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Технологии"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Усиленный юнит имеет Дальнюю атаку.",
+      "levels": [],
+      "rulings": [
+        {
+          "id": 47,
+          "body": "Если на вашем поле нет места для размещения этой карты, вы не можете поместить её в очередь. При этом она не разыгрывается, но попадание по вам было засчитано, приказ открыт."
+        }
+      ],
+      "printings": [
+        {
+          "id": "baz-019",
+          "set": "Базовый",
+          "number": "19",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/457049f1-37e0-4a18-8d67-cd67e622ae82",
+              "medium_url": "https://response-league.ru/api/v1/card-images/25eda1cc-8edf-4f95-989f-d4b5a5ef7c2e"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "poisk-otveta",
+      "name": "Поиск ответа",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Технологии"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Посмотрите 4 верхние карты вашей колоды, положите 2 из них в вашу руку, остальные в низ вашей колоды в любом порядке.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-020",
+          "set": "Базовый",
+          "number": "20",
+          "rarity": "Серебро",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/5ba5662c-22e4-4880-ba3c-a51f60ed4af8",
+              "medium_url": "https://response-league.ru/api/v1/card-images/017ec869-4fdd-4718-8fed-e1aa32fe1f77"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dvoinoi-udar",
+      "name": "Двойной удар",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Технологии"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Не более 2 целевых юнитов на поле оппонента теряют базовые способности и получают -3 силы до конца хода.",
+      "levels": [],
+      "rulings": [
+        {
+          "id": 49,
+          "body": "Вы можете выбрать 0 целевых юнитов для этой карты."
+        }
+      ],
+      "printings": [
+        {
+          "id": "baz-021",
+          "set": "Базовый",
+          "number": "21",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/eff452a5-365d-4614-9956-c9b7ac96a0d2",
+              "medium_url": "https://response-league.ru/api/v1/card-images/a39bd779-199e-47d6-8229-9e48ef9c103a"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "otbrosit-v-budushhee",
+      "name": "Отбросить в будущее",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Технологии"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Положите целевую карту с поля оппонента в низ колоды владельца.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-022",
+          "set": "Базовый",
+          "number": "22",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/f3c9a42c-a0ca-4508-9c21-8b3a3647585c",
+              "medium_url": "https://response-league.ru/api/v1/card-images/1089ccfe-6a70-474d-a65e-59490f096a68"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kassii-oskvernitel",
+      "name": "Кассий, Осквернитель",
+      "types": [
+        "Герой"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Смерть"
+      ],
+      "keywords": [],
+      "is_hero": true,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": null,
+      "levels": [
+        {
+          "influence": 5,
+          "text": "Действие: Возьмите карту, затем сбросьте карту."
+        }
+      ],
+      "rulings": [
+        {
+          "id": 4,
+          "body": "Вы не можете активировать способность, если в вашей колоде нет карт."
+        }
+      ],
+      "printings": [
+        {
+          "id": "baz-023",
+          "set": "Базовый",
+          "number": "23",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/dbaf3989-5247-4869-8913-591c1748754e",
+              "medium_url": "https://response-league.ru/api/v1/card-images/ba9417b4-6c6f-42f8-8bb8-8b65d9cb5258"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rycar-smerti",
+      "name": "Рыцарь Смерти",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Человек",
+        "Рыцарь"
+      ],
+      "factions": [
+        "Смерть"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": 2,
+      "durability": null,
+      "text": "Яд",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-024",
+          "set": "Базовый",
+          "number": "24",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/227a2597-0d79-4379-a991-f64c3441323f",
+              "medium_url": "https://response-league.ru/api/v1/card-images/67cde46e-0795-41b8-bcf9-3039d6f53ff2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vozvrashhaiushhiisia",
+      "name": "Возвращающийся",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Скелет"
+      ],
+      "factions": [
+        "Смерть"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": 2,
+      "durability": null,
+      "text": "После того как оппонент разыграл приказ, вы можете положить этот юнит из вашего кладбища в руку.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-025",
+          "set": "Базовый",
+          "number": "25",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/737edce1-a4ee-4602-9766-2011e78e0f17",
+              "medium_url": "https://response-league.ru/api/v1/card-images/2ed2af22-1576-4929-aa7d-572a4cded983"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bolsoi-zombi",
+      "name": "Большой зомби",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Зомби"
+      ],
+      "factions": [
+        "Смерть"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 4,
+      "strength": 5,
+      "durability": null,
+      "text": null,
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-026",
+          "set": "Базовый",
+          "number": "26",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/e46cd0ca-d362-48a6-83db-2d8da018e4e0",
+              "medium_url": "https://response-league.ru/api/v1/card-images/bf9fc681-2103-444e-93c3-c9f7e5d9ddc5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mertvyi-bankir",
+      "name": "Мёртвый банкир",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Зомби",
+        "Советник"
+      ],
+      "factions": [
+        "Смерть"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": 3,
+      "durability": null,
+      "text": "Действие — сбросьте карту: Получите 1 влияния.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-027",
+          "set": "Базовый",
+          "number": "27",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/f7ffb11e-8e3e-4052-9e68-d40baf26341c",
+              "medium_url": "https://response-league.ru/api/v1/card-images/4e592950-3cc1-4b25-bdde-024143703c04"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prizrak-obmanshhika",
+      "name": "Призрак обманщика",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Дух"
+      ],
+      "factions": [
+        "Смерть"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 5,
+      "strength": 4,
+      "durability": null,
+      "text": "Призыв: Целевой оппонент выбирает целевую карту на вашем кладбище, вы можете разыграть её бесплатно.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-028",
+          "set": "Базовый",
+          "number": "28",
+          "rarity": "Золото",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/a42db8d9-35be-40b7-a41d-101d7e2f0aa0",
+              "medium_url": "https://response-league.ru/api/v1/card-images/f0b4a05a-8ef6-41ca-9697-cafaeaa85b14"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kopaiushhii-zombi",
+      "name": "Копающий зомби",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Зомби",
+        "Крестьянин"
+      ],
+      "factions": [
+        "Смерть"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": 4,
+      "durability": null,
+      "text": "Призыв: Сбросьте карту.",
+      "levels": [],
+      "rulings": [
+        {
+          "id": 76,
+          "body": "Если в вашей руке нет карт вы ничего не сбрасываете."
+        }
+      ],
+      "printings": [
+        {
+          "id": "baz-029",
+          "set": "Базовый",
+          "number": "29",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/2df90dfc-cf38-46db-a430-b0408eb61d0a",
+              "medium_url": "https://response-league.ru/api/v1/card-images/a73a4d6a-29c8-4b95-a129-e6aeb26974db"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "neuderzimyi-dux",
+      "name": "Неудержимый дух",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Дух"
+      ],
+      "factions": [
+        "Смерть"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 3,
+      "strength": 3,
+      "durability": null,
+      "text": "Натиск",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-030",
+          "set": "Базовый",
+          "number": "30",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/19eddeb0-5427-46fe-b8c9-6d3a74953fe8",
+              "medium_url": "https://response-league.ru/api/v1/card-images/b1a4f868-a566-4fdc-84e0-199245da1821"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zabludsaia-dusa",
+      "name": "Заблудшая Душа",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Дух"
+      ],
+      "factions": [
+        "Смерть"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 1,
+      "strength": 1,
+      "durability": null,
+      "text": "Смерть: Целевой юнит на поле оппонента получает -1 силы до конца хода.",
+      "levels": [],
+      "rulings": [
+        {
+          "id": 59,
+          "body": "Способности смерти срабатывают у карт на кладбище. Если усиление давало этому юниту Яд, он не будет действовать."
+        }
+      ],
+      "printings": [
+        {
+          "id": "baz-031",
+          "set": "Базовый",
+          "number": "31",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/5b9eabaf-b10d-474a-b6ba-86fefbf187b2",
+              "medium_url": "https://response-league.ru/api/v1/card-images/a9d822e5-e107-4331-8e27-33bd0ca276e4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "neuiazvimyi-mertvec",
+      "name": "Неуязвимый мертвец",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Скелет",
+        "Рыцарь"
+      ],
+      "factions": [
+        "Смерть"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 4,
+      "strength": 1,
+      "durability": null,
+      "text": "Стойкость",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-032",
+          "set": "Базовый",
+          "number": "32",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/111d2a8c-7e2f-4332-a53e-c82a985eef98",
+              "medium_url": "https://response-league.ru/api/v1/card-images/1777845a-872a-4995-ba22-2f2e472cf480"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vzryv-essencii",
+      "name": "Взрыв эссенции",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Смерть"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 3,
+      "strength": null,
+      "durability": null,
+      "text": "Целевой юнит получает -Х силы до конца хода, где Х — количество юнитов на вашем кладбище.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-033",
+          "set": "Базовый",
+          "number": "33",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/0befd408-fc25-4222-a348-c6e41150d54a",
+              "medium_url": "https://response-league.ru/api/v1/card-images/528fdc42-d731-4224-abda-7b66ea8f2006"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zele-voskreseniia",
+      "name": "Зелье воскрешения",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Зелье"
+      ],
+      "factions": [
+        "Смерть"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 4,
+      "strength": null,
+      "durability": null,
+      "text": "Действие: Возьмите карту. Пожертвуйте эту карту.\nСмерть: Положите целевой юнит со стоимостью не более 4 из вашего кладбища на поле.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-034",
+          "set": "Базовый",
+          "number": "34",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/8d206f4d-b406-4170-bf3e-99784fce72e8",
+              "medium_url": "https://response-league.ru/api/v1/card-images/7e672427-fb3c-4b85-b50b-d539b273ee32"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "konec-puti",
+      "name": "Конец пути",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Смерть"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 4,
+      "strength": null,
+      "durability": null,
+      "text": "Уничтожьте целевой юнит или усиление на поле.\nВозьмите карту.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-035",
+          "set": "Базовый",
+          "number": "35",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/e7411f5b-772d-42cc-8ac0-8c0bbb4892f5",
+              "medium_url": "https://response-league.ru/api/v1/card-images/5c1c9d9e-f62f-466c-9600-c3fb34df1ea3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "raskaianie",
+      "name": "Раскаяние",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Смерть"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 1,
+      "strength": null,
+      "durability": null,
+      "text": "Целевой оппонент сбрасывает карту из руки или жертвует карту на своём поле.",
+      "levels": [],
+      "rulings": [
+        {
+          "id": 5,
+          "body": "Сбрасывать карту или жертвовать карту выбирает сам оппонент."
+        }
+      ],
+      "printings": [
+        {
+          "id": "baz-036",
+          "set": "Базовый",
+          "number": "36",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/36fe2b2a-b592-47fe-98fd-6ac748720685",
+              "medium_url": "https://response-league.ru/api/v1/card-images/da4fe5e4-f0c3-45a8-84b7-0b91ed1b3710"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kostianoi-shhit",
+      "name": "Костяной щит",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Смерть"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": null,
+      "durability": null,
+      "text": "Усиленный юнит получает +1 силы и имеет Магический щит — 1 влияния.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-037",
+          "set": "Базовый",
+          "number": "37",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/4877c427-af51-4665-8c49-c5935296472d",
+              "medium_url": "https://response-league.ru/api/v1/card-images/35b77076-e816-4618-9696-c63ec352859c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "glaz-mertveca",
+      "name": "Глаз мертвеца",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Смерть"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 1,
+      "strength": null,
+      "durability": null,
+      "text": "Посмотрите 2 верхние карты вашей колоды, положите одну из них в вашу руку, а другую на ваше кладбище.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-038",
+          "set": "Базовый",
+          "number": "38",
+          "rarity": "Серебро",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/5ecb9fc6-9b07-498e-912a-c1065b30e38d",
+              "medium_url": "https://response-league.ru/api/v1/card-images/327f71dc-7cf7-45c2-a4b6-9ad16a451d40"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "otravlennyi-klinok",
+      "name": "Отравленный клинок",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Смерть"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 3,
+      "strength": null,
+      "durability": null,
+      "text": "Усиленный юнит имеет Яд.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-039",
+          "set": "Базовый",
+          "number": "39",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/f3fc10b3-e1a3-4cf0-a87e-7ba32254f095",
+              "medium_url": "https://response-league.ru/api/v1/card-images/9e1b51ac-0a92-44f2-bef9-f9a717addba6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dyxanie-smerti",
+      "name": "Дыхание Смерти",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Смерть"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Уничтожьте целевую карту на поле оппонента.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-040",
+          "set": "Базовый",
+          "number": "40",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/7b11aaaf-e41c-4527-b57e-dc9b77aaee50",
+              "medium_url": "https://response-league.ru/api/v1/card-images/1d41455d-5f73-4007-810a-095dda8f5527"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prizracnaia-forma",
+      "name": "Призрачная форма",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Смерть"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Усиленный юнит имеет Обход.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-041",
+          "set": "Базовый",
+          "number": "41",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/375f4368-d516-4eda-a22e-4b87b22dfb29",
+              "medium_url": "https://response-league.ru/api/v1/card-images/41976ce9-e99b-4981-bbc7-8b4b6a99e551"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vozvrashhenie-k-nezizni",
+      "name": "Возвращение к нежизни",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Смерть"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Положите целевой юнит из любого кладбища на ваше поле.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-042",
+          "set": "Базовый",
+          "number": "42",
+          "rarity": "Серебро",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/be75a581-acff-4298-9f83-4701160d1509",
+              "medium_url": "https://response-league.ru/api/v1/card-images/259681cf-efad-41bd-800b-697038cd1dd6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prokliatoe-zoloto",
+      "name": "Проклятое золото",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Смерть"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Возьмите 3 карты, затем сбросьте карту.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-043",
+          "set": "Базовый",
+          "number": "43",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/9478327f-e505-45b1-acb1-f80b18f8400e",
+              "medium_url": "https://response-league.ru/api/v1/card-images/342c47f9-ab7f-4f46-927d-bf738beaf2a8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "razlozenie",
+      "name": "Разложение",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Смерть"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Целевой оппонент сбрасывает карту и жертвует карту на своём поле.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-044",
+          "set": "Базовый",
+          "number": "44",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/f0ad798f-1a0d-454e-89ca-5ac3bf3e6189",
+              "medium_url": "https://response-league.ru/api/v1/card-images/a24fa28c-1700-4ad7-b470-18615fa6143d"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "enitokl-podzigatel",
+      "name": "Энитокль, Поджигатель",
+      "types": [
+        "Герой"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Хаос"
+      ],
+      "keywords": [],
+      "is_hero": true,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": null,
+      "levels": [
+        {
+          "influence": 5,
+          "text": "Действие — пожертвуйте карту на вашем поле: Целевой юнит получает -3 силы до конца хода."
+        }
+      ],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-045",
+          "set": "Базовый",
+          "number": "45",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/92cf4eb3-8f52-4c32-8d40-b5201a51bc4f",
+              "medium_url": "https://response-league.ru/api/v1/card-images/04a1e78b-e5cf-431f-9fd2-fc291798de2a"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rycar-xaosa",
+      "name": "Рыцарь Хаоса",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Человек",
+        "Рыцарь"
+      ],
+      "factions": [
+        "Хаос"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": 2,
+      "durability": null,
+      "text": "После того как игрок пожертвовал карту, этот юнит получает +1 силы до конца хода.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-046",
+          "set": "Базовый",
+          "number": "46",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/d9da89d1-3289-4749-a344-d69978daebf1",
+              "medium_url": "https://response-league.ru/api/v1/card-images/f249c06c-841f-43c9-abc8-be7fb00a5186"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "protivnyi-goblin",
+      "name": "Противный гоблин",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Гоблин",
+        "Маг"
+      ],
+      "factions": [
+        "Хаос"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 1,
+      "strength": 1,
+      "durability": null,
+      "text": "После того как оппонент разыграл приказ, вы можете замешать целевую карту из вашего кладбища или космоса в вашу колоду.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-047",
+          "set": "Базовый",
+          "number": "47",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/6611e272-c531-4d30-9e97-cd71b9b92352",
+              "medium_url": "https://response-league.ru/api/v1/card-images/f0a8bc75-3411-4d18-ae40-e84b00ed5e72"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ognennyi-dueliant",
+      "name": "Огненный дуэлянт",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Демон",
+        "Рыцарь"
+      ],
+      "factions": [
+        "Хаос"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 5,
+      "strength": 5,
+      "durability": null,
+      "text": "Действие: Целевой юнит получает -Х силы до конца хода, где Х — сила этого юнита.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-048",
+          "set": "Базовый",
+          "number": "48",
+          "rarity": "Золото",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/4b944e46-e8c5-43b5-a3fe-29a3e8ff35a2",
+              "medium_url": "https://response-league.ru/api/v1/card-images/7b44fba3-69d6-4163-acd6-fd63afd2a513"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ork-cozercatel",
+      "name": "Орк-созерцатель",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Орк"
+      ],
+      "factions": [
+        "Хаос"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": 1,
+      "durability": null,
+      "text": "Смерть: Вы получаете 2 влияния.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-049",
+          "set": "Базовый",
+          "number": "49",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/0c80da1e-134a-485a-9912-747dfc667e6d",
+              "medium_url": "https://response-league.ru/api/v1/card-images/c801e0d6-8e39-45df-aeaa-b29d33161ef8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "begushhii-po-lave",
+      "name": "Бегущий по лаве",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Орк",
+        "Маг"
+      ],
+      "factions": [
+        "Хаос"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 5,
+      "strength": 4,
+      "durability": null,
+      "text": "Смерть: Целевой оппонент жертвует карту на своём поле с наибольшей стоимостью.",
+      "levels": [],
+      "rulings": [
+        {
+          "id": 23,
+          "body": "Если на поле оппонента несколько карт с равной стоимостью, он выбирает одну из них."
+        }
+      ],
+      "printings": [
+        {
+          "id": "baz-050",
+          "set": "Базовый",
+          "number": "50",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/eb671fff-c18b-4a3e-a81b-ba152d37316b",
+              "medium_url": "https://response-league.ru/api/v1/card-images/08ca3cb3-db22-4334-94d9-ada637d66678"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "demon-lucnik",
+      "name": "Демон-лучник",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Демон",
+        "Лучник"
+      ],
+      "factions": [
+        "Хаос"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 4,
+      "strength": 3,
+      "durability": null,
+      "text": "Дальняя атака",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-051",
+          "set": "Базовый",
+          "number": "51",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/93207157-5b7d-4a66-ba35-d8e3f287b23b",
+              "medium_url": "https://response-league.ru/api/v1/card-images/e632fc8c-4f64-41fe-8642-54ebe810ff23"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "samouverennyi-demon",
+      "name": "Самоуверенный демон",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Демон",
+        "Аристократ"
+      ],
+      "factions": [
+        "Хаос"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": 1,
+      "durability": null,
+      "text": "Обход",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-052",
+          "set": "Базовый",
+          "number": "52",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/1b1fa06b-f0f5-4336-895a-39bb92d71c84",
+              "medium_url": "https://response-league.ru/api/v1/card-images/9da5cad6-174b-4d3b-9887-d4a03d388ea7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "verzila-iz-ushhelia",
+      "name": "Верзила из ущелья",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Орк",
+        "Рыцарь"
+      ],
+      "factions": [
+        "Хаос"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 3,
+      "strength": 4,
+      "durability": null,
+      "text": null,
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-053",
+          "set": "Базовый",
+          "number": "53",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/24eaf7e6-6466-4e9f-82e7-bf0006d74c26",
+              "medium_url": "https://response-league.ru/api/v1/card-images/2c2cdfb6-07b5-4152-a90a-cceb06850ebf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "meditiruiushhii-demon",
+      "name": "Медитирующий Демон",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Демон",
+        "Аристократ"
+      ],
+      "factions": [
+        "Хаос"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 3,
+      "strength": 3,
+      "durability": null,
+      "text": "Смерть: Перемешайте вашу колоду, затем возьмите карту.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-054",
+          "set": "Базовый",
+          "number": "54",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/d5c2222a-4eb4-4c3c-a57d-ffb8715ba3d2",
+              "medium_url": "https://response-league.ru/api/v1/card-images/c2206cd7-327d-4d7d-9330-33927a7f24f0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "demoniceskii-krik",
+      "name": "Демонический крик",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Хаос"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 4,
+      "strength": null,
+      "durability": null,
+      "text": "Каждый оппонент жертвует карту на своём поле с наибольшей стоимостью.",
+      "levels": [],
+      "rulings": [
+        {
+          "id": 50,
+          "body": "Если на поле оппонента несколько карт с равной стоимостью, он выбирает одну из них."
+        },
+        {
+          "id": 84,
+          "body": "Стоимость приказов равна 0."
+        }
+      ],
+      "printings": [
+        {
+          "id": "baz-055",
+          "set": "Базовый",
+          "number": "55",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/d054d981-ac7f-48ed-88f6-d2d1351d012d",
+              "medium_url": "https://response-league.ru/api/v1/card-images/f006107f-abf9-45e4-b5a8-bab1fea1ee5f"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ognennyi-plevok",
+      "name": "Огненный плевок",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Хаос"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 1,
+      "strength": null,
+      "durability": null,
+      "text": "Целевой юнит получает -1 силы до конца хода.\nВозьмите карту.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-056",
+          "set": "Базовый",
+          "number": "56",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/65206a9a-5391-438b-9ab6-836a326aecc3",
+              "medium_url": "https://response-league.ru/api/v1/card-images/a65abebe-e35d-4062-b132-d6d413def79a"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "neizvestnye-vozmoznosti",
+      "name": "Неизвестные возможности",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Хаос"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 1,
+      "strength": null,
+      "durability": null,
+      "text": "Дань — пожертвуйте карту.\nПоложите другую случайную карту из вашего кладбища в вашу руку.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-057",
+          "set": "Базовый",
+          "number": "57",
+          "rarity": "Серебро",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/b68f9d2c-8196-43e1-bfea-b5ab9304e93f",
+              "medium_url": "https://response-league.ru/api/v1/card-images/803744da-2445-4655-8bc4-c57c16efddb5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "agressivnyi-vzgliad",
+      "name": "Агрессивный взгляд",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Хаос"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 1,
+      "strength": null,
+      "durability": null,
+      "text": "Целевой юнит получает +3 силы до конца хода.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-058",
+          "set": "Базовый",
+          "number": "58",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/0934b10b-f621-4406-a250-e6a874d347fe",
+              "medium_url": "https://response-league.ru/api/v1/card-images/984b5c17-daf9-4a1d-925d-4a9cf8e144a9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "xaoticnyi-obmen",
+      "name": "Хаотичный обмен",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Хаос"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 3,
+      "strength": null,
+      "durability": null,
+      "text": "В начале боя усиленный юнит получает +2 силы до конца хода. Затем вы можете поменять его местами с другим целевым юнитом на вашем поле.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-059",
+          "set": "Базовый",
+          "number": "59",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/16cc3506-1a84-42b9-8714-7500ceb9421b",
+              "medium_url": "https://response-league.ru/api/v1/card-images/3e98af2a-e6a1-4441-a36d-78a511858d49"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zele-uporstva",
+      "name": "Зелье упорства",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Зелье"
+      ],
+      "factions": [
+        "Хаос"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": null,
+      "durability": null,
+      "text": "Действие: Возьмите карту. Пожертвуйте эту карту.\nСмерть: Целевой юнит получает +1 силы и Натиск до конца хода.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-060",
+          "set": "Базовый",
+          "number": "60",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/ef998b5e-d097-4801-b940-ade46110984a",
+              "medium_url": "https://response-league.ru/api/v1/card-images/e3aa8567-34c9-4d0d-93aa-5fdb65d789cd"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "goblinskaia-nasmeska",
+      "name": "Гоблинская насмешка",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Хаос"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 1,
+      "strength": null,
+      "durability": null,
+      "text": "Целевой оппонент замешивает случайную карту из своей руки в колоду.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-061",
+          "set": "Базовый",
+          "number": "61",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/4a64c822-e662-4dd5-872a-a58c4d507807",
+              "medium_url": "https://response-league.ru/api/v1/card-images/66b9ef4f-b4be-425f-b510-f6c982e6d11a"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ognennyi-sar",
+      "name": "Огненный шар",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Хаос"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Возьмите карту. Целевой юнит на поле оппонента получает -Х силы до конца хода, где Х — количество карт в вашей руке.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-062",
+          "set": "Базовый",
+          "number": "62",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/cdace269-b5f7-4f17-a4c8-3410847060ab",
+              "medium_url": "https://response-league.ru/api/v1/card-images/5069193c-81bf-49a0-8915-a859db86679f"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "neuderzimaia-iarost",
+      "name": "Неудержимая ярость",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Хаос"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Усиленный юнит имеет Натиск.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-063",
+          "set": "Базовый",
+          "number": "63",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/9951392b-46a9-4df3-b444-fbcfd1a64ae3",
+              "medium_url": "https://response-league.ru/api/v1/card-images/717775f7-9a3f-4f67-958a-99c9ff8fc428"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zavorazivaiushhii-potok",
+      "name": "Завораживающий поток",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Хаос"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Выберите карту на поле целевого оппонента случайным образом. Владелец выбранной карты замешивает её в свою колоду.\nВозьмите карту.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-064",
+          "set": "Базовый",
+          "number": "64",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/d42c1d11-1172-4b66-9eab-16053a9e7517",
+              "medium_url": "https://response-league.ru/api/v1/card-images/f6e6ac81-07b9-47bb-9e6d-66a74a67b6ae"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pylaiushhie-vospominaniia",
+      "name": "Пылающие воспоминания",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Хаос"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Вы можете замешать не более 2 целевых карт из вашего кладбища или космоса в вашу колоду.\nВозьмите 2 карты.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-065",
+          "set": "Базовый",
+          "number": "65",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/984bf43f-4fc1-4739-a9a3-5948ed21f908",
+              "medium_url": "https://response-league.ru/api/v1/card-images/bb7340ea-d819-484a-8803-30a300d0d77e"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "xaoticeskii-prizyv",
+      "name": "Хаотический призыв",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Хаос"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Перемешайте вашу колоду. Покажите верхнюю карту колоды. Если это юнит со стоимостью не более 4, вы можете положить его на ваше поле. Затем, если вы не положили юнит таким образом, возьмите 2 карты.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-066",
+          "set": "Базовый",
+          "number": "66",
+          "rarity": "Серебро",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/4e9e394b-595a-4a2b-911a-1dba5b110262",
+              "medium_url": "https://response-league.ru/api/v1/card-images/fe653477-bba7-4c8f-823e-91f774d558a8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "medana-sobiratelnica",
+      "name": "Медана, Собирательница",
+      "types": [
+        "Герой"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Природа"
+      ],
+      "keywords": [],
+      "is_hero": true,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": null,
+      "levels": [
+        {
+          "influence": 5,
+          "text": "Действие: Вы получаете 2 влияния."
+        }
+      ],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-067",
+          "set": "Базовый",
+          "number": "67",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/e2e5abf5-57d6-458f-865c-59603a057751",
+              "medium_url": "https://response-league.ru/api/v1/card-images/1a029cb5-a6b9-4ddb-b453-249b2e312eb7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rycar-prirodi",
+      "name": "Рыцарь Природы",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Человек",
+        "Рыцарь"
+      ],
+      "factions": [
+        "Природа"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": 2,
+      "durability": null,
+      "text": "Натиск",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-068",
+          "set": "Базовый",
+          "number": "68",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/4518a571-3256-4e3a-9934-dafec5b28111",
+              "medium_url": "https://response-league.ru/api/v1/card-images/b72583de-99f7-43f8-ab02-27483fd753fa"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "drevesnyi-velikan",
+      "name": "Древесный великан",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Растение"
+      ],
+      "factions": [
+        "Природа"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 6,
+      "strength": 7,
+      "durability": null,
+      "text": null,
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-069",
+          "set": "Базовый",
+          "number": "69",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/9274b2af-da7f-44e2-841a-84a7d1a78cad",
+              "medium_url": "https://response-league.ru/api/v1/card-images/da24c950-a40e-447b-80ec-5bd554678865"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "raspyliaiushhaia-pylcu",
+      "name": "Распыляющая пыльцу",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Эльф",
+        "Маг"
+      ],
+      "factions": [
+        "Природа"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 3,
+      "strength": 3,
+      "durability": null,
+      "text": "Действие: Целевой юнит получает -1 силы до конца хода.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-070",
+          "set": "Базовый",
+          "number": "70",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/394befcd-e338-4790-8c89-ed6c28d1c93f",
+              "medium_url": "https://response-league.ru/api/v1/card-images/8f504d2b-cdb8-4567-9260-711d8dafe085"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zlobnaia-muxolovka",
+      "name": "Злобная мухоловка",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Растение"
+      ],
+      "factions": [
+        "Природа"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 4,
+      "strength": 3,
+      "durability": null,
+      "text": "Призыв: Целевой оппонент теряет 1 влияния.",
+      "levels": [],
+      "rulings": [
+        {
+          "id": 65,
+          "body": "Если оппонент не имеет влияния, он не может его потерять."
+        }
+      ],
+      "printings": [
+        {
+          "id": "baz-071",
+          "set": "Базовый",
+          "number": "71",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/16266f7f-b6c4-420c-b33e-9a2455ab7089",
+              "medium_url": "https://response-league.ru/api/v1/card-images/f6ec19aa-4373-4827-8743-6f93843cbae1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "driada-novogo-poseva",
+      "name": "Дриада нового посева",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Дриада",
+        "Маг"
+      ],
+      "factions": [
+        "Природа"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 5,
+      "strength": 5,
+      "durability": null,
+      "text": "После того как оппонент разыграл приказ, вы можете взять 2 карты.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-072",
+          "set": "Базовый",
+          "number": "72",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/84032773-cd6a-4261-ad54-4865e484e749",
+              "medium_url": "https://response-league.ru/api/v1/card-images/a1388c60-1924-4ec9-a733-2e3fcfdb1c1b"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "iskatelnica-fruktov",
+      "name": "Искательница фруктов",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Человек",
+        "Маг"
+      ],
+      "factions": [
+        "Природа"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 6,
+      "strength": 4,
+      "durability": null,
+      "text": "Эта карта стоит на 2 влияния меньше за каждый юнит с действием и каждое усиление с действием на вашем поле.",
+      "levels": [],
+      "rulings": [
+        {
+          "id": 71,
+          "body": "Удешевление стоимости карты влияет лишь когда вы объявляете розыгрыш карты и вычисляете конечную стоимость для оплаты."
+        }
+      ],
+      "printings": [
+        {
+          "id": "baz-073",
+          "set": "Базовый",
+          "number": "73",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/a5e5a905-ba9e-40a9-9908-2dc8d7586461",
+              "medium_url": "https://response-league.ru/api/v1/card-images/08558f49-dfa3-4ce7-b56e-77006d2b2de1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "drevesnyi-drakon",
+      "name": "Древесный дракон",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Дракон"
+      ],
+      "factions": [
+        "Природа"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 4,
+      "strength": 4,
+      "durability": null,
+      "text": "Натиск",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-074",
+          "set": "Базовый",
+          "number": "74",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/2d1d56a9-e942-4dd0-88a7-545ea5455b3a",
+              "medium_url": "https://response-league.ru/api/v1/card-images/c05de637-43f3-446f-8425-71f11d458012"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "laimovaia-koska",
+      "name": "Лаймовая кошка",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Зверь"
+      ],
+      "factions": [
+        "Природа"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": 1,
+      "durability": null,
+      "text": "Действие: Возьмите карту.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-075",
+          "set": "Базовый",
+          "number": "75",
+          "rarity": "Серебро",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/94f85907-349a-4d2c-954f-ee550195079e",
+              "medium_url": "https://response-league.ru/api/v1/card-images/0abd45ee-2adf-4272-a8f8-d6283e1d73b1"
+            }
+          ]
+        },
+        {
+          "id": "baz-075a",
+          "set": "Базовый",
+          "number": "75a",
+          "rarity": "Серебро",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/97a8e1c1-c244-45fb-91e2-01b53e1a91cc",
+              "medium_url": "https://response-league.ru/api/v1/card-images/405e5584-d948-4b00-9955-d86123553bec"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "izumrudnyi-iashher",
+      "name": "Изумрудный ящер",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Зверь",
+        "Маг"
+      ],
+      "factions": [
+        "Природа"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": 2,
+      "durability": null,
+      "text": "Действие — заплатите Х влияния: Целевой юнит получает +Х силы до конца хода.",
+      "levels": [],
+      "rulings": [
+        {
+          "id": 70,
+          "body": "Вы можете заплатить 0 влияния."
+        }
+      ],
+      "printings": [
+        {
+          "id": "baz-076",
+          "set": "Базовый",
+          "number": "76",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/de0d9292-80a7-4f40-9743-46ab57698800",
+              "medium_url": "https://response-league.ru/api/v1/card-images/e17855a6-a1b4-4709-bb33-5d4217f15f33"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kornevoi-pokrov",
+      "name": "Корневой покров",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Природа"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 1,
+      "strength": null,
+      "durability": null,
+      "text": "Усиленный юнит имеет Магический щит — 1 влияния.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-077",
+          "set": "Базовый",
+          "number": "77",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/4778745c-a80e-497a-8dbf-e81dab315b0b",
+              "medium_url": "https://response-league.ru/api/v1/card-images/a6783e25-9477-4a08-9e43-31cf7dcbadc6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zele-rosta",
+      "name": "Зелье роста",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Зелье"
+      ],
+      "factions": [
+        "Природа"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": null,
+      "durability": null,
+      "text": "Действие: Возьмите карту. Пожертвуйте эту карту.\nСмерть: Целевой юнит получает +4 силы до конца хода.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-078",
+          "set": "Базовый",
+          "number": "78",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/eacea418-3fcb-4990-bbb7-6f2521f465fc",
+              "medium_url": "https://response-league.ru/api/v1/card-images/d2bc10cc-7107-4ba5-972b-e813781f0da7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pokazat-silu",
+      "name": "Показать силу",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Природа"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": null,
+      "durability": null,
+      "text": "Целевой юнит на поле оппонента получает -Х силы до конца хода, где Х — самая большая сила среди юнитов на вашем поле.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-079",
+          "set": "Базовый",
+          "number": "79",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/d44de5a6-f61f-4f69-8052-530352ca8f15",
+              "medium_url": "https://response-league.ru/api/v1/card-images/ee9edb19-999f-4d24-89ce-d8f4672ba280"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sfera-izobiliia",
+      "name": "Сфера изобилия",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Природа"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 5,
+      "strength": null,
+      "durability": null,
+      "text": "Действие: Вы получаете 1 влияния и ещё дополнительно 1 влияния за каждый приказ, разыгранный вами в этой игре.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-080",
+          "set": "Базовый",
+          "number": "80",
+          "rarity": "Золото",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/6fd2be93-f865-4d9b-a533-b992f3a8a46e",
+              "medium_url": "https://response-league.ru/api/v1/card-images/8220af2c-49d7-4801-af99-6b12ff17e5a1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vosstanovlenie",
+      "name": "Восстановление",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Природа"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": null,
+      "durability": null,
+      "text": "До конца хода целевая карта на вашем поле может использовать своё действие дополнительный раз.\nВозьмите карту.",
+      "levels": [],
+      "rulings": [
+        {
+          "id": 37,
+          "body": "Герой не является картой на поле."
+        }
+      ],
+      "printings": [
+        {
+          "id": "baz-081",
+          "set": "Базовый",
+          "number": "81",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/c437066b-a774-4de2-a8c2-9514848157e9",
+              "medium_url": "https://response-league.ru/api/v1/card-images/53fd3460-fb78-4a88-be49-29afaaf22770"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zov-kornei",
+      "name": "Зов корней",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Природа"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 3,
+      "strength": null,
+      "durability": null,
+      "text": "Верните целевой юнит или усиление с поля в руку владельца.\nВозьмите карту.",
+      "levels": [],
+      "rulings": [
+        {
+          "id": 85,
+          "body": "Если вы вернули таким образом ловушку, игрок обязан показать всем, что это за ловушка."
+        }
+      ],
+      "printings": [
+        {
+          "id": "baz-082",
+          "set": "Базовый",
+          "number": "82",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/e2f8f8da-5f90-46f3-9f29-7b45777c6021",
+              "medium_url": "https://response-league.ru/api/v1/card-images/f728fbe9-a9ba-4149-b232-9db42b2067e0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sonnyi-paralic",
+      "name": "Сонный паралич",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Природа"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": null,
+      "durability": null,
+      "text": "До конца хода целевой юнит на поле оппонента с силой не более 5 пропускает бой.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-083",
+          "set": "Базовый",
+          "number": "83",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/29db8fea-9983-4c05-8403-c5767b5ea376",
+              "medium_url": "https://response-league.ru/api/v1/card-images/d83acad7-cc9d-4569-9441-3a401c7ae14a"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sotriasaiushhaia-buria",
+      "name": "Сотрясающая буря",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Природа"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Верните целевую карту с поля оппонента в руку владельца. В следующий ход оппоненты не могут разыгрывать карты, не являющиеся приказами, с именем, как у возвращённой карты.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-084",
+          "set": "Базовый",
+          "number": "84",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/15d45d9f-1007-46a5-8887-a23c9d01fcf4",
+              "medium_url": "https://response-league.ru/api/v1/card-images/788ea1fb-64a5-44df-8fe8-1e721c04fea6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sipastyi-pokrov",
+      "name": "Шипастый покров",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Природа"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Усиленный юнит имеет Яд.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-085",
+          "set": "Базовый",
+          "number": "85",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/f886b6fe-9a4e-44da-b89b-b0030c27141a",
+              "medium_url": "https://response-league.ru/api/v1/card-images/c9e0189a-53de-4d20-9b23-02ba90f94b50"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "buinyi-rost",
+      "name": "Буйный рост",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Природа"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Возьмите карту, затем вы можете разыграть карту со стоимостью не более 3 из вашей руки бесплатно.",
+      "levels": [],
+      "rulings": [
+        {
+          "id": 29,
+          "body": "Вы можете разыграть только карту с базовой стоимостью не больше 3."
+        }
+      ],
+      "printings": [
+        {
+          "id": "baz-086",
+          "set": "Базовый",
+          "number": "86",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/977c89ae-db4b-4689-bfd2-734aa2dd2889",
+              "medium_url": "https://response-league.ru/api/v1/card-images/e5da7412-1263-4513-93a7-0383e70cfea9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "oslepliaiushhie-cpory",
+      "name": "Ослепляющие споры",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Природа"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "В следующий ход юниты не атакуют героев.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-087",
+          "set": "Базовый",
+          "number": "87",
+          "rarity": "Серебро",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/b5871a5e-8e54-47fc-bd6c-060f742372c1",
+              "medium_url": "https://response-league.ru/api/v1/card-images/ea0e55c7-f59c-4325-a7e9-8dcafb6d4597"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gnev-druida",
+      "name": "Гнев друида",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Природа"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Вы можете игнорировать Магический щит при выборе цели для этой карты.\nНе более чем один целевой юнит получает -10 силы до конца хода.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-088",
+          "set": "Базовый",
+          "number": "88",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/06142563-9fd2-4612-b11a-ad01be1eb807",
+              "medium_url": "https://response-league.ru/api/v1/card-images/bce33952-c528-4502-9473-f88f10ae3380"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "katarina-vdoxnovitel",
+      "name": "Катарина, Вдохновитель",
+      "types": [
+        "Герой"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Жизнь"
+      ],
+      "keywords": [],
+      "is_hero": true,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": null,
+      "levels": [
+        {
+          "influence": 5,
+          "text": "Действие: Целевой юнит на вашем поле получает Натиск до конца хода."
+        }
+      ],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-089",
+          "set": "Базовый",
+          "number": "89",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/aed1e08c-ed1b-4d72-aae2-711ccf5786ba",
+              "medium_url": "https://response-league.ru/api/v1/card-images/b8e412fb-89d4-420b-8515-3a714d18d5f4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rycar-zizni",
+      "name": "Рыцарь Жизни",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Человек",
+        "Рыцарь"
+      ],
+      "factions": [
+        "Жизнь"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": 2,
+      "durability": null,
+      "text": "Если этот юнит должен потерять силу, он теряет на 1 силы меньше.",
+      "levels": [],
+      "rulings": [
+        {
+          "id": 58,
+          "body": "Эта способность является эффектом замещения, подменяющая одно событие на другое."
+        }
+      ],
+      "printings": [
+        {
+          "id": "baz-090",
+          "set": "Базовый",
+          "number": "90",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/2680794b-88ba-44ca-b400-975d82e693fb",
+              "medium_url": "https://response-league.ru/api/v1/card-images/737b6767-71c8-48f9-baf2-e113b9e583df"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mogucii-ocistitel",
+      "name": "Могучий очиститель",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Человек",
+        "Рыцарь"
+      ],
+      "factions": [
+        "Жизнь"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 4,
+      "strength": 4,
+      "durability": null,
+      "text": "После того как оппонент разыграл приказ, он отправляет в космос карту из своей руки.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-091",
+          "set": "Базовый",
+          "number": "91",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/0b3a4820-6028-4953-bc80-a4760619f8e2",
+              "medium_url": "https://response-league.ru/api/v1/card-images/fb860d5a-8b90-4513-82ef-9a3abbb782ad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "otvaznyi-dobrovolec",
+      "name": "Отважный доброволец",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Человек",
+        "Крестьянин"
+      ],
+      "factions": [
+        "Жизнь"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": 3,
+      "durability": null,
+      "text": null,
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-092",
+          "set": "Базовый",
+          "number": "92",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/40b203a3-b94f-4906-aca2-d7952f007c8d",
+              "medium_url": "https://response-league.ru/api/v1/card-images/569edb99-da72-4827-be72-11dff995cb4f"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zrec-legiona",
+      "name": "Жрец легиона",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Человек",
+        "Священник"
+      ],
+      "factions": [
+        "Жизнь"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 3,
+      "strength": 1,
+      "durability": null,
+      "text": "Призыв: Отправьте в космос целевой юнит из любого кладбища. Этот юнит получает +Х силы до конца хода, где Х — сила отправленного в космос юнита.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-093",
+          "set": "Базовый",
+          "number": "93",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/4e795805-7841-4664-8143-a341b0a79a97",
+              "medium_url": "https://response-league.ru/api/v1/card-images/c1937fcd-3d01-415d-84cd-4c73a2523708"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "osviatitel-oruziia",
+      "name": "Освятитель оружия",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Человек",
+        "Священник"
+      ],
+      "factions": [
+        "Жизнь"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 1,
+      "strength": 1,
+      "durability": null,
+      "text": "Действие: Другой целевой юнит получает +1 силы до конца хода.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-094",
+          "set": "Базовый",
+          "number": "94",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/07191c58-398e-45b5-8a21-5609fce33c9e",
+              "medium_url": "https://response-league.ru/api/v1/card-images/e95fe3af-1716-4abd-9557-d3d197dd97e4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "xranitel-basni",
+      "name": "Хранитель башни",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Человек",
+        "Разведчик"
+      ],
+      "factions": [
+        "Жизнь"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 4,
+      "strength": 3,
+      "durability": null,
+      "text": "Обход",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-095",
+          "set": "Базовый",
+          "number": "95",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/b9628e6f-439c-43a9-b91a-8c365a375acc",
+              "medium_url": "https://response-league.ru/api/v1/card-images/b38d9a6f-c1dd-4f8a-9f94-32c79e435fdb"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vernyi-rycar",
+      "name": "Верный рыцарь",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Человек",
+        "Рыцарь"
+      ],
+      "factions": [
+        "Жизнь"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 5,
+      "strength": 5,
+      "durability": null,
+      "text": "Призыв: Каждый юнит на вашем поле получает +1 силу до конца хода.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-096",
+          "set": "Базовый",
+          "number": "96",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/f2fbacfe-3f41-4704-adfd-036f13345e71",
+              "medium_url": "https://response-league.ru/api/v1/card-images/4fb3535c-c45a-4bc1-bb55-3af1c452db00"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nastavnik-geroev",
+      "name": "Наставник героев",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Человек",
+        "Советник"
+      ],
+      "factions": [
+        "Жизнь"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 3,
+      "strength": 3,
+      "durability": null,
+      "text": "В начале боя каждый юнит на вашем поле получает +1 силы до конца хода.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-097",
+          "set": "Базовый",
+          "number": "97",
+          "rarity": "Золото",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/b7540f13-a91b-4eb1-bd60-5a30675d99b1",
+              "medium_url": "https://response-league.ru/api/v1/card-images/97e742ec-3173-48e3-9186-26cc2bf9b1b4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "molodoi-kuznec",
+      "name": "Молодой кузнец",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Человек"
+      ],
+      "factions": [
+        "Жизнь"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": 3,
+      "durability": null,
+      "text": "После того как другой юнит вышел на ваше поле, он получает +1 силы до конца хода.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-098",
+          "set": "Базовый",
+          "number": "98",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/e443781d-036e-4f7f-964b-b03cf41d1aa9",
+              "medium_url": "https://response-league.ru/api/v1/card-images/2f839b9f-7f3c-42b4-bcb5-e010746a5661"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zele-stoikosti",
+      "name": "Зелье стойкости",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Зелье"
+      ],
+      "factions": [
+        "Жизнь"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": null,
+      "durability": null,
+      "text": "Действие: Возьмите карту. Пожертвуйте эту карту.\nСмерть: Целевой юнит получает Стойкость до конца хода.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-099",
+          "set": "Базовый",
+          "number": "99",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/06ac8054-4b42-4742-9241-ebf981cb80a2",
+              "medium_url": "https://response-league.ru/api/v1/card-images/009899d2-9a56-4757-b308-245cd4ffbcea"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "siiaiushhee-kope",
+      "name": "Сияющее копьё",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Жизнь"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 3,
+      "strength": null,
+      "durability": null,
+      "text": "Усиленный юнит получает +3 силы.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-100",
+          "set": "Базовый",
+          "number": "100",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/5aa069ab-d49c-4d27-8263-e067fe4e26c3",
+              "medium_url": "https://response-league.ru/api/v1/card-images/5af27a25-3b6a-4499-b6f2-b3fc826117b2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tiazelyi-arbalet",
+      "name": "Тяжёлый арбалет",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Жизнь"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 3,
+      "strength": null,
+      "durability": null,
+      "text": "Усиленный юнит имеет Дальнюю атаку.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-101",
+          "set": "Базовый",
+          "number": "101",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/5d03277a-c74c-4e98-8c45-b0de51b5f321",
+              "medium_url": "https://response-league.ru/api/v1/card-images/46162696-196b-4be1-b1d7-b75936cd5a18"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "poisk-novobranca",
+      "name": "Поиск новобранца",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Жизнь"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": null,
+      "durability": null,
+      "text": "Покажите 4 верхние карты вашей колоды, выберите не более 1 юнита среди показанных. Положите его в вашу руку. Затем положите не выбранные карты в низ вашей колоды в случайном порядке.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-102",
+          "set": "Базовый",
+          "number": "102",
+          "rarity": "Серебро",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/3144a85a-3c3c-4560-a339-4f388878a01b",
+              "medium_url": "https://response-league.ru/api/v1/card-images/fa9a382b-1ecb-4a1a-9b62-763551ee998d"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "otrecenie",
+      "name": "Отречение",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Жизнь"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 4,
+      "strength": null,
+      "durability": null,
+      "text": "Отправьте целевой юнит или усиление с поля любого игрока в космос.\nВозьмите карту.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-103",
+          "set": "Базовый",
+          "number": "103",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/d4ed6205-3c75-486d-bae9-1f3387a8f933",
+              "medium_url": "https://response-league.ru/api/v1/card-images/f65c0158-46de-444a-a37b-abbb8316fef6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "oslepliaiushhaia-strela",
+      "name": "Ослепляющая стрела",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Жизнь"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 1,
+      "strength": null,
+      "durability": null,
+      "text": "Базовая сила целевого юнита становится равна 1 до конца хода.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-104",
+          "set": "Базовый",
+          "number": "104",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/f05f887f-84ac-41a2-9c6e-eae571d099ed",
+              "medium_url": "https://response-league.ru/api/v1/card-images/4384f85b-ae56-4c0c-a417-a12dc7177b97"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "poznanie-kosmosa",
+      "name": "Познание космоса",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Жизнь"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": null,
+      "durability": null,
+      "text": "Целевой оппонент отправляет карту из своей руки в космос. Затем, если у него в руке нет карт, возьмите карту.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-105",
+          "set": "Базовый",
+          "number": "105",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/895fa998-9dc6-4b1c-9e2a-5a2323195497",
+              "medium_url": "https://response-league.ru/api/v1/card-images/b4041d40-33a1-4d6d-84d3-6373d34bb9c0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "osviashhennye-klinki",
+      "name": "Освящённые клинки",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Жизнь"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "До конца следующего хода ваш герой получает способность: «Каждый юнит на вашем поле получает +2 силы.»",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-106",
+          "set": "Базовый",
+          "number": "106",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/63111ce3-0edb-466d-9205-b9ec1d6488e2",
+              "medium_url": "https://response-league.ru/api/v1/card-images/7a802491-14c9-4a3c-b9ac-938d4bccb48f"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "spiral-kosmosa",
+      "name": "Спираль космоса",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Жизнь"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Отправьте в космос не более 1 целевой карты.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-107",
+          "set": "Базовый",
+          "number": "107",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/cb46bf85-f3c8-4cdd-a4cb-2de98076a864",
+              "medium_url": "https://response-league.ru/api/v1/card-images/d1f623be-071c-4fac-932b-b5cd433018e2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zolotoi-pokrov",
+      "name": "Золотой покров",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Жизнь"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Усиленный юнит имеет Магический щит — 3 влияния.",
+      "levels": [],
+      "rulings": [
+        {
+          "id": 67,
+          "body": "Если на вашем поле нет места для размещения этой карты, вы не можете поместить её в очередь. При этом она не разыгрывается, но попадание по вам было засчитано, приказ открыт."
+        }
+      ],
+      "printings": [
+        {
+          "id": "baz-108",
+          "set": "Базовый",
+          "number": "108",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/8764a75e-17a3-4a59-b8ab-d16d800cef4c",
+              "medium_url": "https://response-league.ru/api/v1/card-images/caa46433-4f03-4945-a0a8-a04f1d38f0de"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prizyv-ocistitelia",
+      "name": "Призыв очистителя",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Жизнь"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Положите целевой юнит из любого космоса на ваше поле.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-109",
+          "set": "Базовый",
+          "number": "109",
+          "rarity": "Серебро",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/676487b1-90a7-4e87-aedc-5323a073f74a",
+              "medium_url": "https://response-league.ru/api/v1/card-images/639ec21d-0de6-4788-8154-ab81e095bea5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "razgoraiushhiisia-ogon",
+      "name": "Разгорающийся огонь",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Жизнь"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Целевой юнит на поле оппонента и юниты слева и справа от него получают -3 силы до конца хода.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-110",
+          "set": "Базовый",
+          "number": "110",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/6986b9d3-36e5-4267-9a83-94c599097377",
+              "medium_url": "https://response-league.ru/api/v1/card-images/356cc5f0-280d-4f03-8040-dcde66ca477e"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bern-usilitel",
+      "name": "Бьёрн, Усилитель",
+      "types": [
+        "Герой"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Порядок"
+      ],
+      "keywords": [],
+      "is_hero": true,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": null,
+      "levels": [
+        {
+          "influence": 5,
+          "text": "Действие: Целевой юнит получает +1 силу до конца хода. Если он усилен, он получает ещё +1 силу до конца хода."
+        }
+      ],
+      "rulings": [
+        {
+          "id": 31,
+          "body": "Все юниты, позади которых находятся усиления, считаются усиленными."
+        }
+      ],
+      "printings": [
+        {
+          "id": "baz-111",
+          "set": "Базовый",
+          "number": "111",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/3d12ec0d-ea1d-4808-8263-7e3be5307ff9",
+              "medium_url": "https://response-league.ru/api/v1/card-images/79983177-fd18-4a63-8459-9c24c9ae516a"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dzinn-odnogo-zelaniia",
+      "name": "Джинн одного желания",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Иной",
+        "Маг"
+      ],
+      "factions": [
+        "Порядок"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 3,
+      "strength": 3,
+      "durability": null,
+      "text": "Призыв: Положите не более 1 целевой карты из вашего кладбища или космоса на верх колоды.\nСмерть: Возьмите карту.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-112",
+          "set": "Базовый",
+          "number": "112",
+          "rarity": "Серебро",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/648d9915-64c1-4467-b24f-a14b323ad8bb",
+              "medium_url": "https://response-league.ru/api/v1/card-images/c1056acc-1867-46a5-9f98-44ad2485ce17"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "misticeskii-strannik",
+      "name": "Мистический странник",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Маг",
+        "Иной"
+      ],
+      "factions": [
+        "Порядок"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": 2,
+      "durability": null,
+      "text": "Призыв: Возьмите карту.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-113",
+          "set": "Базовый",
+          "number": "113",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/cadd4628-5275-4879-9a44-b4b938eb07c6",
+              "medium_url": "https://response-league.ru/api/v1/card-images/c9830b30-1ee5-4def-8374-df3312308768"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rycar-poriadka",
+      "name": "Рыцарь Порядка",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Человек",
+        "Рыцарь"
+      ],
+      "factions": [
+        "Порядок"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": 2,
+      "durability": null,
+      "text": "Магический щит — 2 влияния",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-114",
+          "set": "Базовый",
+          "number": "114",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/d2cca8e0-7043-4907-87a8-f755264c1265",
+              "medium_url": "https://response-league.ru/api/v1/card-images/a99a83d3-93b0-4599-9a94-687b2a9ac8d9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "purpurnyi-lovkac",
+      "name": "Пурпурный ловкач",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Иной",
+        "Разведчик"
+      ],
+      "factions": [
+        "Порядок"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 3,
+      "strength": 3,
+      "durability": null,
+      "text": "После того как оппонент разыграл приказ, он кладёт 2 верхние карты своей колоды на кладбище.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-115",
+          "set": "Базовый",
+          "number": "115",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/51a971cd-d5cf-4be1-b7c2-ed7552f1b714",
+              "medium_url": "https://response-league.ru/api/v1/card-images/ee061b39-2907-40af-89f2-6f2e0a77d040"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ledianoi-golem",
+      "name": "Ледяной голем",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Голем"
+      ],
+      "factions": [
+        "Порядок"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 5,
+      "strength": 6,
+      "durability": null,
+      "text": null,
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-116",
+          "set": "Базовый",
+          "number": "116",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/90bb0df1-1d39-4af7-95b6-c8d1c6d8aed6",
+              "medium_url": "https://response-league.ru/api/v1/card-images/6a2c5139-3760-4424-9326-409ab9e105f5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "straz-kxazalida",
+      "name": "Страж Кхазалида",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Иной",
+        "Маг"
+      ],
+      "factions": [
+        "Порядок"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": 3,
+      "durability": null,
+      "text": "В начале боя, если этот юнит усилен, он получает Яд до конца хода.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-117",
+          "set": "Базовый",
+          "number": "117",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/35e9f23b-e07e-4f2f-aff9-e07edc429a80",
+              "medium_url": "https://response-league.ru/api/v1/card-images/40d2a803-e2d1-4d6c-a746-b56ce69d039f"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "statnyi-voevoda",
+      "name": "Статный воевода",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Гном",
+        "Рыцарь"
+      ],
+      "factions": [
+        "Порядок"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 3,
+      "strength": 4,
+      "durability": null,
+      "text": "В начале боя, если этот юнит усилен, он получает Натиск до конца хода.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-118",
+          "set": "Базовый",
+          "number": "118",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/2c0aae10-febe-4b10-aa70-6e1dc37e241a",
+              "medium_url": "https://response-league.ru/api/v1/card-images/b99c12ec-ef23-424e-b459-9c1574c62afd"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "razrusitel-planov",
+      "name": "Разрушитель планов",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Человек",
+        "Рыцарь"
+      ],
+      "factions": [
+        "Порядок"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 4,
+      "strength": 4,
+      "durability": null,
+      "text": "Действие — пожертвуйте усиление на вашем поле: Целевой юнит получает -2 силы до конца хода.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-119",
+          "set": "Базовый",
+          "number": "119",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/d1be1403-55c6-4992-93b7-9462130f9980",
+              "medium_url": "https://response-league.ru/api/v1/card-images/3bb31f41-55f2-401c-bcad-849df7684f66"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adept-reglamenta",
+      "name": "Адепт регламента",
+      "types": [
+        "Юнит"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Человек",
+        "Маг"
+      ],
+      "factions": [
+        "Порядок"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 1,
+      "strength": 1,
+      "durability": null,
+      "text": "Магический щит — 1 влияния",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-120",
+          "set": "Базовый",
+          "number": "120",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/41afad5d-f858-4a1c-bd30-0c948dd84947",
+              "medium_url": "https://response-league.ru/api/v1/card-images/4b5aa975-f285-4b56-b19b-2812dd686ebb"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "razumnyi-vybor",
+      "name": "Разумный выбор",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Порядок"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 1,
+      "strength": null,
+      "durability": null,
+      "text": "Возьмите 2 карты, затем положите 1 карту из вашей руки на верх вашей колоды.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-121",
+          "set": "Базовый",
+          "number": "121",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/2b7091c5-5500-4ee9-a2ad-7dc403a90138",
+              "medium_url": "https://response-league.ru/api/v1/card-images/ed7df58d-54ec-449c-b4b7-e40fc45bb676"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "padenie-v-saxtu",
+      "name": "Падение в шахту",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Порядок"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 4,
+      "strength": null,
+      "durability": null,
+      "text": "Положите целевую карту, не являющуюся приказом, с поля любого игрока на верх колоды владельца.\nВозьмите карту.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-122",
+          "set": "Базовый",
+          "number": "122",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/0bd5d582-84c3-43c6-8a0d-7708fd85d435",
+              "medium_url": "https://response-league.ru/api/v1/card-images/60de7bc2-65a7-4768-a3de-9bced77c5a94"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "moroznyi-klinok",
+      "name": "Морозный клинок",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Порядок"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 3,
+      "strength": null,
+      "durability": null,
+      "text": "Усиленный юнит имеет способность: «Базовая сила юнита на поле каждого оппонента в одной линии с этим юнитом равна 1 и не может быть увеличена.»",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-123",
+          "set": "Базовый",
+          "number": "123",
+          "rarity": "Золото",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/e9666eed-9dfb-4c87-aec3-766d97a652b3",
+              "medium_url": "https://response-league.ru/api/v1/card-images/3c6c0fc5-9e76-4ffa-91d2-84b24d682527"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zakalennyi-shhit",
+      "name": "Закалённый щит",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Порядок"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": null,
+      "durability": null,
+      "text": "Усиленный юнит получает +2 силы.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-124",
+          "set": "Базовый",
+          "number": "124",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/ab888d3f-7965-427e-8cfd-7c1dc183a79b",
+              "medium_url": "https://response-league.ru/api/v1/card-images/a4aa5e03-a441-4c1f-9901-d03f81a8d14c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legkie-dospexi",
+      "name": "Лёгкие доспехи",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Порядок"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 1,
+      "strength": null,
+      "durability": null,
+      "text": "Усиленный юнит получает +1 силы.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-125",
+          "set": "Базовый",
+          "number": "125",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/4425a229-2183-436c-9939-3cdf1cad5436",
+              "medium_url": "https://response-league.ru/api/v1/card-images/ff0a3352-c6bb-46a4-bc85-7f417e745fe6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zele-kontrolia",
+      "name": "Зелье контроля",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [],
+      "subtypes": [
+        "Зелье"
+      ],
+      "factions": [
+        "Порядок"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 4,
+      "strength": null,
+      "durability": null,
+      "text": "Действие: Возьмите карту. Пожертвуйте эту карту.\nСмерть: Переместите целевой юнит с силой не более 2 с поля оппонента на ваше поле, если клетка свободна.",
+      "levels": [],
+      "rulings": [
+        {
+          "id": 64,
+          "body": "Эта карта проверяет текущий показатель силы."
+        }
+      ],
+      "printings": [
+        {
+          "id": "baz-126",
+          "set": "Базовый",
+          "number": "126",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/1a3159d0-87ce-4296-b461-037e38086f9f",
+              "medium_url": "https://response-league.ru/api/v1/card-images/907f5eda-9b45-4208-b3d9-03e00b3148a0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "molnienosnoe-smeshhenie",
+      "name": "Молниеносное смещение",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [],
+      "subtypes": [],
+      "factions": [
+        "Порядок"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": 2,
+      "strength": null,
+      "durability": null,
+      "text": "Целевой юнит на вашем поле получает +2 силы до конца хода. Затем вы можете переместить его в целевую свободную клетку на вашем поле.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-127",
+          "set": "Базовый",
+          "number": "127",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/fe9d0a02-a5e7-45a1-bbf3-5509846c579c",
+              "medium_url": "https://response-league.ru/api/v1/card-images/4f167897-4b6f-47a7-bbdd-176e6c4277ae"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "obzigaiushhii-xolod",
+      "name": "Обжигающий холод",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Порядок"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Каждый юнит на поле целевого оппонента получает -2 силы до конца хода.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-128",
+          "set": "Базовый",
+          "number": "128",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/69dee9aa-55f1-4dba-947c-1b7edd53e284",
+              "medium_url": "https://response-league.ru/api/v1/card-images/b2945aaf-e7bd-42d2-ad54-a3b8f397e9d9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stoikii-nrav",
+      "name": "Стойкий нрав",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Порядок"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Усиленный юнит имеет Стойкость.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-129",
+          "set": "Базовый",
+          "number": "129",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/aeaa5f6d-98cf-4211-bc06-0a4db590b49a",
+              "medium_url": "https://response-league.ru/api/v1/card-images/301fbc46-696d-406d-b1e1-8b0c641b11ff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zacarovannyi-obereg",
+      "name": "Зачарованный оберег",
+      "types": [
+        "Усиление"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Порядок"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Усиленные юниты на вашем поле получают +1 силы.",
+      "levels": [],
+      "rulings": [
+        {
+          "id": 63,
+          "body": "Если на вашем поле нет места для размещения этой карты, вы не можете поместить её в очередь. При этом она не разыгрывается, но попадание по вам было засчитано, приказ открыт."
+        }
+      ],
+      "printings": [
+        {
+          "id": "baz-130",
+          "set": "Базовый",
+          "number": "130",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/4e388136-e32b-437d-85eb-e52d58e64888",
+              "medium_url": "https://response-league.ru/api/v1/card-images/bb741fe1-0350-47b9-bf23-904388cb1ecf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "uzkaia-tropa",
+      "name": "Узкая тропа",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Порядок"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Каждый оппонент кладёт 2 верхние карты своей колоды на кладбище.\nВозьмите 2 карты.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-131",
+          "set": "Базовый",
+          "number": "131",
+          "rarity": "Бронза",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/51d0ed90-732b-45d1-b419-43d00067d003",
+              "medium_url": "https://response-league.ru/api/v1/card-images/dac84cc2-fcda-4599-b0ce-fa48d3816958"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ledianoi-potok",
+      "name": "Ледяной поток",
+      "types": [
+        "Заклинание"
+      ],
+      "supertypes": [
+        "Приказ"
+      ],
+      "subtypes": [],
+      "factions": [
+        "Порядок"
+      ],
+      "keywords": [],
+      "is_hero": false,
+      "cost": null,
+      "strength": null,
+      "durability": null,
+      "text": "Положите целевую карту с любого поля или кладбища на верх колоды владельца.",
+      "levels": [],
+      "rulings": [],
+      "printings": [
+        {
+          "id": "baz-132",
+          "set": "Базовый",
+          "number": "132",
+          "rarity": "Серебро",
+          "images": [
+            {
+              "face": "front",
+              "position": 0,
+              "thumb_url": "https://response-league.ru/api/v1/card-images/18be0b2d-dc27-49a9-b72a-956d9300720e",
+              "medium_url": "https://response-league.ru/api/v1/card-images/7a585277-04f3-4a9e-bcd4-9654837c3c99"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

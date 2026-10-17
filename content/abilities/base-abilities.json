@@ -1,0 +1,2905 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": "base-cards-v1",
+  "effectSpecVersion": "effect-spec-v1",
+  "abilities": [
+    {
+      "abilityId": "baz-001.level-1.ability",
+      "cardId": "baz-001",
+      "faceId": "level-1",
+      "exactTextSha256": "e2f88b3f49ea6023499e7e3a58a3e16b1b07a5ef018e5500e892e79f7a639b61",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-001].faces[level-1].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-001.level-1.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-002.front.ability",
+      "cardId": "baz-002",
+      "faceId": "front",
+      "exactTextSha256": "f1b1fe847f6efb6cd3219d786da0d2cfb42a8bc3c1c904e66d7950f0df572887",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-002].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-002.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-003.front.ability",
+      "cardId": "baz-003",
+      "faceId": "front",
+      "exactTextSha256": "d54ad94eee3660d66a234ec773a63c4308b2b65c62c45ed117f947f33df8a7d1",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-003].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-003.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-004.front.ability",
+      "cardId": "baz-004",
+      "faceId": "front",
+      "exactTextSha256": "135e7edef550fdffe066fd36d8cf3928c044ebab93b3406c681c620bea7e6508",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-004].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-004.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-005.front.ability",
+      "cardId": "baz-005",
+      "faceId": "front",
+      "exactTextSha256": "a39706d0ff9e48837fc9763c9a8eb251fee71e3a1050bc2ebe0213633d5e2176",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-005].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-005.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-006.front.ability",
+      "cardId": "baz-006",
+      "faceId": "front",
+      "exactTextSha256": "55a73f732c34453ce51e3089dc7d31b0bd9cc165826ea9cf33c3bf70c2e871dd",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-006].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-006.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-008.front.ability",
+      "cardId": "baz-008",
+      "faceId": "front",
+      "exactTextSha256": "8315ed3d8c3be8eb669890b74642c2fde3ba6b52251e90e07d3de96e054c5477",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-008].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-008.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-009.front.ability",
+      "cardId": "baz-009",
+      "faceId": "front",
+      "exactTextSha256": "a17e7f5add8a138cc6ba98148fd5886198035e41fdcb687ea6e7eb6284cbffe5",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-009].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-009.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-010.front.ability",
+      "cardId": "baz-010",
+      "faceId": "front",
+      "exactTextSha256": "039bfb5d8fecc29b6d5a265ef667fb484b37be3f54f9db1c2adbbefcd07e21d1",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-010].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-010.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-011.front.ability",
+      "cardId": "baz-011",
+      "faceId": "front",
+      "exactTextSha256": "d71feacb7a1600488a2c65c175402f390dca5bbcc6734ac8236bb39226962d87",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-011].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-011.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-012.front.ability",
+      "cardId": "baz-012",
+      "faceId": "front",
+      "exactTextSha256": "d94ab04e43c7f396236420ffa18efbb28f72286b6188a1a9c8127a0c794aee6f",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-012].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-012.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-013.front.ability",
+      "cardId": "baz-013",
+      "faceId": "front",
+      "exactTextSha256": "8280caac78190123091aa4d2ea1b11408897e74641f78fddc02196825e649698",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-013].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-013.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-014.front.ability",
+      "cardId": "baz-014",
+      "faceId": "front",
+      "exactTextSha256": "8760befe3978023a7cabb4a09e53780e3d4fa1d5cfc365f759742d892a0e3015",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-014].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-014.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-015.front.ability",
+      "cardId": "baz-015",
+      "faceId": "front",
+      "exactTextSha256": "5e9879a8cdd20f40fc023012c6c4973fb5f10e50a49832664be66548bea450b4",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-015].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-015.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-016.front.ability",
+      "cardId": "baz-016",
+      "faceId": "front",
+      "exactTextSha256": "9d0f44381d1d26b527557a99d0f88ac5c15730e07ff2033415e6322833160f5c",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-016].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-016.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-017.front.ability",
+      "cardId": "baz-017",
+      "faceId": "front",
+      "exactTextSha256": "00334b4e9b8fa097c93fc7861cdf67f01869793c7352be763bc5a36ddf9c6490",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-017].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-017.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-018.front.ability",
+      "cardId": "baz-018",
+      "faceId": "front",
+      "exactTextSha256": "c8a11b75c62978f354332559594cda18c29539b07e7fecf17728363b265ac659",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-018].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-018.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-019.front.ability",
+      "cardId": "baz-019",
+      "faceId": "front",
+      "exactTextSha256": "50b7b0ad331a2fc32f3f552e565161f1596ce2d12b83224fedd2a4734418fd66",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-019].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-019.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-020.front.ability",
+      "cardId": "baz-020",
+      "faceId": "front",
+      "exactTextSha256": "4d2e77ebefae191f03279a7215ead9e21335e12cf6afaabde620c8f790aba45d",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-020].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-020.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-021.front.ability",
+      "cardId": "baz-021",
+      "faceId": "front",
+      "exactTextSha256": "7738994b458f1d462124f047d89b7069019b0ada1a21a4c82fb3379e0055d7dc",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-021].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-021.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-022.front.ability",
+      "cardId": "baz-022",
+      "faceId": "front",
+      "exactTextSha256": "e66b8ceaa00dc44de3abac958de30c49a65b9d00c7a158b87b8f2a5ba25b0014",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-022].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-022.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-023.level-1.ability",
+      "cardId": "baz-023",
+      "faceId": "level-1",
+      "exactTextSha256": "786d066d03746c6d2e4f9fa87df50cb94309779b9e18d8b987cecf8209351505",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-023].faces[level-1].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-023.level-1.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-024.front.ability",
+      "cardId": "baz-024",
+      "faceId": "front",
+      "exactTextSha256": "039bfb5d8fecc29b6d5a265ef667fb484b37be3f54f9db1c2adbbefcd07e21d1",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-024].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-024.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-025.front.ability",
+      "cardId": "baz-025",
+      "faceId": "front",
+      "exactTextSha256": "2877bded4bb8656b19331ad95725e4faeee946a81863fb0542b67abd29d1e455",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-025].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-025.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-027.front.ability",
+      "cardId": "baz-027",
+      "faceId": "front",
+      "exactTextSha256": "99b047871479f384c200e21be6c7e411ed5406acef714cbf4b76b28d697aa5e5",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-027].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-027.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-028.front.ability",
+      "cardId": "baz-028",
+      "faceId": "front",
+      "exactTextSha256": "a5d6b563ccd0941a6307586ba351f551f9f5b460ed934dc2fd171b8c51009bba",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-028].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-028.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-029.front.ability",
+      "cardId": "baz-029",
+      "faceId": "front",
+      "exactTextSha256": "0d5df7904003df2e1dbfc979d90a35f25f5c01be791891f83c17e3246f6f4a56",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-029].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-029.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-030.front.ability",
+      "cardId": "baz-030",
+      "faceId": "front",
+      "exactTextSha256": "9bb2983573a5545e0aff7f712dcb8296f3bf5c3a2e9140363ad092aaaf12cfe8",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-030].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-030.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-031.front.ability",
+      "cardId": "baz-031",
+      "faceId": "front",
+      "exactTextSha256": "d579498eaf254e7197e22bd8100bedbed99e358d85822c9a44c41fe049b3ff59",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-031].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-031.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-032.front.ability",
+      "cardId": "baz-032",
+      "faceId": "front",
+      "exactTextSha256": "c864bcd403e52eafc5acfd1302b274148ae260bea23f1d4de2b496c1681f061e",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-032].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-032.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-033.front.ability",
+      "cardId": "baz-033",
+      "faceId": "front",
+      "exactTextSha256": "ac797649ba819c70eedba23a816a8282cd4288a1ec0f56d95fc60d287b74243e",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-033].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-033.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-034.front.ability",
+      "cardId": "baz-034",
+      "faceId": "front",
+      "exactTextSha256": "b388f1ff653c3718326a08da03b524bd42b76dad263e40627efd0c068a9268e6",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-034].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-034.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-035.front.ability",
+      "cardId": "baz-035",
+      "faceId": "front",
+      "exactTextSha256": "b00947e46a41da1cd260d87713d455842294c1a96826c1221b0675109f75feaf",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-035].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-035.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-036.front.ability",
+      "cardId": "baz-036",
+      "faceId": "front",
+      "exactTextSha256": "e72480dbeb81337d051ca996236a2d46b3a8aed15ba52aa02054cb91ea2ec6a7",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-036].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-036.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-037.front.ability",
+      "cardId": "baz-037",
+      "faceId": "front",
+      "exactTextSha256": "779f93e0c2b49e7ce952822fb407cde1414d0933460dd0367ce57b63c7543935",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-037].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-037.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-038.front.ability",
+      "cardId": "baz-038",
+      "faceId": "front",
+      "exactTextSha256": "2fc118f6844ad1aa966dd312e2691f5c251efc2406048573a6b21a41cfa4985b",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-038].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-038.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-039.front.ability",
+      "cardId": "baz-039",
+      "faceId": "front",
+      "exactTextSha256": "ec666e248e81d42b42efa627359dca87b73b01f6b1d3a4624fb46d19a00a07b5",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-039].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-039.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-040.front.ability",
+      "cardId": "baz-040",
+      "faceId": "front",
+      "exactTextSha256": "ab53ee1c5725b0abe538139084748ebceb02a54ca819ec8b1ef8c4f7a502070a",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-040].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-040.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-041.front.ability",
+      "cardId": "baz-041",
+      "faceId": "front",
+      "exactTextSha256": "1637c8552bcccbce8fed882329555770a3653b32bbd1a8116d4a183537b90daa",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-041].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-041.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-042.front.ability",
+      "cardId": "baz-042",
+      "faceId": "front",
+      "exactTextSha256": "cec5c868e57e23a542fda02790d5f8953e3db3096e12758885bba38167d1db21",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-042].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-042.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-043.front.ability",
+      "cardId": "baz-043",
+      "faceId": "front",
+      "exactTextSha256": "4dba6196efb43762658a972af3836bbe733bcaf2b10227c6d8eafb39eac4e7b7",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-043].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-043.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-044.front.ability",
+      "cardId": "baz-044",
+      "faceId": "front",
+      "exactTextSha256": "2901da4c889268162dc3f78417ce55978c75ee439f98fe990f0d9a3fa6445947",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-044].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-044.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-045.level-1.ability",
+      "cardId": "baz-045",
+      "faceId": "level-1",
+      "exactTextSha256": "1b42f3cce4561f80d4a4a285f9d203c6ef129bf66b25c5ab0421fff7b58a854e",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-045].faces[level-1].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-045.level-1.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-046.front.ability",
+      "cardId": "baz-046",
+      "faceId": "front",
+      "exactTextSha256": "3b0760e30e0ed2eebcdebbab77aa857a23a52a7c83816a3c13fa10f1d7e41a25",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-046].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-046.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-047.front.ability",
+      "cardId": "baz-047",
+      "faceId": "front",
+      "exactTextSha256": "1f16a96e621a9d0a6372941203307c2f32296a2e51172169923a35bf93179474",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-047].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-047.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-048.front.ability",
+      "cardId": "baz-048",
+      "faceId": "front",
+      "exactTextSha256": "8d49e9ee89465a7cb93480eaacda97e4d8c3a28caffcc1fa13089eb1b7573054",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-048].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-048.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-049.front.ability",
+      "cardId": "baz-049",
+      "faceId": "front",
+      "exactTextSha256": "ae5da9f552f30efd955bb8795575abe1afeb07e898c0431b55a58c051277f8f0",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-049].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-049.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-050.front.ability",
+      "cardId": "baz-050",
+      "faceId": "front",
+      "exactTextSha256": "8d835c7414be15e56598431e186efae36b44341fe32ef956c07d6dc5e5e426e3",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-050].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-050.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-051.front.ability",
+      "cardId": "baz-051",
+      "faceId": "front",
+      "exactTextSha256": "3c15135ef6e988f801ea74994f38c70799eebd5f2c04cf7af7fbff7e469afa88",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-051].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-051.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-052.front.ability",
+      "cardId": "baz-052",
+      "faceId": "front",
+      "exactTextSha256": "8315ed3d8c3be8eb669890b74642c2fde3ba6b52251e90e07d3de96e054c5477",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-052].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-052.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-054.front.ability",
+      "cardId": "baz-054",
+      "faceId": "front",
+      "exactTextSha256": "bf9c87912a14747bf4effdd7f7f82ebfe978f0cc0f5ba6f54062c97dcf67353a",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-054].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-054.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-055.front.ability",
+      "cardId": "baz-055",
+      "faceId": "front",
+      "exactTextSha256": "14df2ff055f9f036c969df63d2922d7837810af0226b2635b71802f9a117b313",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-055].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-055.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-056.front.ability",
+      "cardId": "baz-056",
+      "faceId": "front",
+      "exactTextSha256": "8af1507fb2bdf375fd46c17a98b204571c484364c4f98fc8d5eddc1dd58e7f97",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-056].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-056.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-057.front.ability",
+      "cardId": "baz-057",
+      "faceId": "front",
+      "exactTextSha256": "a807a5b0daefa93ae03e0db5664310ecf496c3ce362bc1b6d025d4e3fe230c92",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-057].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-057.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-058.front.ability",
+      "cardId": "baz-058",
+      "faceId": "front",
+      "exactTextSha256": "689f62388b76a579c8629edb07cbf79e0db36a358eb255c5d1a8a69250b01c7b",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-058].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-058.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-059.front.ability",
+      "cardId": "baz-059",
+      "faceId": "front",
+      "exactTextSha256": "7a1a45a8afd37b1fda913698c5b049a3960bdd9aba9b1af66cad90a6c82b8f57",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-059].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-059.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-060.front.ability",
+      "cardId": "baz-060",
+      "faceId": "front",
+      "exactTextSha256": "4dac21dd74937e31d38157a3b2ea404de2ac8a8ca78d6ab3c4a1c8b1be217921",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-060].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-060.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-061.front.ability",
+      "cardId": "baz-061",
+      "faceId": "front",
+      "exactTextSha256": "c2e55819e7a7abcf5356ba50d59553f600030e2c8945a99377ff1b64a53848a2",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-061].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-061.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-062.front.ability",
+      "cardId": "baz-062",
+      "faceId": "front",
+      "exactTextSha256": "d7b8a5a77996f973e23c1a21f8d6b1c81bad2d303e9ff3dbc2bb4898fb7178ab",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-062].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-062.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-063.front.ability",
+      "cardId": "baz-063",
+      "faceId": "front",
+      "exactTextSha256": "5d47a9426da57190ab67187a3771e475d253640ffe80f57630d9e8644a988d0f",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-063].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-063.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-064.front.ability",
+      "cardId": "baz-064",
+      "faceId": "front",
+      "exactTextSha256": "10de7693f334c3d4149b8db8cb757c09d8f5784a4c5c7f0206fc98079c8c5217",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-064].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-064.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-065.front.ability",
+      "cardId": "baz-065",
+      "faceId": "front",
+      "exactTextSha256": "b15e981ef67f1ea03721fe4e1b7e3aa4974e55ced3e49e1286c71d4efabc5b84",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-065].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-065.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-066.front.ability",
+      "cardId": "baz-066",
+      "faceId": "front",
+      "exactTextSha256": "b9c62dbe2cf37cf3ec9d67756278388d4721143362afb181e9abeccc03597e51",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-066].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-066.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-067.level-1.ability",
+      "cardId": "baz-067",
+      "faceId": "level-1",
+      "exactTextSha256": "4aa29d093be6ce27ca21fc8270f67f0b97822a2476991c5c06a5f73b899b7661",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-067].faces[level-1].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-067.level-1.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-068.front.ability",
+      "cardId": "baz-068",
+      "faceId": "front",
+      "exactTextSha256": "9bb2983573a5545e0aff7f712dcb8296f3bf5c3a2e9140363ad092aaaf12cfe8",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-068].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-068.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-070.front.ability",
+      "cardId": "baz-070",
+      "faceId": "front",
+      "exactTextSha256": "2b3655e180e189bed5f801b0f883dc645c8b75693c4796c08872fdd4a7c21c10",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-070].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-070.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-071.front.ability",
+      "cardId": "baz-071",
+      "faceId": "front",
+      "exactTextSha256": "01f1e0535444cacc0ca051f7cefc1fb4cf789d933e02d791ecd0c89d7eaa8259",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-071].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-071.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-072.front.ability",
+      "cardId": "baz-072",
+      "faceId": "front",
+      "exactTextSha256": "ef653b60346a20b6ff58e17e562cf1e4f2ba0ef950db9aaa8f3cff8cbd394125",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-072].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-072.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-073.front.ability",
+      "cardId": "baz-073",
+      "faceId": "front",
+      "exactTextSha256": "1494f48b01adc65e255422ad28aed64baf64f22988a10ad376deeebb60af57ac",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-073].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-073.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-074.front.ability",
+      "cardId": "baz-074",
+      "faceId": "front",
+      "exactTextSha256": "9bb2983573a5545e0aff7f712dcb8296f3bf5c3a2e9140363ad092aaaf12cfe8",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-074].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-074.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-075.front.ability",
+      "cardId": "baz-075",
+      "faceId": "front",
+      "exactTextSha256": "84672ebc94679437ed76a4faf4d0f2696e7e368f8d963fec96c5843401d095bc",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-075].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-075.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-076.front.ability",
+      "cardId": "baz-076",
+      "faceId": "front",
+      "exactTextSha256": "6fe9c8e29ba1bee53216816a012f303cfb7036e180e15747419a54511255600a",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-076].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-076.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-077.front.ability",
+      "cardId": "baz-077",
+      "faceId": "front",
+      "exactTextSha256": "907bbcb3c9308eabac8a2da74f5f3d9efcdee4a92ebaabf369475a2d32462f50",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-077].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-077.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-078.front.ability",
+      "cardId": "baz-078",
+      "faceId": "front",
+      "exactTextSha256": "aabf442c2a3e090edb8a6c7a7eb40181b87f1f041d8dbfb63561441b1ef4e79f",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-078].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-078.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-079.front.ability",
+      "cardId": "baz-079",
+      "faceId": "front",
+      "exactTextSha256": "9800e107efa058a24a0c07c60ca7a072c7ee7871c1b827aee34b6a2a70d72e36",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-079].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-079.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-080.front.ability",
+      "cardId": "baz-080",
+      "faceId": "front",
+      "exactTextSha256": "0de0e2acc833d3aec938119178e36ece0f642bfc6180d68b3cf7c0d60d8a99a1",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-080].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-080.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-081.front.ability",
+      "cardId": "baz-081",
+      "faceId": "front",
+      "exactTextSha256": "07c91cf11193c919c987b049bc93c6896d3fcbe9265e79d924389d950dfa37e5",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-081].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-081.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-082.front.ability",
+      "cardId": "baz-082",
+      "faceId": "front",
+      "exactTextSha256": "7e1025943bb5f64664cb87814209b2d53bc336504057c1a1c0daf129d27cfffa",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-082].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-082.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-083.front.ability",
+      "cardId": "baz-083",
+      "faceId": "front",
+      "exactTextSha256": "3f36fd2bbef7f20eaa09df8f2bb09f7b0800c1dcdb0373a82f258db8c46d5ddb",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-083].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-083.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-084.front.ability",
+      "cardId": "baz-084",
+      "faceId": "front",
+      "exactTextSha256": "170af6333e1fc804082810476a8b6a64377ae1a8ec2b7761ca77ad3384eec9c3",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-084].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-084.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-085.front.ability",
+      "cardId": "baz-085",
+      "faceId": "front",
+      "exactTextSha256": "ec666e248e81d42b42efa627359dca87b73b01f6b1d3a4624fb46d19a00a07b5",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-085].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-085.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-086.front.ability",
+      "cardId": "baz-086",
+      "faceId": "front",
+      "exactTextSha256": "760bc5df672e3c6f349e3140a453a52dd96545824a9142c09af02089663cd2c3",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-086].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-086.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-087.front.ability",
+      "cardId": "baz-087",
+      "faceId": "front",
+      "exactTextSha256": "c3116a84030c3aecf94c83600548a037dee57a9b8d62c5a0f5b388645013f278",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-087].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-087.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-088.front.ability",
+      "cardId": "baz-088",
+      "faceId": "front",
+      "exactTextSha256": "3637760aff6d26643a7d349ce05fd271e4e9dabd9ff87b68293efa524037ea87",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-088].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-088.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-089.level-1.ability",
+      "cardId": "baz-089",
+      "faceId": "level-1",
+      "exactTextSha256": "8c79fb70a225327c00ad8a539235fb707054f67b5a6534c645ae98da79393305",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-089].faces[level-1].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-089.level-1.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-090.front.ability",
+      "cardId": "baz-090",
+      "faceId": "front",
+      "exactTextSha256": "c5246eb83d361420378a180f2403ff1c726a09029d3cd9c8aa4936c2aa2065be",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-090].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-090.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-091.front.ability",
+      "cardId": "baz-091",
+      "faceId": "front",
+      "exactTextSha256": "7e92655061d3fe79cec24d0432fd33966f360393062e54668095a435d3a42b27",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-091].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-091.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-093.front.ability",
+      "cardId": "baz-093",
+      "faceId": "front",
+      "exactTextSha256": "07eb7ef75fc157f95fedf269cb70da485c88f1f3593a3e5c8e7246faf2b95bd9",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-093].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-093.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-094.front.ability",
+      "cardId": "baz-094",
+      "faceId": "front",
+      "exactTextSha256": "f441fbb7f18f10733ae971ae294fbc7fe33b6ea4df9488e91174b1fcec1d31be",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-094].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-094.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-095.front.ability",
+      "cardId": "baz-095",
+      "faceId": "front",
+      "exactTextSha256": "8315ed3d8c3be8eb669890b74642c2fde3ba6b52251e90e07d3de96e054c5477",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-095].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-095.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-096.front.ability",
+      "cardId": "baz-096",
+      "faceId": "front",
+      "exactTextSha256": "a68079b76f22dfb7ccba225f7facadb43297480a491bd0903222e06fc47f2fd0",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-096].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-096.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-097.front.ability",
+      "cardId": "baz-097",
+      "faceId": "front",
+      "exactTextSha256": "94e2802c94562ee59665af225728620ca57448bdaf4d9076f4c439b895ad566b",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-097].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-097.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-098.front.ability",
+      "cardId": "baz-098",
+      "faceId": "front",
+      "exactTextSha256": "d172dfb02ebd15c6c0912f49e38b7193a9c8dc2ae4a9d79fc8897fec9b62252d",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-098].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-098.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-099.front.ability",
+      "cardId": "baz-099",
+      "faceId": "front",
+      "exactTextSha256": "6bb6d7e004a6ca1c0416d79c36fa0827a98dbda46085c4c8055f46dbce635f12",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-099].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-099.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-100.front.ability",
+      "cardId": "baz-100",
+      "faceId": "front",
+      "exactTextSha256": "8051adb49fd2ce4d813fc1865a26e6d5d8364c33cde1df9601f1f7d002d960c1",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-100].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-100.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-101.front.ability",
+      "cardId": "baz-101",
+      "faceId": "front",
+      "exactTextSha256": "50b7b0ad331a2fc32f3f552e565161f1596ce2d12b83224fedd2a4734418fd66",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-101].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-101.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-102.front.ability",
+      "cardId": "baz-102",
+      "faceId": "front",
+      "exactTextSha256": "2bf288ded09f2f71925fc9ada5268977c3e67c51c32cc0d2ee81d6d0748fd98d",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-102].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-102.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-103.front.ability",
+      "cardId": "baz-103",
+      "faceId": "front",
+      "exactTextSha256": "adc2055b6524c33cda6f010cb6724bd66fb1f0877e22d19d1ac7c4e495ca9dfa",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-103].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-103.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-104.front.ability",
+      "cardId": "baz-104",
+      "faceId": "front",
+      "exactTextSha256": "d13161db92d1c3003582dcc3f8b55b957a89c8553cbfe8c021367a95c09a66d0",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-104].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-104.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-105.front.ability",
+      "cardId": "baz-105",
+      "faceId": "front",
+      "exactTextSha256": "68ff654fb159a995a93369f46a812592a6c5aceb90c76a8e2b9d91de5071c514",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-105].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-105.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-106.front.ability",
+      "cardId": "baz-106",
+      "faceId": "front",
+      "exactTextSha256": "1e61ee3be580cd5aff1e512264a24e6e73051c05e46e031a12f4d4723febc929",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-106].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-106.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-107.front.ability",
+      "cardId": "baz-107",
+      "faceId": "front",
+      "exactTextSha256": "7f76e08ea0b6c023e92a95ceedd4404771d4c80db98a5c8274c08a317f476235",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-107].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-107.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-108.front.ability",
+      "cardId": "baz-108",
+      "faceId": "front",
+      "exactTextSha256": "a5cc544f55bc6f370a942b849ea7678c7532ec3234d3c796af51fe3ebe16a99e",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-108].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-108.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-109.front.ability",
+      "cardId": "baz-109",
+      "faceId": "front",
+      "exactTextSha256": "9841812acde67073fc46be7281b152fc67f2d5a5aad1224dfc5c4db6d9242caa",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-109].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-109.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-110.front.ability",
+      "cardId": "baz-110",
+      "faceId": "front",
+      "exactTextSha256": "01676703f7288af56575767e88f0e5f52c7bc79424eef48ec610d0bddb6d370f",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-110].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-110.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-111.level-1.ability",
+      "cardId": "baz-111",
+      "faceId": "level-1",
+      "exactTextSha256": "2689208806ed68f23918744e2053d3a3b1ab2e032c4e8b20082183b915737532",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-111].faces[level-1].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-111.level-1.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-112.front.ability",
+      "cardId": "baz-112",
+      "faceId": "front",
+      "exactTextSha256": "9483a9f5e3b0106aadce1f5b25a43aed5851d228cb2725f03a8d1ed0d34bad78",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-112].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-112.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-113.front.ability",
+      "cardId": "baz-113",
+      "faceId": "front",
+      "exactTextSha256": "6b997e398c1353e5fadefffd1d424e45efa91bdd004e3e2c636c2977e43bf879",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-113].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-113.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-114.front.ability",
+      "cardId": "baz-114",
+      "faceId": "front",
+      "exactTextSha256": "442ad68621575955bd5356b7047658973c5aa580ce9d2b73152fae6c6ccca69e",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-114].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-114.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-115.front.ability",
+      "cardId": "baz-115",
+      "faceId": "front",
+      "exactTextSha256": "6bb6bb43f96826c913d042661f338ff965c7d1fd6aeb2144ad086f1a0ae5711a",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-115].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-115.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-117.front.ability",
+      "cardId": "baz-117",
+      "faceId": "front",
+      "exactTextSha256": "694c632406a81dc8db39755201a87e568b93279093f4bcd5c4d9907095fe5be3",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-117].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-117.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-118.front.ability",
+      "cardId": "baz-118",
+      "faceId": "front",
+      "exactTextSha256": "1c337fad9a4bf9b84999c1bf0eeba0b29eed8d37dda6f922fc5df9ae36170469",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-118].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-118.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-119.front.ability",
+      "cardId": "baz-119",
+      "faceId": "front",
+      "exactTextSha256": "53994965ac447d1e23fe62387b4d7798f1e3bb113c07fbc0c55eacccfad4aaf7",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-119].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-119.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-120.front.ability",
+      "cardId": "baz-120",
+      "faceId": "front",
+      "exactTextSha256": "d6ccabfd88fdc141bd218ac38087c8779adb71a505ee67b3c72fc1bc13e4b851",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-120].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-120.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-121.front.ability",
+      "cardId": "baz-121",
+      "faceId": "front",
+      "exactTextSha256": "5be9068c4163ab53925772e8a3eee9958fdd4794ca902e56efc0fd7aaedc0cc2",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-121].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-121.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-122.front.ability",
+      "cardId": "baz-122",
+      "faceId": "front",
+      "exactTextSha256": "47df43c3c728869c1be736d641cb71bdd4ac42c9fc497013f0db250c6a4324a7",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-122].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-122.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-123.front.ability",
+      "cardId": "baz-123",
+      "faceId": "front",
+      "exactTextSha256": "52d07f2c7806c350575ddea1de86d8de786f9ca2c534c9fbf9effebb1c2d7374",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-123].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-123.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-124.front.ability",
+      "cardId": "baz-124",
+      "faceId": "front",
+      "exactTextSha256": "44f1d9d1f3fddc97abccca30135297d175c5609db76e440244e8df696c70faa0",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-124].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-124.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-125.front.ability",
+      "cardId": "baz-125",
+      "faceId": "front",
+      "exactTextSha256": "51f5d74e7dc07520efdbe39233ba5d12d42d5717df0cb39f3125d2e8b2374623",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-125].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-125.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-126.front.ability",
+      "cardId": "baz-126",
+      "faceId": "front",
+      "exactTextSha256": "94f8b3f178ed679b01389cd812bf1c97d114469b058064db709d574ff7b905c8",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-126].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-126.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-127.front.ability",
+      "cardId": "baz-127",
+      "faceId": "front",
+      "exactTextSha256": "738507f7416cc5dd5b549a63418409310c40e66657c85ce1818e941b2d88f199",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-127].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-127.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-128.front.ability",
+      "cardId": "baz-128",
+      "faceId": "front",
+      "exactTextSha256": "4b2b618f697d769edee90c351a0f905ac160ce90d7dc8361d601cbd519be9fab",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-128].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-128.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-129.front.ability",
+      "cardId": "baz-129",
+      "faceId": "front",
+      "exactTextSha256": "139b266ba4dbf8d2485ddb375ab0deba7537bdf14a3ddc4f764b00819d617a90",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-129].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-129.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-130.front.ability",
+      "cardId": "baz-130",
+      "faceId": "front",
+      "exactTextSha256": "599f23058c2936fa5b0c36d133ce55e3abe2615685e549f7f1ba88bc50d66bd6",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-130].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-130.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-131.front.ability",
+      "cardId": "baz-131",
+      "faceId": "front",
+      "exactTextSha256": "e22d17a773bb01040c42b486f1494064be52fb1d3f375d4663d0905a1f2f4f05",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-131].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-131.front.ability.conformance"
+      ]
+    },
+    {
+      "abilityId": "baz-132.front.ability",
+      "cardId": "baz-132",
+      "faceId": "front",
+      "exactTextSha256": "e1d77f8063d1a88178884df657ea06583b9639afaf706a8f741d38d3196aa11b",
+      "source": {
+        "evidenceId": "base-gallery-2026-10-17",
+        "fieldPath": "cards[baz-132].faces[front].exactAbilityText"
+      },
+      "effectSpec": {
+        "status": "deferred",
+        "trackingIssue": "#12",
+        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+      },
+      "ambiguityReview": {
+        "status": "none-recorded",
+        "identifiedAmbiguities": [],
+        "ownerDecisionRefs": []
+      },
+      "conformanceScenarioIds": [
+        "baz-132.front.ability.conformance"
+      ]
+    }
+  ]
+}

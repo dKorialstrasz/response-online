@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "evidenceId": "base-gallery-2026-10-17",
+  "source": {
+    "galleryUrl": "https://response-game.ru/spoiler",
+    "apiUrl": "https://response-league.ru/api/v1/cards",
+    "checkedAt": "2026-10-17",
+    "catalogVersion": "6aa6a9a1fe7984148c7209427fb125053d190b2f1671149f9dc83bace02f0d35",
+    "pageCount": 5,
+    "catalogCardCount": 427
+  },
+  "snapshotPath": "content/evidence/base-gallery-snapshot.json",
+  "snapshotSha256": "747636581bfa7293c6ab5a22c143908fd7fa822d8d1fc147e33f32f4af2bfecd",
+  "captureMethod": "official-json-api-no-ocr",
+  "scope": "All 132 Base-set definitions used by the six M1 starter decks.",
+  "transferVerification": {
+    "status": "source-matched",
+    "performedBy": "ChatGPT",
+    "performedAt": "2026-10-17"
+  },
+  "ownerVerification": {
+    "status": "pending",
+    "reviewer": "dKorialstrasz",
+    "reviewedAt": null
+  }
+}
