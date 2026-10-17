@@ -45,7 +45,8 @@
     },
     {
       "definitionId": "baz-087",
-      "name": "Ослепляющие cпоры",
+      "name": "Ослепляющие споры",
+      "sourceName": "Ослепляющие cпоры",
       "printedNumber": 87,
       "category": "order",
       "count": 1

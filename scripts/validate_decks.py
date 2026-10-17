@@ -62,6 +62,11 @@ EXPECTED = {
     },
 }
 
+NORMALIZED_SOURCE_NAMES = {
+    "baz-049": ("Орк-созерцатель", "Орк-cозерцатель"),
+    "baz-087": ("Ослепляющие споры", "Ослепляющие cпоры"),
+}
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
@@ -112,6 +117,17 @@ def validate_card(
         errors.append(f"{field}.definitionId: must match printedNumber as baz-NNN")
     if not isinstance(name, str) or not name.strip() or not CYRILLIC_RE.search(name):
         errors.append(f"{field}.name: expected non-empty Russian display text")
+
+    expected_names = NORMALIZED_SOURCE_NAMES.get(definition_id)
+    source_name = card.get("sourceName")
+    if expected_names is not None:
+        expected_name, expected_source_name = expected_names
+        if name != expected_name:
+            errors.append(f"{field}.name: expected normalized Russian display name")
+        if source_name != expected_source_name:
+            errors.append(f"{field}.sourceName: expected exact official source spelling")
+    elif source_name is not None:
+        errors.append(f"{field}.sourceName: allowed only for documented normalization")
 
     allowed_categories = (
         {expected_category} if isinstance(expected_category, str) else expected_category

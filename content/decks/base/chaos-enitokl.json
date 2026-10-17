@@ -82,7 +82,8 @@
     },
     {
       "definitionId": "baz-049",
-      "name": "Орк-cозерцатель",
+      "name": "Орк-созерцатель",
+      "sourceName": "Орк-cозерцатель",
       "printedNumber": 49,
       "category": "unit",
       "count": 2
