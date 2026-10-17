@@ -36,7 +36,7 @@ func TestBuildInfoDoesNotClaimVerifiedRules(t *testing.T) {
 	if info.RulesVersion != "unverified" {
 		t.Fatalf("rulesVersion = %q, want unverified", info.RulesVersion)
 	}
-	if info.ContentVersion != "base-decks-v1" {
+	if info.ContentVersion != "base-cards-v1" {
 		t.Fatalf("contentVersion = %q", info.ContentVersion)
 	}
 }

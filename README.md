@@ -9,6 +9,7 @@
 - [Официальные источники составов шести стартовых колод](docs/requirements/milestone-1-deck-sources.md)
 - [Машиночитаемые manifests шести стартовых колод](content/decks/base)
 - [Verified CardDefinition, evidence и транзитивное замыкание](docs/requirements/milestone-1-card-content.md)
+- [Контентные схемы и release-blocking validator](docs/requirements/milestone-1-content-release.md)
 - [Журнал продуктовых решений M1](docs/decisions/m1-product-decisions.md)
 - [ADR-0001: in-memory состояние матчей M1](docs/adr/0001-in-memory-match-state.md)
 - [Правила участия и traceability](CONTRIBUTING.md)

@@ -8,7 +8,7 @@ var (
 
 const (
 	ProtocolVersion = "scaffold-v1"
-	ContentVersion  = "base-decks-v1"
+	ContentVersion  = "base-cards-v1"
 	RulesVersion    = "unverified"
 	EngineVersion   = "scaffold-v1"
 )

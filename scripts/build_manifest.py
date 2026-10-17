@@ -43,23 +43,35 @@ def main() -> int:
         if not required.is_file():
             parser.error(f"missing build artifact: {required.relative_to(ROOT)}")
 
+    release = json.loads(
+        (ROOT / "content" / "releases" / "m1-local.json").read_text(encoding="utf-8")
+    )
+    release_versions = release["versions"]
+
     manifest = {
         "schemaVersion": 1,
         "commit": args.commit,
         "versions": {
-            "protocol": "scaffold-v1",
-            "content": "base-decks-v1",
-            "rules": "unverified",
-            "engine": "scaffold-v1",
+            "protocol": release_versions["protocol"],
+            "content": release_versions["content"],
+            "deckManifests": release_versions["deckManifests"],
+            "effectSpec": release_versions["effectSpec"],
+            "rules": release_versions["rules"],
+            "engine": release_versions["engine"],
         },
         "artifacts": {
             "backend": {"path": "artifacts/response-server", "sha256": sha256_file(backend)},
             "frontend": {"path": "artifacts/frontend.tar.gz", "sha256": sha256_file(frontend)},
             "contracts": {"path": "../contracts", "sha256": sha256_tree(ROOT / "contracts")},
             "content": {"path": "../content", "sha256": sha256_tree(ROOT / "content")},
+            "contentRelease": {
+                "path": "../content/releases/m1-local.json",
+                "sha256": sha256_file(ROOT / "content" / "releases" / "m1-local.json"),
+            },
         },
         "verification": {
-            "rules": "not verified by Issue #8",
+            "content": "schema and semantic release gate passed by Issue #9",
+            "rules": "not ready until Issues #10-#12",
             "publicDeployment": "out of scope",
             "gamePix": "out of scope",
         },
