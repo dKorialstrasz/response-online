@@ -35,11 +35,13 @@ RESPONSE_HTTP_ADDR=127.0.0.1:18080 make dev-backend
 
 - `GET http://127.0.0.1:8080/healthz` — процесс жив.
 - `GET http://127.0.0.1:8080/readyz` — процесс принимает локальные запросы.
-- `GET http://127.0.0.1:8080/api/v1/build` — commit и версии scaffold.
+- `GET http://127.0.0.1:8080/api/v1/build` — commit и закреплённые версии.
 - `bash tests/smoke/local_backend.sh` — чёрный ящик диагностического API.
 
-Значение `rulesVersion: unverified` ожидаемо до завершения rules/content задач.
-Не заменяйте его выдуманным номером правил.
+`rulesVersion: response-rules-2026-10-17` и
+`engineVersion: deterministic-core-v1` относятся к базовому автомату #10.
+Они не означают готовность карточных EffectSpec: эти ворота остаются в #11/#12.
+`protocolVersion: scaffold-v1` сохраняется до сетевого контракта gameplay.
 
 ## Сборка и manifest
 
