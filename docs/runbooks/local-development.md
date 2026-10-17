@@ -42,6 +42,8 @@ RESPONSE_HTTP_ADDR=127.0.0.1:18080 make dev-backend
 `engineVersion: deterministic-core-v1` относятся к базовому автомату #10.
 Они не означают готовность карточных EffectSpec: эти ворота остаются в #11/#12.
 `protocolVersion: scaffold-v1` сохраняется до сетевого контракта gameplay.
+Application service сессий/комнат и проверка закреплённых manifests реализованы в
+#13, но намеренно не публикуют HTTP/WSS endpoints до contracts/security gate #14.
 
 ## Сборка и manifest
 
@@ -67,9 +69,9 @@ bash tests/smoke/local_backend.sh
 ## Контролируемое завершение
 
 `Ctrl+C` отправляет процессу SIGINT; backend прекращает приём запросов и ждёт до
-10 секунд. Комнат и матчей в scaffold пока нет. После их появления shutdown должен
-помечать незавершённые матчи `aborted_technical` по OPS-03; это не считается
-реализованным данной задачей.
+10 секунд. Runtime wiring HTTP/WSS и controlled room/match shutdown остаются #14 и
+#18. После их появления shutdown должен помечать незавершённые матчи
+`aborted_technical` по OPS-03; это не считается реализованным задачей #13.
 
 При crash/restart in-memory состояние теряется согласно ADR-0001. Не обещайте
 recovery и не приписывайте потерянной партии игровой результат.
