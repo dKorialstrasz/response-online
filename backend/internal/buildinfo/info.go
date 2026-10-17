@@ -10,7 +10,7 @@ const (
 	ProtocolVersion = "scaffold-v1"
 	ContentVersion  = "base-cards-v1"
 	RulesVersion    = "response-rules-2026-10-17"
-	EngineVersion   = "deterministic-core-v1"
+	EngineVersion   = "effect-pipeline-v1"
 )
 
 type Info struct {

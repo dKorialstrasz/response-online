@@ -14,8 +14,9 @@ var (
 )
 
 type Match struct {
-	state    State
-	eventCap int
+	state     State
+	eventCap  int
+	abilities map[string]AbilityDefinition
 }
 
 type eventBudget struct {
@@ -26,6 +27,10 @@ type eventBudget struct {
 
 func NewMatch(config Config) (*Match, error) {
 	if err := validateConfig(config); err != nil {
+		return nil, err
+	}
+	abilities, err := buildAbilityCatalog(config.Abilities)
+	if err != nil {
 		return nil, err
 	}
 	eventCap := config.InternalEventCap
@@ -84,7 +89,7 @@ func NewMatch(config Config) (*Match, error) {
 	if err := ValidateState(state); err != nil {
 		return nil, err
 	}
-	return &Match{state: state, eventCap: eventCap}, nil
+	return &Match{state: state, eventCap: eventCap, abilities: abilities}, nil
 }
 
 func (match *Match) State() State { return match.state.Clone() }
@@ -105,7 +110,7 @@ func (match *Match) Handle(command Command) error {
 			return fmt.Errorf("%w: duplicate command id", ErrInvalidCommand)
 		}
 	}
-	if len(match.state.PendingChoices) > 0 {
+	if len(match.state.PendingChoices) > 0 && command.Kind != CommandSubmitChoice {
 		return fmt.Errorf("%w: a pending choice must be resolved first", ErrInvalidCommand)
 	}
 
@@ -123,6 +128,10 @@ func (match *Match) Handle(command Command) error {
 		err = applyDecision(&next, command, true, &budget)
 	case CommandSurrender:
 		err = applySurrender(&next, command, &budget)
+	case CommandActivateAbility:
+		err = applyActivateAbility(&next, command, match.abilities, &budget)
+	case CommandSubmitChoice:
+		err = applySubmitChoice(&next, command, &budget)
 	default:
 		err = fmt.Errorf("%w: unsupported command kind %q", ErrInvalidCommand, command.Kind)
 	}
@@ -144,6 +153,17 @@ func (match *Match) Handle(command Command) error {
 func normalizeCommand(command Command) Command {
 	command.OrderIDs = append([]string(nil), command.OrderIDs...)
 	command.ObjectRefs = append([]ObjectRef(nil), command.ObjectRefs...)
+	command.SourceRef = cloneObjectRef(command.SourceRef)
+	command.ModeIDs = append([]string(nil), command.ModeIDs...)
+	command.TargetRefs = append([]ObjectRef(nil), command.TargetRefs...)
+	command.PaymentRefs = append([]ObjectRef(nil), command.PaymentRefs...)
+	command.OptionIDs = append([]string(nil), command.OptionIDs...)
+	sort.Slice(command.PaymentRefs, func(left, right int) bool {
+		if command.PaymentRefs[left].ZoneObjectID != command.PaymentRefs[right].ZoneObjectID {
+			return command.PaymentRefs[left].ZoneObjectID < command.PaymentRefs[right].ZoneObjectID
+		}
+		return command.PaymentRefs[left].Generation < command.PaymentRefs[right].Generation
+	})
 	if command.Kind == CommandMulligan {
 		sort.Slice(command.ObjectRefs, func(left, right int) bool {
 			if command.ObjectRefs[left].ZoneObjectID != command.ObjectRefs[right].ZoneObjectID {

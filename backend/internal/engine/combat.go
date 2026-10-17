@@ -31,6 +31,7 @@ func completeTurn(state *State, budget *eventBudget) error {
 	if err := budget.emit("combat_ended", nil, "all five lanes resolved"); err != nil {
 		return err
 	}
+	expireEffects(state, DurationUntilEndOfCombat)
 	state.Phase = PhaseEnd
 	state.CombatStep = CombatNone
 	if err := budget.emit("phase_started", nil, string(PhaseEnd)); err != nil {
@@ -40,6 +41,7 @@ func completeTurn(state *State, budget *eventBudget) error {
 	if err := budget.emit("phase_started", nil, string(PhaseRecovery)); err != nil {
 		return err
 	}
+	expireEffects(state, DurationUntilEndOfTurn)
 	recoverState(state)
 	state.InitiativeSeat = state.InitiativeSeat.Other()
 	state.TurnNumber++
@@ -130,6 +132,7 @@ func revealOrder(state *State, seat Seat, cause string, budget *eventBudget) err
 }
 
 func recoverState(state *State) {
+	targets := make([]ObjectRef, 0)
 	for playerIndex := range state.Players {
 		player := &state.Players[playerIndex]
 		player.Influence = player.BaseInfluence
@@ -142,11 +145,15 @@ func recoverState(state *State) {
 			}
 			if object.Slot == SlotUnit {
 				object.Power = object.BasePower
+				targets = append(targets, object.Ref())
 			}
 			if object.Slot == SlotLocation {
 				object.Durability = object.BaseDurability
 			}
 		}
+	}
+	for _, target := range targets {
+		recalculatePower(state, target)
 	}
 }
 

@@ -28,6 +28,12 @@ func ValidateState(state State) error {
 	if state.Result != nil && (state.Status != StatusFinished || state.Phase != PhaseFinished) {
 		return errors.New("result requires finished status and phase")
 	}
+	if state.Result != nil && (len(state.PendingChoices) > 0 || len(state.EffectQueue) > 0 || state.ActionResolution != nil) {
+		return errors.New("finished match cannot retain unresolved effects or choices")
+	}
+	if state.ActionResolution != nil && (!state.ActionResolution.Seat.Valid() || state.Phase != PhaseAction) {
+		return errors.New("action resolution requires a valid seat during the action phase")
+	}
 	if state.Result != nil {
 		if state.Result.WinnerSeat != nil && !state.Result.WinnerSeat.Valid() {
 			return errors.New("result winner seat is invalid")
@@ -114,7 +120,9 @@ func ValidateState(state State) error {
 
 	choiceIDs := make(map[string]struct{})
 	for _, choice := range state.PendingChoices {
-		if choice.ChoiceID == "" || !choice.Seat.Valid() || choice.Revision > state.Revision+1 {
+		if choice.ChoiceID == "" || !choice.Seat.Valid() || choice.Revision > state.Revision+1 ||
+			(choice.Visibility != ChoicePublic && choice.Visibility != ChoiceOwnerOnly) ||
+			!validQueuePosition(choice.QueuePosition) {
 			return errors.New("pending choice identity is invalid")
 		}
 		if _, exists := choiceIDs[choice.ChoiceID]; exists {
@@ -124,6 +132,77 @@ func ValidateState(state State) error {
 		if len(choice.Options) == 0 {
 			return fmt.Errorf("pending choice %s has no legal options", choice.ChoiceID)
 		}
+		if choice.MinSelections < 0 || choice.MaxSelections < choice.MinSelections || choice.MaxSelections > len(choice.Options) ||
+			(choice.Mandatory && choice.MinSelections == 0) || (!choice.Mandatory && choice.MinSelections != 0) {
+			return fmt.Errorf("pending choice %s has invalid selection bounds", choice.ChoiceID)
+		}
+		optionIDs := make(map[string]struct{}, len(choice.Options))
+		for _, option := range choice.Options {
+			if option.ID == "" {
+				return fmt.Errorf("pending choice %s has an empty option id", choice.ChoiceID)
+			}
+			if _, exists := optionIDs[option.ID]; exists {
+				return fmt.Errorf("pending choice %s repeats option %s", choice.ChoiceID, option.ID)
+			}
+			optionIDs[option.ID] = struct{}{}
+		}
+	}
+
+	entryIDs := make(map[string]struct{}, len(state.EffectQueue))
+	entrySequences := make(map[uint64]struct{}, len(state.EffectQueue))
+	for _, entry := range state.EffectQueue {
+		if entry.EntryID == "" || entry.BatchID == "" || entry.EnqueueSequence == 0 || !entry.Effect.Controller.Valid() {
+			return errors.New("effect queue entry identity is invalid")
+		}
+		if _, exists := entryIDs[entry.EntryID]; exists {
+			return fmt.Errorf("effect queue entry %s is duplicated", entry.EntryID)
+		}
+		entryIDs[entry.EntryID] = struct{}{}
+		if _, exists := entrySequences[entry.EnqueueSequence]; exists {
+			return fmt.Errorf("effect queue sequence %d is duplicated", entry.EnqueueSequence)
+		}
+		entrySequences[entry.EnqueueSequence] = struct{}{}
+		if _, exists := effectHandlerRegistry()[entry.Effect.Kind]; !exists {
+			return fmt.Errorf("effect queue entry %s has unknown kind", entry.EntryID)
+		}
+	}
+
+	modifierIDs := make(map[string]struct{}, len(state.Modifiers))
+	for _, modifier := range state.Modifiers {
+		if modifier.ModifierID == "" || modifier.CreatedSequence == 0 || !validDuration(modifier.Duration) {
+			return errors.New("modifier identity or duration is invalid")
+		}
+		if _, exists := modifierIDs[modifier.ModifierID]; exists {
+			return fmt.Errorf("modifier %s is duplicated", modifier.ModifierID)
+		}
+		modifierIDs[modifier.ModifierID] = struct{}{}
+		if _, err := state.findObject(modifier.TargetRef); err != nil {
+			return fmt.Errorf("modifier %s has a stale target", modifier.ModifierID)
+		}
+	}
+
+	triggerIDs := make(map[string]struct{}, len(state.DelayedTriggers))
+	for _, trigger := range state.DelayedTriggers {
+		if trigger.TriggerID == "" || trigger.EventKind == "" || !trigger.Controller.Valid() ||
+			!validDuration(trigger.Duration) || len(trigger.Effects) == 0 {
+			return errors.New("delayed trigger identity is invalid")
+		}
+		if _, exists := triggerIDs[trigger.TriggerID]; exists {
+			return fmt.Errorf("delayed trigger %s is duplicated", trigger.TriggerID)
+		}
+		triggerIDs[trigger.TriggerID] = struct{}{}
+	}
+
+	replacementIDs := make(map[string]struct{}, len(state.Replacements))
+	for _, replacement := range state.Replacements {
+		if replacement.ReplacementID == "" || !replacement.Controller.Valid() || replacement.EffectKind == "" ||
+			!validDuration(replacement.Duration) || len(replacement.Effects) == 0 {
+			return errors.New("replacement identity is invalid")
+		}
+		if _, exists := replacementIDs[replacement.ReplacementID]; exists {
+			return fmt.Errorf("replacement %s is duplicated", replacement.ReplacementID)
+		}
+		replacementIDs[replacement.ReplacementID] = struct{}{}
 	}
 	return nil
 }

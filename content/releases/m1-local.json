@@ -8,7 +8,7 @@
     "effectSpec": "effect-spec-v1",
     "rules": "response-rules-2026-10-17",
     "protocol": "scaffold-v1",
-    "engine": "deterministic-core-v1"
+    "engine": "effect-pipeline-v1"
   },
   "artifacts": [
     {

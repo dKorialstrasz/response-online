@@ -61,7 +61,7 @@ func TestSetupMulliganAndReplayAreDeterministic(t *testing.T) {
 	if replayHash != liveHash {
 		t.Fatalf("replay hash %s != live hash %s", replayHash, liveHash)
 	}
-	const goldenHash = "f7ebf0fdfae4ee50bdb16de00aca6f7e1e2f43fa337fb2dd3e051ef5ba1429c9"
+	const goldenHash = "3a390ad4affd4ae802ba39cd1ace26996d29cfbdfc1f3927ae969de64526995c"
 	if liveHash != goldenHash {
 		t.Fatalf("golden replay hash = %s, want %s", liveHash, goldenHash)
 	}
@@ -438,7 +438,7 @@ func testConfig() Config {
 			EffectSpec:    "effect-spec-v1",
 			Rules:         "response-rules-2026-10-17",
 			Protocol:      "scaffold-v1",
-			Engine:        "core-v1",
+			Engine:        "effect-pipeline-v1",
 		},
 		Players: [2]PlayerConfig{
 			testPlayer(SeatA),
