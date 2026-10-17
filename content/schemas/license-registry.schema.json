@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://response-online.local/schemas/license-registry.schema.json",
+  "title": "Response Online local M1 asset and rights registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "registryVersion", "publicReleaseGate", "cardImages", "fonts", "sounds", "advertising"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "registryVersion": { "const": "m1-local-assets-v1" },
+    "publicReleaseGate": { "const": "blocked-rights-unknown" },
+    "cardImages": {
+      "type": "array",
+      "minItems": 132,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["assetId", "kind", "cardId", "face", "position", "sourceUrls", "rightsStatus", "bundled", "usePolicy"],
+        "properties": {
+          "assetId": { "type": "string", "minLength": 1 },
+          "kind": { "const": "card-image-reference" },
+          "cardId": { "type": "string", "pattern": "^baz-[0-9]{3}$" },
+          "face": { "type": "string", "minLength": 1 },
+          "position": { "type": "integer", "minimum": 0 },
+          "sourceUrls": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["thumbnail", "medium"],
+            "properties": {
+              "thumbnail": { "type": "string", "pattern": "^https://response-league\\.ru/api/" },
+              "medium": { "type": "string", "pattern": "^https://response-league\\.ru/api/" }
+            }
+          },
+          "rightsStatus": { "const": "unknown" },
+          "bundled": { "const": false },
+          "usePolicy": { "const": "reference-only-not-for-public-build" }
+        }
+      }
+    },
+    "fonts": { "$ref": "#/$defs/emptyAssetClass" },
+    "sounds": { "$ref": "#/$defs/emptyAssetClass" },
+    "advertising": { "$ref": "#/$defs/emptyAssetClass" }
+  },
+  "$defs": {
+    "emptyAssetClass": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "assets"],
+      "properties": {
+        "status": { "type": "string", "minLength": 1 },
+        "assets": { "type": "array", "maxItems": 0 }
+      }
+    }
+  }
+}

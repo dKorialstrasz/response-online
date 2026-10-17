@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://response-online.local/schemas/card-definitions.schema.json",
+  "title": "Response Online M1 CardDefinition catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "contentVersion", "locale", "setCode", "evidenceId", "reviewStatus", "definitions"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "contentVersion": { "const": "base-cards-v1" },
+    "locale": { "const": "ru-RU" },
+    "setCode": { "const": "БАЗ" },
+    "evidenceId": { "type": "string", "minLength": 1 },
+    "reviewStatus": { "const": "approved" },
+    "definitions": {
+      "type": "array",
+      "minItems": 132,
+      "maxItems": 132,
+      "items": { "$ref": "#/$defs/cardDefinition" }
+    }
+  },
+  "$defs": {
+    "valueExpression": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "value", "verificationStatus"],
+          "properties": {
+            "kind": { "const": "fixed" },
+            "value": { "type": "integer", "minimum": 0 },
+            "verificationStatus": { "const": "source-matched" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "verificationStatus"],
+          "properties": {
+            "kind": { "const": "notApplicable" },
+            "verificationStatus": { "const": "source-matched" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "value", "verificationStatus"],
+          "properties": {
+            "kind": { "const": "unknown" },
+            "value": { "type": "null" },
+            "verificationStatus": { "const": "unknown" }
+          }
+        }
+      ]
+    },
+    "typeLine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["supertypes", "types", "subtypes"],
+      "properties": {
+        "supertypes": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "types": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "subtypes": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+      }
+    },
+    "face": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["faceId", "level", "exactAbilityText", "abilityIds"],
+      "properties": {
+        "faceId": { "type": "string", "minLength": 1 },
+        "level": { "type": ["integer", "null"], "minimum": 1 },
+        "exactAbilityText": { "type": "string" },
+        "abilityIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidenceId",
+        "sourceCardId",
+        "fieldPaths",
+        "sourceUrl",
+        "dataEndpoint",
+        "sourceRevision",
+        "snapshotSha256",
+        "checkedAt",
+        "transferredBy",
+        "transferMethod",
+        "verificationStatus",
+        "ownerReviewStatus"
+      ],
+      "properties": {
+        "evidenceId": { "type": "string", "minLength": 1 },
+        "sourceCardId": { "type": "string", "minLength": 1 },
+        "fieldPaths": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "sourceUrl": { "const": "https://response-game.ru/spoiler" },
+        "dataEndpoint": { "type": "string", "pattern": "^https://response-league\\.ru/api/" },
+        "sourceRevision": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "snapshotSha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "checkedAt": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        "transferredBy": { "type": "string", "minLength": 1 },
+        "transferMethod": { "const": "official-json-api-no-ocr" },
+        "verificationStatus": { "const": "source-matched" },
+        "ownerReviewStatus": { "const": "approved" }
+      }
+    },
+    "cardDefinition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cardId",
+        "sourceCardId",
+        "setCode",
+        "setName",
+        "printedNumber",
+        "locale",
+        "name",
+        "typeLine",
+        "factions",
+        "rarity",
+        "keywords",
+        "cost",
+        "stats",
+        "faces",
+        "clarifications",
+        "effectSpecVersion",
+        "imageAssetIds",
+        "transitiveRefs",
+        "verificationStatus",
+        "evidence"
+      ],
+      "properties": {
+        "cardId": { "type": "string", "pattern": "^baz-[0-9]{3}$" },
+        "sourceCardId": { "type": "string", "minLength": 1 },
+        "setCode": { "const": "БАЗ" },
+        "setName": { "const": "Базовый" },
+        "printedNumber": { "type": "integer", "minimum": 1, "maximum": 132 },
+        "locale": { "const": "ru-RU" },
+        "name": { "type": "string", "minLength": 1 },
+        "typeLine": { "$ref": "#/$defs/typeLine" },
+        "factions": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "rarity": { "type": "string", "minLength": 1 },
+        "keywords": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "cost": { "$ref": "#/$defs/valueExpression" },
+        "stats": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["influence", "strength", "durability"],
+          "properties": {
+            "influence": { "$ref": "#/$defs/valueExpression" },
+            "strength": { "$ref": "#/$defs/valueExpression" },
+            "durability": { "$ref": "#/$defs/valueExpression" }
+          }
+        },
+        "faces": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/face" } },
+        "clarifications": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["clarificationId", "text"],
+            "properties": {
+              "clarificationId": { "type": "string", "minLength": 1 },
+              "text": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "effectSpecVersion": { "const": "effect-spec-v1" },
+        "imageAssetIds": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "transitiveRefs": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "verificationStatus": { "const": "source-matched-owner-approved" },
+        "evidence": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/evidence" } }
+      }
+    }
+  }
+}

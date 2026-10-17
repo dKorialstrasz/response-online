@@ -6,7 +6,7 @@ PYTHON ?= python3
 COMMIT_SHA ?= $(shell git rev-parse --verify HEAD)
 BUILD_TIME ?= unknown
 
-.PHONY: bootstrap dev-backend dev-frontend format check-format lint test test-content test-race typecheck contracts content docs secrets dependencies smoke check-go check-frontend check-data check build manifest clean
+.PHONY: bootstrap dev-backend dev-frontend format check-format lint test test-content test-race typecheck contracts content m1-release-check docs secrets dependencies smoke check-go check-frontend check-data check build manifest clean
 
 bootstrap:
 	$(PNPM) --dir frontend install --frozen-lockfile
@@ -46,9 +46,13 @@ typecheck:
 contracts:
 	$(PYTHON) scripts/validate_contracts.py
 
-content:
+content: test-content
 	$(PYTHON) scripts/validate_decks.py --require-reviewed
 	$(PYTHON) scripts/validate_card_definitions.py --require-owner-reviewed --check-report content/reports/base-card-validation.json
+	$(PYTHON) scripts/validate_content_release.py
+
+m1-release-check:
+	$(PYTHON) scripts/validate_content_release.py --require-gameplay-ready
 
 docs:
 	bash scripts/check-docs.sh
@@ -79,7 +83,7 @@ check-data: contracts content docs secrets
 
 check: check-go check-frontend check-data
 
-build:
+build: contracts content
 	mkdir -p build/artifacts
 	cd backend && CGO_ENABLED=0 $(GO) build -buildvcs=false -trimpath -ldflags "-s -w -X github.com/dKorialstrasz/response-online/backend/internal/buildinfo.Commit=$(COMMIT_SHA) -X github.com/dKorialstrasz/response-online/backend/internal/buildinfo.BuiltAt=$(BUILD_TIME)" -o ../build/artifacts/response-server ./cmd/server
 	$(PNPM) --dir frontend build

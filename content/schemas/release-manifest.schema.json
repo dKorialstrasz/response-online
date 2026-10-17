@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://response-online.local/schemas/release-manifest.schema.json",
+  "title": "Response Online local M1 content release descriptor",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "releaseId", "buildMode", "versions", "artifacts", "matchPinning", "publicRelease"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "releaseId": { "const": "m1-local-base-v1" },
+    "buildMode": { "const": "local-test-only" },
+    "versions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["content", "deckManifests", "effectSpec", "rules", "protocol", "engine"],
+      "properties": {
+        "content": { "const": "base-cards-v1" },
+        "deckManifests": { "const": "base-decks-v1" },
+        "effectSpec": { "const": "effect-spec-v1" },
+        "rules": { "type": "string", "minLength": 1 },
+        "protocol": { "type": "string", "minLength": 1 },
+        "engine": { "type": "string", "minLength": 1 }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "schema", "canonicalSha256"],
+        "properties": {
+          "path": { "type": "string", "pattern": "^content/" },
+          "schema": { "type": "string", "pattern": "^content/schemas/" },
+          "canonicalSha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "matchPinning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "versionFields", "consumerIssue"],
+      "properties": {
+        "required": { "const": true },
+        "versionFields": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": { "enum": ["content", "deckManifests", "effectSpec", "rules", "protocol", "engine"] }
+        },
+        "consumerIssue": { "const": "#10" }
+      }
+    },
+    "publicRelease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed", "blockers"],
+      "properties": {
+        "allowed": { "const": false },
+        "blockers": {
+          "type": "array",
+          "minItems": 3,
+          "uniqueItems": true,
+          "items": { "enum": ["rights-unknown", "public-deployment-out-of-scope", "gamepix-out-of-scope"] }
+        }
+      }
+    }
+  }
+}

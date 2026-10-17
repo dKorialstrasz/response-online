@@ -13,7 +13,7 @@ search_regex() {
   else
     local pattern="$1"
     shift
-    grep -nE "$pattern" "$@"
+    grep -RnE "$pattern" "$@"
   fi
 }
 
@@ -31,6 +31,7 @@ required_files=(
   CONTRIBUTING.md
   docs/requirements/milestone-1.md
   docs/requirements/milestone-1-roadmap.md
+  docs/requirements/milestone-1-content-release.md
   docs/decisions/m1-product-decisions.md
   docs/adr/0001-in-memory-match-state.md
   docs/adr/0002-modular-monolith-boundaries.md

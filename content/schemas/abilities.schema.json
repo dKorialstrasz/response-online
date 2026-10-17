@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://response-online.local/schemas/abilities.schema.json",
+  "title": "Response Online M1 abilities and EffectSpec state",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "contentVersion", "effectSpecVersion", "abilities"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "contentVersion": { "const": "base-cards-v1" },
+    "effectSpecVersion": { "const": "effect-spec-v1" },
+    "abilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/ability" }
+    }
+  },
+  "$defs": {
+    "effectSpec": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "trackingIssue", "reason"],
+          "properties": {
+            "status": { "const": "deferred" },
+            "trackingIssue": { "const": "#12" },
+            "reason": { "type": "string", "minLength": 1 }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["status", "operations"],
+          "properties": {
+            "status": { "const": "implemented" },
+            "operations": { "type": "array", "minItems": 1 }
+          }
+        }
+      ]
+    },
+    "ability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "abilityId",
+        "cardId",
+        "faceId",
+        "exactTextSha256",
+        "source",
+        "effectSpec",
+        "ambiguityReview",
+        "conformanceScenarioIds"
+      ],
+      "properties": {
+        "abilityId": { "type": "string", "minLength": 1 },
+        "cardId": { "type": "string", "pattern": "^baz-[0-9]{3}$" },
+        "faceId": { "type": "string", "minLength": 1 },
+        "exactTextSha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["evidenceId", "fieldPath"],
+          "properties": {
+            "evidenceId": { "type": "string", "minLength": 1 },
+            "fieldPath": { "type": "string", "minLength": 1 }
+          }
+        },
+        "effectSpec": { "$ref": "#/$defs/effectSpec" },
+        "ambiguityReview": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "identifiedAmbiguities", "ownerDecisionRefs"],
+          "properties": {
+            "status": { "enum": ["none-recorded", "resolved", "blocked"] },
+            "identifiedAmbiguities": { "type": "array", "items": { "type": "string" } },
+            "ownerDecisionRefs": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "conformanceScenarioIds": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true }
+      }
+    }
+  }
+}

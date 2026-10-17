@@ -55,7 +55,7 @@ with open(sys.argv[1], encoding="utf-8") as source:
     payload = json.load(source)
 if payload.get("rulesVersion") != "unverified":
     raise SystemExit("scaffold must not claim verified rules")
-if payload.get("contentVersion") != "base-decks-v1":
+if payload.get("contentVersion") != "base-cards-v1":
     raise SystemExit("unexpected content version")
 PY
 

@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://response-online.local/schemas/deck-manifest.schema.json",
+  "title": "Response Online fixed M1 deck manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "locale",
+    "setCode",
+    "contentVersion",
+    "reviewStatus",
+    "reviewedBy",
+    "reviewedAt",
+    "deckId",
+    "displayName",
+    "factionName",
+    "source",
+    "hero",
+    "orders",
+    "main"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "locale": { "const": "ru-RU" },
+    "setCode": { "const": "БАЗ" },
+    "contentVersion": { "const": "base-decks-v1" },
+    "reviewStatus": { "const": "approved" },
+    "reviewedBy": { "const": "dKorialstrasz" },
+    "reviewedAt": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+    "deckId": { "type": "string", "pattern": "^[a-z]+-[a-z]+$" },
+    "displayName": { "type": "string", "minLength": 1 },
+    "factionName": { "type": "string", "minLength": 1 },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["url", "checkedAt", "sha256"],
+      "properties": {
+        "url": { "type": "string", "pattern": "^https://response-game\\.ru/" },
+        "checkedAt": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "hero": { "$ref": "#/$defs/card" },
+    "orders": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": { "$ref": "#/$defs/card" }
+    },
+    "main": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/card" }
+    }
+  },
+  "$defs": {
+    "card": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["definitionId", "name", "printedNumber", "category", "count"],
+      "properties": {
+        "definitionId": { "type": "string", "pattern": "^baz-[0-9]{3}$" },
+        "name": { "type": "string", "minLength": 1 },
+        "sourceName": { "type": "string", "minLength": 1 },
+        "printedNumber": { "type": "integer", "minimum": 1, "maximum": 132 },
+        "category": { "enum": ["hero", "order", "unit", "spell", "upgrade"] },
+        "count": { "type": "integer", "minimum": 1 }
+      }
+    }
+  }
+}

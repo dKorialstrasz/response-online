@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "releaseId": "m1-local-base-v1",
+  "buildMode": "local-test-only",
+  "versions": {
+    "content": "base-cards-v1",
+    "deckManifests": "base-decks-v1",
+    "effectSpec": "effect-spec-v1",
+    "rules": "unverified",
+    "protocol": "scaffold-v1",
+    "engine": "scaffold-v1"
+  },
+  "artifacts": [
+    {
+      "path": "content/abilities/base-abilities.json",
+      "schema": "content/schemas/abilities.schema.json",
+      "canonicalSha256": "2f908be1d89059f1dd925a6c1d9f3c54aed76c0b9205449741fe0f1375152eec"
+    },
+    {
+      "path": "content/cards/base/card-definitions.json",
+      "schema": "content/schemas/card-definitions.schema.json",
+      "canonicalSha256": "46029035045512ed6beb47b1352372b501ef1c1acc1f3dc4d0b4a92a65e878b2"
+    },
+    {
+      "path": "content/decks/base/chaos-enitokl.json",
+      "schema": "content/schemas/deck-manifest.schema.json",
+      "canonicalSha256": "7eacf2958cd337f6d2f1dcf80190f3ccf8bc50ab21d3a6271e86084e1f435e02"
+    },
+    {
+      "path": "content/decks/base/death-kassiy.json",
+      "schema": "content/schemas/deck-manifest.schema.json",
+      "canonicalSha256": "2b58501026e7dd65fb12612f275d43fb75737e8c936a7d711221d6e138dc5512"
+    },
+    {
+      "path": "content/decks/base/life-katarina.json",
+      "schema": "content/schemas/deck-manifest.schema.json",
+      "canonicalSha256": "d5eacb483e836430990d0f7a11e5b99901098a7098372b71c40da588a25f4baa"
+    },
+    {
+      "path": "content/decks/base/nature-medana.json",
+      "schema": "content/schemas/deck-manifest.schema.json",
+      "canonicalSha256": "016e088df4ba118ced90a8f5a638e058287292ecbdfe1e7c23eb578735ef9797"
+    },
+    {
+      "path": "content/decks/base/order-bjorn.json",
+      "schema": "content/schemas/deck-manifest.schema.json",
+      "canonicalSha256": "947c5557ad928e5fc40b72f6d29d9fb34df34998395002fb3dce7401fe1f8dad"
+    },
+    {
+      "path": "content/decks/base/technology-dari.json",
+      "schema": "content/schemas/deck-manifest.schema.json",
+      "canonicalSha256": "bfd09ee183dad95156894915fe483f79b412aed0c4e3164b5a30d057c7065c44"
+    },
+    {
+      "path": "content/evidence/base-gallery-evidence.json",
+      "schema": "content/schemas/gallery-evidence.schema.json",
+      "canonicalSha256": "1c4bb1844b8c48e65227ab4b45b245d618bdc91a326b458ecab76edf32fbfe3c"
+    },
+    {
+      "path": "content/licenses/registry.json",
+      "schema": "content/schemas/license-registry.schema.json",
+      "canonicalSha256": "b3a849c830b76c8caf459553138a17fd18a29c6da56765a4dcbcfa259c58df84"
+    }
+  ],
+  "matchPinning": {
+    "required": true,
+    "versionFields": ["content", "deckManifests", "effectSpec", "rules", "protocol", "engine"],
+    "consumerIssue": "#10"
+  },
+  "publicRelease": {
+    "allowed": false,
+    "blockers": ["rights-unknown", "public-deployment-out-of-scope", "gamepix-out-of-scope"]
+  }
+}
