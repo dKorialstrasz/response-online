@@ -24,11 +24,12 @@ rules, protocol и engine. Новый матч в #10 обязан копиро�
 ошибке схемы, ссылок, количества, verification, hash или rights policy. Обычный
 `make build` зависит от этого gate и не может обойти его.
 
-`make m1-release-check` — строгий финальный gate локального M1. Пока 126
-EffectSpec имеют статус `deferred`, а rules/protocol/engine остаются
-`unverified`/`scaffold-v1`, команда обязана завершаться ошибкой. Это ожидаемое
-состояние до #10–#12, а не дефект валидатора. После реализации gameplay этот gate
-должен стать зелёным до #22.
+`make m1-release-check` — строгий финальный gate локального M1. После #10
+базовые rules/engine закреплены как `response-rules-2026-10-17` и
+`deterministic-core-v1`. Gate всё ещё обязан завершаться ошибкой: 126 EffectSpec
+имеют статус `deferred`, а protocol остаётся `scaffold-v1`. Это ожидаемое
+состояние до #11/#12/#14, а не дефект валидатора. После реализации gameplay этот
+gate должен стать зелёным до #22.
 
 ## Права и публикация
 

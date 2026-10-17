@@ -53,10 +53,12 @@ import sys
 
 with open(sys.argv[1], encoding="utf-8") as source:
     payload = json.load(source)
-if payload.get("rulesVersion") != "unverified":
-    raise SystemExit("scaffold must not claim verified rules")
+if payload.get("rulesVersion") != "response-rules-2026-10-17":
+    raise SystemExit("unexpected core rules version")
 if payload.get("contentVersion") != "base-cards-v1":
     raise SystemExit("unexpected content version")
+if payload.get("engineVersion") != "deterministic-core-v1":
+    raise SystemExit("unexpected deterministic engine version")
 PY
 
 echo 'Local backend smoke test passed.'

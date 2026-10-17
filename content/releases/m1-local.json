@@ -6,9 +6,9 @@
     "content": "base-cards-v1",
     "deckManifests": "base-decks-v1",
     "effectSpec": "effect-spec-v1",
-    "rules": "unverified",
+    "rules": "response-rules-2026-10-17",
     "protocol": "scaffold-v1",
-    "engine": "scaffold-v1"
+    "engine": "deterministic-core-v1"
   },
   "artifacts": [
     {

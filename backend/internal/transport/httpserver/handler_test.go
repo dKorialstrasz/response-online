@@ -23,7 +23,7 @@ func TestHealth(t *testing.T) {
 	}
 }
 
-func TestBuildInfoDoesNotClaimVerifiedRules(t *testing.T) {
+func TestBuildInfoPinsCoreRulesAndEngine(t *testing.T) {
 	request := httptest.NewRequest(http.MethodGet, "/api/v1/build", nil)
 	response := httptest.NewRecorder()
 
@@ -33,10 +33,13 @@ func TestBuildInfoDoesNotClaimVerifiedRules(t *testing.T) {
 	if err := json.NewDecoder(response.Body).Decode(&info); err != nil {
 		t.Fatalf("decode response: %v", err)
 	}
-	if info.RulesVersion != "unverified" {
-		t.Fatalf("rulesVersion = %q, want unverified", info.RulesVersion)
+	if info.RulesVersion != "response-rules-2026-10-17" {
+		t.Fatalf("rulesVersion = %q", info.RulesVersion)
 	}
 	if info.ContentVersion != "base-cards-v1" {
 		t.Fatalf("contentVersion = %q", info.ContentVersion)
+	}
+	if info.EngineVersion != "deterministic-core-v1" {
+		t.Fatalf("engineVersion = %q", info.EngineVersion)
 	}
 }
