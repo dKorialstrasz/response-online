@@ -1,0 +1,34 @@
+package buildinfo
+
+// These values are replaced by linker flags for immutable build artifacts.
+var (
+	Commit  = "development"
+	BuiltAt = "unknown"
+)
+
+const (
+	ProtocolVersion = "scaffold-v1"
+	ContentVersion  = "base-decks-v1"
+	RulesVersion    = "unverified"
+	EngineVersion   = "scaffold-v1"
+)
+
+type Info struct {
+	Commit          string `json:"commit"`
+	BuiltAt         string `json:"builtAt"`
+	ProtocolVersion string `json:"protocolVersion"`
+	ContentVersion  string `json:"contentVersion"`
+	RulesVersion    string `json:"rulesVersion"`
+	EngineVersion   string `json:"engineVersion"`
+}
+
+func Current() Info {
+	return Info{
+		Commit:          Commit,
+		BuiltAt:         BuiltAt,
+		ProtocolVersion: ProtocolVersion,
+		ContentVersion:  ContentVersion,
+		RulesVersion:    RulesVersion,
+		EngineVersion:   EngineVersion,
+	}
+}

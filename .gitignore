@@ -1,0 +1,12 @@
+backend/response-server
+frontend/dist/
+frontend/node_modules/
+*.tsbuildinfo
+build/artifacts/
+build/build-manifest.json
+coverage/
+*.log
+.env
+.env.*
+!.env.example
+

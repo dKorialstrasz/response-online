@@ -1,0 +1,102 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "Response Online local M1 API",
+    "version": "scaffold-v1",
+    "description": "Implemented diagnostic surface for the local-only M1 scaffold."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8080",
+      "description": "Local development only"
+    }
+  ],
+  "paths": {
+    "/healthz": {
+      "get": {
+        "operationId": "getHealth",
+        "responses": {
+          "200": {
+            "description": "Process is alive",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/readyz": {
+      "get": {
+        "operationId": "getReadiness",
+        "responses": {
+          "200": {
+            "description": "Process can accept local requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/build": {
+      "get": {
+        "operationId": "getBuildInfo",
+        "responses": {
+          "200": {
+            "description": "Immutable build identity and explicit verification status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BuildInfo"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Status": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["status"],
+        "properties": {
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "BuildInfo": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "commit",
+          "builtAt",
+          "protocolVersion",
+          "contentVersion",
+          "rulesVersion",
+          "engineVersion"
+        ],
+        "properties": {
+          "commit": { "type": "string" },
+          "builtAt": { "type": "string" },
+          "protocolVersion": { "type": "string" },
+          "contentVersion": { "type": "string" },
+          "rulesVersion": { "type": "string" },
+          "engineVersion": { "type": "string" }
+        }
+      }
+    }
+  }
+}
+

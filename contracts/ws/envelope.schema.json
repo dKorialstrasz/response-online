@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://response-online.local/contracts/ws/envelope.schema.json",
+  "title": "Response Online WebSocket envelope",
+  "description": "Transport-only scaffold. Gameplay message types are intentionally not defined by Issue #8.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["protocolVersion", "messageType", "correlationId", "payload"],
+  "properties": {
+    "protocolVersion": {
+      "const": "scaffold-v1"
+    },
+    "messageType": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9_]*)+$"
+    },
+    "correlationId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "matchId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "payload": {
+      "type": "object"
+    }
+  }
+}
+
