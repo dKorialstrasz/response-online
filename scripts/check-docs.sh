@@ -33,6 +33,11 @@ required_files=(
   docs/requirements/milestone-1-roadmap.md
   docs/decisions/m1-product-decisions.md
   docs/adr/0001-in-memory-match-state.md
+  docs/adr/0002-modular-monolith-boundaries.md
+  docs/adr/0003-serialized-match-execution.md
+  docs/adr/0004-protocol-and-player-views.md
+  docs/adr/README.md
+  docs/runbooks/local-development.md
 )
 
 for required_file in "${required_files[@]}"; do
@@ -50,5 +55,6 @@ contains_text 'GamePix полностью исключён из M1' docs/decisio
 contains_text 'только на русском языке' docs/decisions/m1-product-decisions.md
 
 python3 scripts/validate_decks.py
+python3 scripts/validate_contracts.py
 
 echo 'Docs checks passed.'

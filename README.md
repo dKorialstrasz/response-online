@@ -11,5 +11,26 @@
 - [Журнал продуктовых решений M1](docs/decisions/m1-product-decisions.md)
 - [ADR-0001: in-memory состояние матчей M1](docs/adr/0001-in-memory-match-state.md)
 - [Правила участия и traceability](CONTRIBUTING.md)
+- [Архитектурные решения](docs/adr/README.md)
+- [Локальная разработка](docs/runbooks/local-development.md)
 
 Спецификация содержит обязательные критерии приёмки, реестр подтверждённых данных и открытые зависимости. Наличие документа не означает готовности игры или разрешения на публичное использование материалов правообладателя.
+
+## Локальный scaffold
+
+Требуются Go 1.22.2, Node.js 24 и pnpm 11.25.0.
+
+```bash
+make bootstrap
+make check
+make dev-backend
+```
+
+В другом терминале:
+
+```bash
+make dev-frontend
+```
+
+Клиент доступен на `http://127.0.0.1:5173`. Scaffold не реализует игровые правила
+и явно показывает их статус `unverified`.
