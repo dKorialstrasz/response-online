@@ -186,6 +186,22 @@ def validate_payloads(payloads: dict[str, Any], require_owner_review: bool = Fal
             add(errors, item.get("snapshotSha256") == snapshot_hash, f"{evidence_prefix}: snapshot hash mismatch")
             add(errors, item.get("verificationStatus") == "source-matched", f"{evidence_prefix}: source not matched")
             add(errors, item.get("transferMethod") == "official-json-api-no-ocr", f"{evidence_prefix}: invalid transfer method")
+            add(
+                errors,
+                item.get("ownerReviewStatus") == owner_status,
+                f"{evidence_prefix}: owner review status mismatch",
+            )
+
+        expected_verification = (
+            "source-matched-owner-approved"
+            if owner_status == "approved"
+            else "source-matched-pending-owner-review"
+        )
+        add(
+            errors,
+            card.get("verificationStatus") == expected_verification,
+            f"{prefix}.verificationStatus: owner review mismatch",
+        )
 
         faces = card.get("faces") or []
         add(errors, bool(faces), f"{prefix}.faces: at least one face required")

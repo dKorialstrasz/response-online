@@ -19,8 +19,10 @@
     "performedAt": "2026-10-17"
   },
   "ownerVerification": {
-    "status": "pending",
+    "status": "approved",
     "reviewer": "dKorialstrasz",
-    "reviewedAt": null
+    "reviewedAt": "2026-10-17",
+    "decision": "accepted-card-content-and-authorized-merge",
+    "decisionSource": "ChatGPT project conversation"
   }
 }

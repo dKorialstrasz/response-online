@@ -97,6 +97,7 @@ def evidence_entry(
     field_paths: list[str],
     catalog_version: str,
     snapshot_sha256: str,
+    owner_review_status: str,
 ) -> dict[str, Any]:
     return {
         "evidenceId": EVIDENCE_ID,
@@ -110,7 +111,7 @@ def evidence_entry(
         "transferredBy": "ChatGPT",
         "transferMethod": "official-json-api-no-ocr",
         "verificationStatus": "source-matched",
-        "ownerReviewStatus": "pending",
+        "ownerReviewStatus": owner_review_status,
     }
 
 
@@ -177,7 +178,12 @@ def build_artifacts(
     all_cards: list[dict[str, Any]],
     meta: dict[str, Any],
     deck_paths: list[Path],
+    owner_reviewed_by: str | None = None,
+    owner_reviewed_at: str | None = None,
 ) -> dict[str, Any]:
+    if bool(owner_reviewed_by) != bool(owner_reviewed_at):
+        raise ValueError("owner reviewer and review date must be supplied together")
+    owner_review_status = "approved" if owner_reviewed_by else "pending"
     selected: list[tuple[int, dict[str, Any], dict[str, Any]]] = []
     for card in all_cards:
         printing = base_printing(card)
@@ -345,11 +351,24 @@ def build_artifacts(
             "effectSpecVersion": "effect-spec-v1",
             "imageAssetIds": asset_ids,
             "transitiveRefs": [],
-            "verificationStatus": "source-matched-pending-owner-review",
+            "verificationStatus": (
+                "source-matched-owner-approved"
+                if owner_review_status == "approved"
+                else "source-matched-pending-owner-review"
+            ),
             "evidence": [
-                evidence_entry(source["id"], identity_paths, meta["catalogVersion"], snapshot_sha256),
-                evidence_entry(source["id"], rules_paths, meta["catalogVersion"], snapshot_sha256),
-                evidence_entry(source["id"], media_paths, meta["catalogVersion"], snapshot_sha256),
+                evidence_entry(
+                    source["id"], identity_paths, meta["catalogVersion"], snapshot_sha256,
+                    owner_review_status,
+                ),
+                evidence_entry(
+                    source["id"], rules_paths, meta["catalogVersion"], snapshot_sha256,
+                    owner_review_status,
+                ),
+                evidence_entry(
+                    source["id"], media_paths, meta["catalogVersion"], snapshot_sha256,
+                    owner_review_status,
+                ),
             ],
         }
         definitions.append(definition)
@@ -391,9 +410,19 @@ def build_artifacts(
                 "performedAt": CHECKED_AT,
             },
             "ownerVerification": {
-                "status": "pending",
-                "reviewer": "dKorialstrasz",
-                "reviewedAt": None,
+                "status": owner_review_status,
+                "reviewer": owner_reviewed_by or "dKorialstrasz",
+                "reviewedAt": owner_reviewed_at,
+                "decision": (
+                    "accepted-card-content-and-authorized-merge"
+                    if owner_review_status == "approved"
+                    else "pending"
+                ),
+                "decisionSource": (
+                    "ChatGPT project conversation"
+                    if owner_review_status == "approved"
+                    else None
+                ),
             },
         },
         "definitions": {
@@ -402,7 +431,9 @@ def build_artifacts(
             "locale": LOCALE,
             "setCode": SET_CODE,
             "evidenceId": EVIDENCE_ID,
-            "reviewStatus": "pending-owner-review",
+            "reviewStatus": (
+                "approved" if owner_review_status == "approved" else "pending-owner-review"
+            ),
             "definitions": definitions,
         },
         "abilities": {
@@ -448,12 +479,20 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("pages", nargs="+", type=Path)
     parser.add_argument("--repo-root", type=Path, default=Path(__file__).resolve().parents[1])
+    parser.add_argument("--owner-reviewed-by")
+    parser.add_argument("--owner-reviewed-at")
     args = parser.parse_args()
 
     repo_root = args.repo_root.resolve()
     cards, meta = load_catalog(args.pages)
     deck_paths = sorted((repo_root / "content/decks/base").glob("*.json"))
-    artifacts = build_artifacts(cards, meta, deck_paths)
+    artifacts = build_artifacts(
+        cards,
+        meta,
+        deck_paths,
+        owner_reviewed_by=args.owner_reviewed_by,
+        owner_reviewed_at=args.owner_reviewed_at,
+    )
 
     outputs = {
         "content/evidence/base-gallery-snapshot.json": artifacts["snapshot"],

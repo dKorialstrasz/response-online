@@ -5,8 +5,8 @@
   "contentVersion": "base-cards-v1",
   "catalogVersion": "6aa6a9a1fe7984148c7209427fb125053d190b2f1671149f9dc83bace02f0d35",
   "status": "pass",
-  "ownerVerificationStatus": "pending",
-  "strictAcceptanceStatus": "pending-owner-review",
+  "ownerVerificationStatus": "approved",
+  "strictAcceptanceStatus": "pass",
   "counts": {
     "definitions": 132,
     "abilities": 126,
@@ -18,7 +18,5 @@
     "nameDiscrepancies": 5
   },
   "errors": [],
-  "strictAcceptanceBlockers": [
-    "owner verification is still pending"
-  ]
+  "strictAcceptanceBlockers": []
 }

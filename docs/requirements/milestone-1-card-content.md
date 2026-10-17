@@ -70,16 +70,15 @@ manifest — точное написание product page; варианты не
 
 ```bash
 python3 scripts/validate_card_definitions.py \
+  --require-owner-reviewed \
   --check-report content/reports/base-card-validation.json
 python3 -m unittest discover -s tests/content -p 'test_*.py'
 ```
 
-Структурная проверка проходит. Отдельный owner verification pass намеренно
-остаётся `pending`: исполнитель не выдаёт self-check за проверку владельца.
-После явной приёмки владелец переводит evidence и определения в `approved`,
-добавляет дату проверки и запускает строгий режим
-`--require-owner-reviewed`. До этого issue и Project status не переводятся в
-`Done`, даже если обычный CI зелёный.
+Структурная и строгая проверки проходят. 17 октября 2026 года владелец проекта
+явно принял карточный контент и разрешил merge. Evidence и определения имеют
+статус `approved`; строгий режим `--require-owner-reviewed` обязателен в CI и
+не позволяет вернуть карточный контент в состояние без owner verification.
 
 Публичное развёртывание, передача сборки и утверждение прав запрещены независимо
 от статуса локальной проверки. Эти ворота остаются в #7 и не входят в M1.

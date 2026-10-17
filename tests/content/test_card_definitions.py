@@ -24,9 +24,27 @@ class CardDefinitionValidationTest(unittest.TestCase):
         self.assertEqual([], VALIDATOR.validate_payloads(copy.deepcopy(self.payloads)))
 
     def test_owner_review_is_an_explicit_acceptance_gate(self) -> None:
-        errors = VALIDATOR.validate_payloads(
-            copy.deepcopy(self.payloads), require_owner_review=True
+        self.assertEqual(
+            [],
+            VALIDATOR.validate_payloads(
+                copy.deepcopy(self.payloads), require_owner_review=True
+            ),
         )
+
+        payloads = copy.deepcopy(self.payloads)
+        payloads["evidence"]["ownerVerification"] = {
+            "status": "pending",
+            "reviewer": "dKorialstrasz",
+            "reviewedAt": None,
+            "decision": "pending",
+            "decisionSource": None,
+        }
+        payloads["definitions"]["reviewStatus"] = "pending-owner-review"
+        for card in payloads["definitions"]["definitions"]:
+            card["verificationStatus"] = "source-matched-pending-owner-review"
+            for evidence in card["evidence"]:
+                evidence["ownerReviewStatus"] = "pending"
+        errors = VALIDATOR.validate_payloads(payloads, require_owner_review=True)
         self.assertIn("owner verification is still pending", errors)
 
     def test_missing_ability_scenario_is_rejected(self) -> None:

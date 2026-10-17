@@ -48,7 +48,7 @@ contracts:
 
 content:
 	$(PYTHON) scripts/validate_decks.py --require-reviewed
-	$(PYTHON) scripts/validate_card_definitions.py --check-report content/reports/base-card-validation.json
+	$(PYTHON) scripts/validate_card_definitions.py --require-owner-reviewed --check-report content/reports/base-card-validation.json
 
 docs:
 	bash scripts/check-docs.sh
