@@ -6,7 +6,7 @@ PYTHON ?= python3
 COMMIT_SHA ?= $(shell git rev-parse --verify HEAD)
 BUILD_TIME ?= unknown
 
-.PHONY: bootstrap dev-backend dev-frontend format check-format lint test test-race typecheck contracts content docs secrets dependencies smoke check-go check-frontend check-data check build manifest clean
+.PHONY: bootstrap dev-backend dev-frontend format check-format lint test test-content test-race typecheck contracts content docs secrets dependencies smoke check-go check-frontend check-data check build manifest clean
 
 bootstrap:
 	$(PNPM) --dir frontend install --frozen-lockfile
@@ -32,6 +32,10 @@ lint:
 test:
 	cd backend && $(GO) test ./...
 	$(PNPM) --dir frontend test
+	$(PYTHON) -m unittest discover -s tests/content -p 'test_*.py'
+
+test-content:
+	$(PYTHON) -m unittest discover -s tests/content -p 'test_*.py'
 
 test-race:
 	cd backend && $(GO) test -race ./...
@@ -44,6 +48,7 @@ contracts:
 
 content:
 	$(PYTHON) scripts/validate_decks.py --require-reviewed
+	$(PYTHON) scripts/validate_card_definitions.py --require-owner-reviewed --check-report content/reports/base-card-validation.json
 
 docs:
 	bash scripts/check-docs.sh

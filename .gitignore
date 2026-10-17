@@ -6,6 +6,8 @@ build/artifacts/
 build/build-manifest.json
 coverage/
 *.log
+__pycache__/
+*.pyc
 .env
 .env.*
 !.env.example

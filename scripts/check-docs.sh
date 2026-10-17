@@ -55,6 +55,7 @@ contains_text 'GamePix полностью исключён из M1' docs/decisio
 contains_text 'только на русском языке' docs/decisions/m1-product-decisions.md
 
 python3 scripts/validate_decks.py
+python3 scripts/validate_card_definitions.py --require-owner-reviewed --check-report content/reports/base-card-validation.json
 python3 scripts/validate_contracts.py
 
 echo 'Docs checks passed.'

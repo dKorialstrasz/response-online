@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "decisionRef": "OQ-07",
+  "items": [
+    {
+      "cardId": "baz-029",
+      "productPageName": "Копающий Зомби",
+      "galleryName": "Копающий зомби",
+      "resolution": "preserve-both-source-spellings",
+      "ownerDecisionRef": "OQ-07",
+      "displayCanonicalSource": "https://response-game.ru/spoiler"
+    },
+    {
+      "cardId": "baz-030",
+      "productPageName": "Неудержимый Дух",
+      "galleryName": "Неудержимый дух",
+      "resolution": "preserve-both-source-spellings",
+      "ownerDecisionRef": "OQ-07",
+      "displayCanonicalSource": "https://response-game.ru/spoiler"
+    },
+    {
+      "cardId": "baz-031",
+      "productPageName": "Заблудшая душа",
+      "galleryName": "Заблудшая Душа",
+      "resolution": "preserve-both-source-spellings",
+      "ownerDecisionRef": "OQ-07",
+      "displayCanonicalSource": "https://response-game.ru/spoiler"
+    },
+    {
+      "cardId": "baz-054",
+      "productPageName": "Медитирующий демон",
+      "galleryName": "Медитирующий Демон",
+      "resolution": "preserve-both-source-spellings",
+      "ownerDecisionRef": "OQ-07",
+      "displayCanonicalSource": "https://response-game.ru/spoiler"
+    },
+    {
+      "cardId": "baz-120",
+      "productPageName": "Адепт Регламента",
+      "galleryName": "Адепт регламента",
+      "resolution": "preserve-both-source-spellings",
+      "ownerDecisionRef": "OQ-07",
+      "displayCanonicalSource": "https://response-game.ru/spoiler"
+    }
+  ]
+}

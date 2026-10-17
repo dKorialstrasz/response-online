@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "reportId": "base-card-closure-2026-10-17",
+  "validatedAt": "2026-10-17",
+  "contentVersion": "base-cards-v1",
+  "catalogVersion": "6aa6a9a1fe7984148c7209427fb125053d190b2f1671149f9dc83bace02f0d35",
+  "status": "pass",
+  "ownerVerificationStatus": "approved",
+  "strictAcceptanceStatus": "pass",
+  "counts": {
+    "definitions": 132,
+    "abilities": 126,
+    "conformanceScenarios": 126,
+    "clarifications": 20,
+    "imageReferences": 132,
+    "deckRoots": 6,
+    "transitiveObjects": 0,
+    "nameDiscrepancies": 5
+  },
+  "errors": [],
+  "strictAcceptanceBlockers": []
+}
