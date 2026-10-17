@@ -34,5 +34,5 @@ make dev-frontend
 ```
 
 Клиент доступен на `http://127.0.0.1:5173`. Scaffold не реализует игровые правила.
-Карточные определения source-matched, но их owner verification остаётся
-отдельным review gate; effectSpec и игровые conformance-тесты реализуются в #12.
+Карточные определения source-matched и приняты владельцем; строгий owner-review
+gate проверяется в CI. EffectSpec и игровые conformance-тесты реализуются в #12.
