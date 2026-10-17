@@ -5,8 +5,10 @@
 [«Правила»](https://response-game.ru/rules), сверенная 17.10.2026. У страницы нет
 публичного номера редакции; используемый pin — `response-rules-2026-10-17`.
 
-Матрица не закрывает EffectSpec и карточные неоднозначности #11/#12. По OQ-02
-они остаются blocked до отдельного решения владельца; универсальные ответы и
+Матрица #10 не закрывает EffectSpec и карточные неоднозначности. Общий pipeline
+очереди/choices/modifiers реализован в #11 и вынесен в
+[`milestone-1-effect-matrix.md`](milestone-1-effect-matrix.md); конкретные
+способности и спорные rulings остаются #12. По OQ-02 универсальные ответы и
 механики других ККИ не добавляются.
 
 | Requirement | Норма/инвариант | Реализация | Проверка | Результат #10 |
@@ -27,7 +29,10 @@
 ## Golden evidence
 
 - Setup + полная пересдача Seat A + нулевая пересдача Seat B при seed `42`:
-  `f7ebf0fdfae4ee50bdb16de00aca6f7e1e2f43fa337fb2dd3e051ef5ba1429c9`.
+  `f7ebf0fdfae4ee50bdb16de00aca6f7e1e2f43fa337fb2dd3e051ef5ba1429c9`
+  для исторического pin `deterministic-core-v1`; после добавления сериализуемого
+  effect state в #11 текущий pin `effect-pipeline-v1` имеет hash
+  `3a390ad4affd4ae802ba39cd1ace26996d29cfbdfc1f3927ae969de64526995c`.
 - Replay проверяет тот же RNG cursor и canonical state hash.
 - Race-test `MatchSession` допускает ровно одну команду на ожидаемой revision;
   конкурент получает `ErrStaleRevision` без второй мутации.
@@ -36,8 +41,9 @@
 
 ## Открытые ворота
 
-- #11: play/activation pipeline, очередь, триггеры, pending choices, targets и
-  payment semantics.
+- #11: общий play/activation pipeline, очередь, триггеры, pending choices,
+  targets и payment semantics реализованы; карточные записи не считаются
+  исполняемыми без #12.
 - #12: все verified abilityId и keyword/conformance scenarios шести колод.
 - #14: публичные protocol commands и персональные PlayerView; внутренний
   `commit_action` не экспортируется клиенту.

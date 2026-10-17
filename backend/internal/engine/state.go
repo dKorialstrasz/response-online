@@ -21,7 +21,35 @@ func (state State) Clone() State {
 		for optionIndex, option := range choice.Options {
 			clone.PendingChoices[index].Options[optionIndex] = option
 			clone.PendingChoices[index].Options[optionIndex].Objects = append([]ObjectRef(nil), option.Objects...)
+			clone.PendingChoices[index].Options[optionIndex].Effects = cloneResolvedEffects(option.Effects)
 		}
+	}
+	clone.EffectQueue = make([]EffectQueueEntry, len(state.EffectQueue))
+	for index, entry := range state.EffectQueue {
+		clone.EffectQueue[index] = entry
+		clone.EffectQueue[index].Effect = cloneResolvedEffect(entry.Effect)
+	}
+	clone.Modifiers = make([]ModifierState, len(state.Modifiers))
+	for index, modifier := range state.Modifiers {
+		clone.Modifiers[index] = modifier
+		clone.Modifiers[index].SourceRef = cloneObjectRef(modifier.SourceRef)
+	}
+	clone.DelayedTriggers = make([]DelayedTriggerState, len(state.DelayedTriggers))
+	for index, trigger := range state.DelayedTriggers {
+		clone.DelayedTriggers[index] = trigger
+		clone.DelayedTriggers[index].SourceRef = cloneObjectRef(trigger.SourceRef)
+		clone.DelayedTriggers[index].Effects = cloneResolvedEffects(trigger.Effects)
+	}
+	clone.Replacements = make([]ReplacementState, len(state.Replacements))
+	for index, replacement := range state.Replacements {
+		clone.Replacements[index] = replacement
+		clone.Replacements[index].SourceRef = cloneObjectRef(replacement.SourceRef)
+		clone.Replacements[index].TargetRef = cloneObjectRef(replacement.TargetRef)
+		clone.Replacements[index].Effects = cloneResolvedEffects(replacement.Effects)
+	}
+	if state.ActionResolution != nil {
+		resolution := *state.ActionResolution
+		clone.ActionResolution = &resolution
 	}
 	if state.Result != nil {
 		result := *state.Result
@@ -48,6 +76,11 @@ func (state State) Clone() State {
 		clone.Commands[index] = record
 		clone.Commands[index].Command.OrderIDs = append([]string(nil), record.Command.OrderIDs...)
 		clone.Commands[index].Command.ObjectRefs = append([]ObjectRef(nil), record.Command.ObjectRefs...)
+		clone.Commands[index].Command.SourceRef = cloneObjectRef(record.Command.SourceRef)
+		clone.Commands[index].Command.ModeIDs = append([]string(nil), record.Command.ModeIDs...)
+		clone.Commands[index].Command.TargetRefs = append([]ObjectRef(nil), record.Command.TargetRefs...)
+		clone.Commands[index].Command.PaymentRefs = append([]ObjectRef(nil), record.Command.PaymentRefs...)
+		clone.Commands[index].Command.OptionIDs = append([]string(nil), record.Command.OptionIDs...)
 	}
 	clone.DiagnosticTrace = append([]string(nil), state.DiagnosticTrace...)
 	return clone
@@ -161,4 +194,8 @@ func (state *State) finish(reason ResultReason, winner *Seat, loser *Seat, detai
 	state.CombatStep = CombatNone
 	state.CombatLane = -1
 	state.PendingChoices = nil
+	state.EffectQueue = nil
+	state.DelayedTriggers = nil
+	state.Replacements = nil
+	state.ActionResolution = nil
 }

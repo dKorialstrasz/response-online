@@ -20,7 +20,7 @@ func TestFileMatchPinProviderLoadsApprovedReleaseAndAllowsMirrors(t *testing.T) 
 	if err != nil {
 		t.Fatalf("pin mirror match: %v", err)
 	}
-	if pins.Versions.Content != "base-cards-v1" || pins.Versions.Engine != "deterministic-core-v1" {
+	if pins.Versions.Content != "base-cards-v1" || pins.Versions.Engine != "effect-pipeline-v1" {
 		t.Fatalf("unexpected pinned versions: %#v", pins.Versions)
 	}
 	for index, deck := range pins.Decks {

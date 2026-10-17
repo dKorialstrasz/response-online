@@ -97,12 +97,13 @@ type PlayerConfig struct {
 }
 
 type Config struct {
-	MatchID          string          `json:"matchId"`
-	Versions         Versions        `json:"versions"`
-	Players          [2]PlayerConfig `json:"players"`
-	Seed             uint64          `json:"seed"`
-	StartedAt        time.Time       `json:"startedAt"`
-	InternalEventCap int             `json:"internalEventCap,omitempty"`
+	MatchID          string              `json:"matchId"`
+	Versions         Versions            `json:"versions"`
+	Players          [2]PlayerConfig     `json:"players"`
+	Seed             uint64              `json:"seed"`
+	StartedAt        time.Time           `json:"startedAt"`
+	InternalEventCap int                 `json:"internalEventCap,omitempty"`
+	Abilities        []AbilityDefinition `json:"-"`
 }
 
 type ObjectRef struct {
@@ -153,16 +154,253 @@ type PlayerState struct {
 }
 
 type ChoiceOption struct {
-	ID      string      `json:"id"`
-	Objects []ObjectRef `json:"objects,omitempty"`
+	ID      string           `json:"id"`
+	Objects []ObjectRef      `json:"objects,omitempty"`
+	Effects []ResolvedEffect `json:"effects,omitempty"`
 }
 
 type PendingChoice struct {
-	ChoiceID string         `json:"choiceId"`
-	Seat     Seat           `json:"seat"`
-	Kind     string         `json:"kind"`
-	Options  []ChoiceOption `json:"options"`
-	Revision uint64         `json:"revision"`
+	ChoiceID      string           `json:"choiceId"`
+	Seat          Seat             `json:"seat"`
+	Kind          string           `json:"kind"`
+	Mandatory     bool             `json:"mandatory"`
+	Visibility    ChoiceVisibility `json:"visibility"`
+	MinSelections int              `json:"minSelections"`
+	MaxSelections int              `json:"maxSelections"`
+	OrderMatters  bool             `json:"orderMatters"`
+	QueuePosition QueuePosition    `json:"queuePosition"`
+	Options       []ChoiceOption   `json:"options"`
+	Revision      uint64           `json:"revision"`
+}
+
+type ChoiceVisibility string
+
+const (
+	ChoicePublic    ChoiceVisibility = "public"
+	ChoiceOwnerOnly ChoiceVisibility = "owner_only"
+)
+
+type QueuePosition string
+
+const (
+	QueueBeforeExisting QueuePosition = "before_existing"
+	QueueAfterExisting  QueuePosition = "after_existing"
+)
+
+type AbilityStatus string
+
+const (
+	AbilityReady   AbilityStatus = "ready"
+	AbilityBlocked AbilityStatus = "blocked"
+)
+
+type TargetController string
+
+const (
+	TargetAny      TargetController = "any"
+	TargetSelf     TargetController = "self"
+	TargetOpponent TargetController = "opponent"
+)
+
+type DurationKind string
+
+const (
+	DurationPermanent        DurationKind = "permanent"
+	DurationUntilEndOfCombat DurationKind = "until_end_of_combat"
+	DurationUntilEndOfTurn   DurationKind = "until_end_of_turn"
+	DurationWhileSourceValid DurationKind = "while_source_valid"
+)
+
+type EffectKind string
+
+const (
+	EffectModifyPower        EffectKind = "modify_power"
+	EffectMoveZone           EffectKind = "move_zone"
+	EffectEnqueue            EffectKind = "enqueue"
+	EffectRequestChoice      EffectKind = "request_choice"
+	EffectScheduleDelayed    EffectKind = "schedule_delayed"
+	EffectInstallReplacement EffectKind = "install_replacement"
+)
+
+type PaymentDefinition struct {
+	Influence      int    `json:"influence,omitempty"`
+	SacrificeCount int    `json:"sacrificeCount,omitempty"`
+	SacrificeZones []Zone `json:"sacrificeZones,omitempty"`
+}
+
+type TargetDefinition struct {
+	Min        int              `json:"min"`
+	Max        int              `json:"max"`
+	Zones      []Zone           `json:"zones,omitempty"`
+	Controller TargetController `json:"controller"`
+}
+
+type ModeDefinition struct {
+	ID      string              `json:"id"`
+	Effects []EffectInstruction `json:"effects"`
+}
+
+type AbilityDefinition struct {
+	AbilityID              string              `json:"abilityId"`
+	Status                 AbilityStatus       `json:"status"`
+	BlockingDecisionRef    string              `json:"blockingDecisionRef,omitempty"`
+	ConformanceScenarioIDs []string            `json:"conformanceScenarioIds"`
+	SourceRequired         bool                `json:"sourceRequired"`
+	SourceZones            []Zone              `json:"sourceZones,omitempty"`
+	MinModes               int                 `json:"minModes"`
+	MaxModes               int                 `json:"maxModes"`
+	Modes                  []ModeDefinition    `json:"modes,omitempty"`
+	Targets                TargetDefinition    `json:"targets"`
+	Payment                PaymentDefinition   `json:"payment"`
+	Effects                []EffectInstruction `json:"effects"`
+	ConsumesAction         bool                `json:"consumesAction"`
+}
+
+type EffectInstruction struct {
+	Kind          EffectKind             `json:"kind"`
+	TargetIndex   int                    `json:"targetIndex,omitempty"`
+	Amount        int                    `json:"amount,omitempty"`
+	Layer         int                    `json:"layer,omitempty"`
+	Destination   Zone                   `json:"destination,omitempty"`
+	Duration      DurationKind           `json:"duration,omitempty"`
+	QueuePosition QueuePosition          `json:"queuePosition,omitempty"`
+	Effects       []EffectInstruction    `json:"effects,omitempty"`
+	Choice        *ChoiceDefinition      `json:"choice,omitempty"`
+	Trigger       *DelayedDefinition     `json:"trigger,omitempty"`
+	Replacement   *ReplacementDefinition `json:"replacement,omitempty"`
+}
+
+type ChoiceDefinition struct {
+	Kind          string                   `json:"kind"`
+	Mandatory     bool                     `json:"mandatory"`
+	Visibility    ChoiceVisibility         `json:"visibility"`
+	MinSelections int                      `json:"minSelections"`
+	MaxSelections int                      `json:"maxSelections"`
+	OrderMatters  bool                     `json:"orderMatters"`
+	QueuePosition QueuePosition            `json:"queuePosition"`
+	Options       []ChoiceOptionDefinition `json:"options"`
+}
+
+type ChoiceOptionDefinition struct {
+	ID            string              `json:"id"`
+	TargetIndexes []int               `json:"targetIndexes,omitempty"`
+	Effects       []EffectInstruction `json:"effects,omitempty"`
+}
+
+type DelayedDefinition struct {
+	EventKind string              `json:"eventKind"`
+	Once      bool                `json:"once"`
+	Duration  DurationKind        `json:"duration"`
+	Effects   []EffectInstruction `json:"effects"`
+}
+
+type ReplacementDefinition struct {
+	EffectKind EffectKind          `json:"effectKind"`
+	Once       bool                `json:"once"`
+	Duration   DurationKind        `json:"duration"`
+	Effects    []EffectInstruction `json:"effects"`
+}
+
+type ResolvedEffect struct {
+	Kind              EffectKind                     `json:"kind"`
+	Controller        Seat                           `json:"controller"`
+	SourceRef         *ObjectRef                     `json:"sourceRef,omitempty"`
+	TargetRef         *ObjectRef                     `json:"targetRef,omitempty"`
+	Amount            int                            `json:"amount,omitempty"`
+	Layer             int                            `json:"layer,omitempty"`
+	Destination       Zone                           `json:"destination,omitempty"`
+	Duration          DurationKind                   `json:"duration,omitempty"`
+	QueuePosition     QueuePosition                  `json:"queuePosition,omitempty"`
+	Effects           []ResolvedEffect               `json:"effects,omitempty"`
+	Choice            *ResolvedChoiceDefinition      `json:"choice,omitempty"`
+	Trigger           *ResolvedDelayedDefinition     `json:"trigger,omitempty"`
+	Replacement       *ResolvedReplacementDefinition `json:"replacement,omitempty"`
+	BypassReplacement bool                           `json:"bypassReplacement,omitempty"`
+}
+
+type ResolvedChoiceDefinition struct {
+	Kind          string           `json:"kind"`
+	Mandatory     bool             `json:"mandatory"`
+	Visibility    ChoiceVisibility `json:"visibility"`
+	MinSelections int              `json:"minSelections"`
+	MaxSelections int              `json:"maxSelections"`
+	OrderMatters  bool             `json:"orderMatters"`
+	QueuePosition QueuePosition    `json:"queuePosition"`
+	Options       []ChoiceOption   `json:"options"`
+}
+
+type ResolvedDelayedDefinition struct {
+	EventKind string           `json:"eventKind"`
+	Once      bool             `json:"once"`
+	Duration  DurationKind     `json:"duration"`
+	Effects   []ResolvedEffect `json:"effects"`
+}
+
+type ResolvedReplacementDefinition struct {
+	EffectKind EffectKind       `json:"effectKind"`
+	Once       bool             `json:"once"`
+	Duration   DurationKind     `json:"duration"`
+	Effects    []ResolvedEffect `json:"effects"`
+}
+
+type EffectQueueEntry struct {
+	EntryID         string         `json:"entryId"`
+	BatchID         string         `json:"batchId"`
+	EnqueueSequence uint64         `json:"enqueueSequence"`
+	Effect          ResolvedEffect `json:"effect"`
+}
+
+type ModifierState struct {
+	ModifierID      string       `json:"modifierId"`
+	CreatedSequence uint64       `json:"createdSequence"`
+	SourceRef       *ObjectRef   `json:"sourceRef,omitempty"`
+	TargetRef       ObjectRef    `json:"targetRef"`
+	Layer           int          `json:"layer"`
+	PowerDelta      int          `json:"powerDelta"`
+	Duration        DurationKind `json:"duration"`
+	CreatedTurn     int          `json:"createdTurn"`
+}
+
+type DelayedTriggerState struct {
+	TriggerID       string           `json:"triggerId"`
+	CreatedSequence uint64           `json:"createdSequence"`
+	Controller      Seat             `json:"controller"`
+	SourceRef       *ObjectRef       `json:"sourceRef,omitempty"`
+	EventKind       string           `json:"eventKind"`
+	Once            bool             `json:"once"`
+	Duration        DurationKind     `json:"duration"`
+	CreatedTurn     int              `json:"createdTurn"`
+	Effects         []ResolvedEffect `json:"effects"`
+}
+
+type ReplacementState struct {
+	ReplacementID   string           `json:"replacementId"`
+	CreatedSequence uint64           `json:"createdSequence"`
+	Controller      Seat             `json:"controller"`
+	SourceRef       *ObjectRef       `json:"sourceRef,omitempty"`
+	EffectKind      EffectKind       `json:"effectKind"`
+	TargetRef       *ObjectRef       `json:"targetRef,omitempty"`
+	Once            bool             `json:"once"`
+	Duration        DurationKind     `json:"duration"`
+	CreatedTurn     int              `json:"createdTurn"`
+	Effects         []ResolvedEffect `json:"effects"`
+}
+
+type ActionResolutionState struct {
+	Seat Seat `json:"seat"`
+}
+
+type PendingChoiceProjection struct {
+	ChoiceID    string         `json:"choiceId,omitempty"`
+	WaitingSeat Seat           `json:"waitingSeat"`
+	Waiting     bool           `json:"waiting"`
+	Kind        string         `json:"kind,omitempty"`
+	Mandatory   bool           `json:"mandatory,omitempty"`
+	Revision    uint64         `json:"revision"`
+	OptionCount int            `json:"optionCount,omitempty"`
+	Options     []ChoiceOption `json:"options,omitempty"`
+	Private     bool           `json:"private"`
+	Redacted    bool           `json:"redacted"`
 }
 
 type ResultReason string
@@ -191,11 +429,13 @@ type Event struct {
 type CommandKind string
 
 const (
-	CommandArrangeOrders CommandKind = "arrange_orders"
-	CommandMulligan      CommandKind = "submit_mulligan"
-	CommandCommitAction  CommandKind = "commit_action"
-	CommandPass          CommandKind = "pass_action"
-	CommandSurrender     CommandKind = "surrender"
+	CommandArrangeOrders   CommandKind = "arrange_orders"
+	CommandMulligan        CommandKind = "submit_mulligan"
+	CommandCommitAction    CommandKind = "commit_action"
+	CommandPass            CommandKind = "pass_action"
+	CommandSurrender       CommandKind = "surrender"
+	CommandActivateAbility CommandKind = "activate_ability"
+	CommandSubmitChoice    CommandKind = "submit_choice"
 )
 
 type Command struct {
@@ -206,6 +446,13 @@ type Command struct {
 	OrderIDs         []string    `json:"orderIds,omitempty"`
 	ObjectRefs       []ObjectRef `json:"objectRefs,omitempty"`
 	ActionID         string      `json:"actionId,omitempty"`
+	AbilityID        string      `json:"abilityId,omitempty"`
+	SourceRef        *ObjectRef  `json:"sourceRef,omitempty"`
+	ModeIDs          []string    `json:"modeIds,omitempty"`
+	TargetRefs       []ObjectRef `json:"targetRefs,omitempty"`
+	PaymentRefs      []ObjectRef `json:"paymentRefs,omitempty"`
+	ChoiceID         string      `json:"choiceId,omitempty"`
+	OptionIDs        []string    `json:"optionIds,omitempty"`
 }
 
 type CommandRecord struct {
@@ -220,23 +467,30 @@ type RandomState struct {
 }
 
 type State struct {
-	MatchID           string          `json:"matchId"`
-	Versions          Versions        `json:"versions"`
-	StartedAt         time.Time       `json:"startedAt"`
-	Revision          uint64          `json:"revision"`
-	Status            MatchStatus     `json:"status"`
-	Phase             Phase           `json:"phase"`
-	CombatStep        CombatStep      `json:"combatStep"`
-	CombatLane        int             `json:"combatLane"`
-	TurnNumber        int             `json:"turnNumber"`
-	InitiativeSeat    Seat            `json:"initiativeSeat"`
-	ActingSeat        Seat            `json:"actingSeat"`
-	ConsecutivePasses int             `json:"consecutivePasses"`
-	Players           [2]PlayerState  `json:"players"`
-	PendingChoices    []PendingChoice `json:"pendingChoices"`
-	Result            *MatchResult    `json:"result,omitempty"`
-	Random            RandomState     `json:"random"`
-	Events            []Event         `json:"events"`
-	Commands          []CommandRecord `json:"commands"`
-	DiagnosticTrace   []string        `json:"diagnosticTrace,omitempty"`
+	MatchID            string                 `json:"matchId"`
+	Versions           Versions               `json:"versions"`
+	StartedAt          time.Time              `json:"startedAt"`
+	Revision           uint64                 `json:"revision"`
+	Status             MatchStatus            `json:"status"`
+	Phase              Phase                  `json:"phase"`
+	CombatStep         CombatStep             `json:"combatStep"`
+	CombatLane         int                    `json:"combatLane"`
+	TurnNumber         int                    `json:"turnNumber"`
+	InitiativeSeat     Seat                   `json:"initiativeSeat"`
+	ActingSeat         Seat                   `json:"actingSeat"`
+	ConsecutivePasses  int                    `json:"consecutivePasses"`
+	Players            [2]PlayerState         `json:"players"`
+	PendingChoices     []PendingChoice        `json:"pendingChoices"`
+	EffectQueue        []EffectQueueEntry     `json:"effectQueue,omitempty"`
+	Modifiers          []ModifierState        `json:"modifiers,omitempty"`
+	DelayedTriggers    []DelayedTriggerState  `json:"delayedTriggers,omitempty"`
+	Replacements       []ReplacementState     `json:"replacements,omitempty"`
+	ActionResolution   *ActionResolutionState `json:"actionResolution,omitempty"`
+	NextEffectSequence uint64                 `json:"nextEffectSequence,omitempty"`
+	NextChoiceSequence uint64                 `json:"nextChoiceSequence,omitempty"`
+	Result             *MatchResult           `json:"result,omitempty"`
+	Random             RandomState            `json:"random"`
+	Events             []Event                `json:"events"`
+	Commands           []CommandRecord        `json:"commands"`
+	DiagnosticTrace    []string               `json:"diagnosticTrace,omitempty"`
 }

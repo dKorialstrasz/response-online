@@ -39,8 +39,10 @@ RESPONSE_HTTP_ADDR=127.0.0.1:18080 make dev-backend
 - `bash tests/smoke/local_backend.sh` — чёрный ящик диагностического API.
 
 `rulesVersion: response-rules-2026-10-17` и
-`engineVersion: deterministic-core-v1` относятся к базовому автомату #10.
-Они не означают готовность карточных EffectSpec: эти ворота остаются в #11/#12.
+`engineVersion: effect-pipeline-v1` относится к базовому автомату #10 и
+типизированному pipeline эффектов #11.
+Они не означают готовность карточных EffectSpec: общий pipeline закрывает #11,
+а все конкретные способности и keywords остаются в #12.
 `protocolVersion: scaffold-v1` сохраняется до сетевого контракта gameplay.
 Application service сессий/комнат и проверка закреплённых manifests реализованы в
 #13, но намеренно не публикуют HTTP/WSS endpoints до contracts/security gate #14.
