@@ -33,12 +33,14 @@ required_files=(
   docs/requirements/milestone-1-roadmap.md
   docs/requirements/milestone-1-content-release.md
   docs/requirements/milestone-1-rule-matrix.md
+  docs/requirements/milestone-1-ability-matrix.md
   docs/decisions/m1-product-decisions.md
   docs/adr/0001-in-memory-match-state.md
   docs/adr/0002-modular-monolith-boundaries.md
   docs/adr/0003-serialized-match-execution.md
   docs/adr/0004-protocol-and-player-views.md
   docs/adr/0005-deterministic-match-core.md
+  docs/adr/0009-closed-base-ability-registry.md
   docs/adr/README.md
   docs/runbooks/local-development.md
 )

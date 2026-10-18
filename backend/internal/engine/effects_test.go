@@ -280,7 +280,7 @@ func TestExplicitQueueOrderHandlesBothPlayersAndNewEffectsWithoutLIFO(t *testing
 	if err != nil {
 		t.Fatal(err)
 	}
-	const golden = "391c8baf6fe1622001dcf73c8e75ef1ee0d560f48ab73c8939d35a5a828d45c5"
+	const golden = "e6424a7046f888e4eed81bd8f42794df0c81cf1a377ae0f57dfd45baed4b1a28"
 	if hash != golden {
 		t.Fatalf("effect queue golden hash = %s, want %s", hash, golden)
 	}

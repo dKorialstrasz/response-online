@@ -740,7 +740,11 @@ func (service *RoomService) prepareMatchLocked(
 	if _, err := io.ReadFull(service.entropy, seedBytes); err != nil {
 		return nil, fmt.Errorf("generate match seed: %w", err)
 	}
-	config := engine.Config{MatchID: matchID, Versions: pins.Versions, Seed: binary.BigEndian.Uint64(seedBytes), StartedAt: now}
+	config := engine.Config{
+		MatchID: matchID, Versions: pins.Versions, Seed: binary.BigEndian.Uint64(seedBytes), StartedAt: now,
+		Cards:     append([]engine.CardDefinition(nil), pins.Cards...),
+		Abilities: append([]engine.AbilityDefinition(nil), pins.Abilities...),
+	}
 	var manifestIDs [2]string
 	for index := range pins.Decks {
 		deck := pins.Decks[index]

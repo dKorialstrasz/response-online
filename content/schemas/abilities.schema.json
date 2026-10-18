@@ -30,13 +30,29 @@
         },
         {
           "type": "object",
-          "required": ["status", "operations"],
+          "additionalProperties": false,
+          "required": ["status", "operations", "rulesVersion", "reviewStatus"],
           "properties": {
             "status": { "const": "implemented" },
-            "operations": { "type": "array", "minItems": 1 }
+            "rulesVersion": { "const": "response-rules-2026-10-17" },
+            "reviewStatus": { "enum": ["self-checked", "owner-approved"] },
+            "operations": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "$ref": "#/$defs/operation" }
+            }
           }
         }
       ]
+    },
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "handler"],
+      "properties": {
+        "kind": { "const": "closed-handler" },
+        "handler": { "type": "string", "pattern": "^baz-[0-9]{3}\\.(front|level-[0-9]+)\\.ability$" }
+      }
     },
     "ability": {
       "type": "object",

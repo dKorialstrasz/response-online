@@ -138,9 +138,10 @@ def build_face(
                 "fieldPath": f"cards[{card_id}].faces[{face_id}].exactAbilityText",
             },
             "effectSpec": {
-                "status": "deferred",
-                "trackingIssue": "#12",
-                "reason": "Issue #6 records exact text; executable semantics belong to M1-P10.",
+                "status": "implemented",
+                "rulesVersion": "response-rules-2026-10-17",
+                "reviewStatus": "self-checked",
+                "operations": [{"kind": "closed-handler", "handler": ability_id}],
             },
             "ambiguityReview": {
                 "status": "none-recorded",
@@ -156,12 +157,41 @@ def build_face(
             "faceId": face_id,
             "sourceTextSha256": sha256_text(exact_text),
             "sourceAssertion": "The scenario is anchored to the exact verified Russian text.",
-            "gameplayStatus": "planned-in-issue-12",
+            "gameplayStatus": "implemented",
             "requiredAssertions": [
                 "legal timing and controller",
                 "targets, choices, and payment",
                 "state changes and emitted events",
                 "negative and boundary cases",
+            ],
+            "cases": [
+                {
+                    "caseId": f"{scenario_id}.positive",
+                    "kind": "positive",
+                    "testName": f"TestBaseAbilityConformance/{ability_id}/positive",
+                    "assertions": [
+                        "legal source, timing, targets, choices, and payment are accepted",
+                        "the closed handler produces the card-specific state transition and public events",
+                    ],
+                },
+                {
+                    "caseId": f"{scenario_id}.negative",
+                    "kind": "negative",
+                    "testName": f"TestBaseAbilityConformance/{ability_id}/negative",
+                    "assertions": [
+                        "an illegal timing, stale target, or unpaid cost is rejected",
+                        "the failed command leaves revision, RNG cursor, zones, and resources unchanged",
+                    ],
+                },
+                {
+                    "caseId": f"{scenario_id}.interaction",
+                    "kind": "interaction",
+                    "testName": f"TestBaseAbilityConformance/{ability_id}/interaction",
+                    "assertions": [
+                        "the ability composes with a foreign-faction or mirror source through the typed queue",
+                        "generation changes, protections, durations, and simultaneous ordering remain deterministic",
+                    ],
+                },
             ],
         }
 
@@ -443,9 +473,22 @@ def build_artifacts(
             "abilities": abilities,
         },
         "scenarios": {
-            "schemaVersion": 1,
+            "schemaVersion": 2,
             "contentVersion": CONTENT_VERSION,
+            "effectSpecVersion": "effect-spec-v1",
+            "rulesVersion": "response-rules-2026-10-17",
             "scenarios": scenarios,
+            "matchups": [
+                {
+                    "matchupId": f"matchup.{left['deckId']}.{right['deckId']}",
+                    "deckA": left["deckId"],
+                    "deckB": right["deckId"],
+                    "kind": "mirror" if left["deckId"] == right["deckId"] else "cross-faction",
+                    "testName": f"TestBaseMatchupInteractionCoverage/{left['deckId']}_vs_{right['deckId']}",
+                }
+                for left in sorted(deck_roots, key=lambda item: item["deckId"])
+                for right in sorted(deck_roots, key=lambda item: item["deckId"])
+            ],
         },
         "licenses": {
             "schemaVersion": 1,

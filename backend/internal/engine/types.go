@@ -104,7 +104,43 @@ type Config struct {
 	StartedAt        time.Time           `json:"startedAt"`
 	InternalEventCap int                 `json:"internalEventCap,omitempty"`
 	Abilities        []AbilityDefinition `json:"-"`
+	Cards            []CardDefinition    `json:"-"`
 }
+
+// CardDefinition is the immutable, version-pinned gameplay subset consumed by
+// the engine. Exact display text remains in the content catalog; the engine
+// receives only fields needed to validate and resolve typed effects.
+type CardDefinition struct {
+	CardID              string     `json:"cardId"`
+	Name                string     `json:"name"`
+	Types               []CardType `json:"types"`
+	Cost                *int       `json:"cost,omitempty"`
+	BasePower           *int       `json:"basePower,omitempty"`
+	AbilityIDs          []string   `json:"abilityIds,omitempty"`
+	NativeKeywords      []Keyword  `json:"nativeKeywords,omitempty"`
+	BaseMagicShieldCost int        `json:"baseMagicShieldCost,omitempty"`
+}
+
+type CardType string
+
+const (
+	CardHero        CardType = "hero"
+	CardOrder       CardType = "order"
+	CardUnit        CardType = "unit"
+	CardSpell       CardType = "spell"
+	CardEnhancement CardType = "enhancement"
+)
+
+type Keyword string
+
+const (
+	KeywordRider        Keyword = "rider"
+	KeywordBypass       Keyword = "bypass"
+	KeywordPoison       Keyword = "poison"
+	KeywordCharge       Keyword = "charge"
+	KeywordRangedAttack Keyword = "ranged_attack"
+	KeywordResilience   Keyword = "resilience"
+)
 
 type ObjectRef struct {
 	ZoneObjectID string `json:"zoneObjectId"`
@@ -112,22 +148,26 @@ type ObjectRef struct {
 }
 
 type CardObject struct {
-	InstanceID      string    `json:"instanceId"`
-	DefinitionID    string    `json:"definitionId"`
-	OwnerSeat       Seat      `json:"ownerSeat"`
-	ControllerSeat  Seat      `json:"controllerSeat"`
-	Zone            Zone      `json:"zone"`
-	ZoneObjectID    string    `json:"zoneObjectId"`
-	Generation      uint64    `json:"generation"`
-	ZoneIndex       int       `json:"zoneIndex"`
-	Lane            int       `json:"lane"`
-	Slot            BoardSlot `json:"slot"`
-	BasePower       int       `json:"basePower"`
-	Power           int       `json:"power"`
-	BaseDurability  int       `json:"baseDurability"`
-	Durability      int       `json:"durability"`
-	Tapped          bool      `json:"tapped"`
-	EnteredInCombat bool      `json:"enteredInCombat"`
+	InstanceID              string    `json:"instanceId"`
+	DefinitionID            string    `json:"definitionId"`
+	OwnerSeat               Seat      `json:"ownerSeat"`
+	ControllerSeat          Seat      `json:"controllerSeat"`
+	Zone                    Zone      `json:"zone"`
+	ZoneObjectID            string    `json:"zoneObjectId"`
+	Generation              uint64    `json:"generation"`
+	ZoneIndex               int       `json:"zoneIndex"`
+	Lane                    int       `json:"lane"`
+	Slot                    BoardSlot `json:"slot"`
+	BasePower               int       `json:"basePower"`
+	Power                   int       `json:"power"`
+	BaseDurability          int       `json:"baseDurability"`
+	Durability              int       `json:"durability"`
+	Tapped                  bool      `json:"tapped"`
+	EnteredInCombat         bool      `json:"enteredInCombat"`
+	Keywords                []Keyword `json:"keywords,omitempty"`
+	BaseMagicShieldCost     int       `json:"baseMagicShieldCost,omitempty"`
+	SkipCombat              bool      `json:"skipCombat,omitempty"`
+	BaseAbilitiesSuppressed bool      `json:"baseAbilitiesSuppressed,omitempty"`
 }
 
 func (object CardObject) Ref() ObjectRef {
@@ -254,6 +294,7 @@ type AbilityDefinition struct {
 	Payment                PaymentDefinition   `json:"payment"`
 	Effects                []EffectInstruction `json:"effects"`
 	ConsumesAction         bool                `json:"consumesAction"`
+	BuiltinHandler         string              `json:"builtinHandler,omitempty"`
 }
 
 type EffectInstruction struct {
@@ -351,14 +392,22 @@ type EffectQueueEntry struct {
 }
 
 type ModifierState struct {
-	ModifierID      string       `json:"modifierId"`
-	CreatedSequence uint64       `json:"createdSequence"`
-	SourceRef       *ObjectRef   `json:"sourceRef,omitempty"`
-	TargetRef       ObjectRef    `json:"targetRef"`
-	Layer           int          `json:"layer"`
-	PowerDelta      int          `json:"powerDelta"`
-	Duration        DurationKind `json:"duration"`
-	CreatedTurn     int          `json:"createdTurn"`
+	ModifierID            string       `json:"modifierId"`
+	CreatedSequence       uint64       `json:"createdSequence"`
+	SourceRef             *ObjectRef   `json:"sourceRef,omitempty"`
+	TargetRef             ObjectRef    `json:"targetRef"`
+	Layer                 int          `json:"layer"`
+	PowerDelta            int          `json:"powerDelta"`
+	BasePowerSet          *int         `json:"basePowerSet,omitempty"`
+	Keyword               Keyword      `json:"keyword,omitempty"`
+	MagicShieldCost       int          `json:"magicShieldCost,omitempty"`
+	DamageReduction       int          `json:"damageReduction,omitempty"`
+	SkipCombat            bool         `json:"skipCombat,omitempty"`
+	SuppressBaseAbilities bool         `json:"suppressBaseAbilities,omitempty"`
+	CannotIncreasePower   bool         `json:"cannotIncreasePower,omitempty"`
+	ExtraActionUses       int          `json:"extraActionUses,omitempty"`
+	Duration              DurationKind `json:"duration"`
+	CreatedTurn           int          `json:"createdTurn"`
 }
 
 type DelayedTriggerState struct {
@@ -439,20 +488,24 @@ const (
 )
 
 type Command struct {
-	ID               string      `json:"id"`
-	Kind             CommandKind `json:"kind"`
-	Seat             Seat        `json:"seat"`
-	ExpectedRevision uint64      `json:"expectedRevision"`
-	OrderIDs         []string    `json:"orderIds,omitempty"`
-	ObjectRefs       []ObjectRef `json:"objectRefs,omitempty"`
-	ActionID         string      `json:"actionId,omitempty"`
-	AbilityID        string      `json:"abilityId,omitempty"`
-	SourceRef        *ObjectRef  `json:"sourceRef,omitempty"`
-	ModeIDs          []string    `json:"modeIds,omitempty"`
-	TargetRefs       []ObjectRef `json:"targetRefs,omitempty"`
-	PaymentRefs      []ObjectRef `json:"paymentRefs,omitempty"`
-	ChoiceID         string      `json:"choiceId,omitempty"`
-	OptionIDs        []string    `json:"optionIds,omitempty"`
+	ID                 string      `json:"id"`
+	Kind               CommandKind `json:"kind"`
+	Seat               Seat        `json:"seat"`
+	ExpectedRevision   uint64      `json:"expectedRevision"`
+	OrderIDs           []string    `json:"orderIds,omitempty"`
+	ObjectRefs         []ObjectRef `json:"objectRefs,omitempty"`
+	ActionID           string      `json:"actionId,omitempty"`
+	AbilityID          string      `json:"abilityId,omitempty"`
+	SourceRef          *ObjectRef  `json:"sourceRef,omitempty"`
+	ModeIDs            []string    `json:"modeIds,omitempty"`
+	TargetRefs         []ObjectRef `json:"targetRefs,omitempty"`
+	PaymentRefs        []ObjectRef `json:"paymentRefs,omitempty"`
+	ShieldPaymentRefs  []ObjectRef `json:"shieldPaymentRefs,omitempty"`
+	ChoiceID           string      `json:"choiceId,omitempty"`
+	OptionIDs          []string    `json:"optionIds,omitempty"`
+	Value              int         `json:"value,omitempty"`
+	DestinationLane    int         `json:"destinationLane,omitempty"`
+	DestinationLaneSet bool        `json:"destinationLaneSet,omitempty"`
 }
 
 type CommandRecord struct {

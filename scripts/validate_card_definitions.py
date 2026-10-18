@@ -246,7 +246,14 @@ def validate_payloads(payloads: dict[str, Any], require_owner_review: bool = Fal
         add(errors, ability.get("faceId") == face_id, f"{prefix}.faceId: mismatch")
         add(errors, ability.get("exactTextSha256") == sha256_text(exact_text), f"{prefix}: exact text hash mismatch")
         add(errors, ability.get("source", {}).get("evidenceId") == evidence.get("evidenceId"), f"{prefix}: source missing")
-        add(errors, ability.get("effectSpec", {}).get("status") == "deferred", f"{prefix}: exact text/effectSpec boundary missing")
+        effect_spec = ability.get("effectSpec") or {}
+        add(errors, effect_spec.get("status") == "implemented", f"{prefix}: EffectSpec is not implemented")
+        add(errors, effect_spec.get("rulesVersion") == "response-rules-2026-10-17", f"{prefix}: rules pin mismatch")
+        operations = effect_spec.get("operations") or []
+        add(errors, len(operations) == 1, f"{prefix}: expected exactly one closed handler")
+        if len(operations) == 1:
+            add(errors, operations[0].get("kind") == "closed-handler", f"{prefix}: operation is not closed")
+            add(errors, operations[0].get("handler") == ability_id, f"{prefix}: handler/ability mismatch")
         ambiguity = ability.get("ambiguityReview") or {}
         add(errors, ambiguity.get("status") in {"none-recorded", "resolved", "blocked"}, f"{prefix}: ambiguity status missing")
         if ambiguity.get("identifiedAmbiguities"):
@@ -260,8 +267,13 @@ def validate_payloads(payloads: dict[str, Any], require_owner_review: bool = Fal
                 add(errors, scenario.get("abilityId") == ability_id, f"{scenario_id}: ability link mismatch")
                 add(errors, scenario.get("sourceTextSha256") == sha256_text(exact_text), f"{scenario_id}: source hash mismatch")
                 add(errors, len(scenario.get("requiredAssertions") or []) >= 4, f"{scenario_id}: incomplete assertions")
+                add(errors, scenario.get("gameplayStatus") == "implemented", f"{scenario_id}: gameplay is not implemented")
+                cases = scenario.get("cases") or []
+                add(errors, {case.get("kind") for case in cases} == {"positive", "negative", "interaction"}, f"{scenario_id}: positive/negative/interaction cases required")
+                add(errors, len({case.get("caseId") for case in cases}) == 3, f"{scenario_id}: case ids must be unique")
 
     deck_ids: set[str] = set()
+    deck_names = {deck["deckId"] for deck in payloads.get("deckManifests") or []}
     for deck in payloads.get("deckManifests") or []:
         refs = [deck["hero"], *deck["orders"], *deck["main"]]
         deck_ids.update(item["definitionId"] for item in refs)
@@ -272,6 +284,12 @@ def validate_payloads(payloads: dict[str, Any], require_owner_review: bool = Fal
     add(errors, not closure.get("unreachableDefinitionIds"), "closure report has unreachable definitions")
     add(errors, set(closure.get("transitiveObjectIds") or []) == all_transitive_refs, "closure transitive refs mismatch")
     add(errors, closure.get("status") == "closed", "closure report is not closed")
+
+    matchups = scenarios_doc.get("matchups") or []
+    expected_matchups = {(left, right) for left in deck_names for right in deck_names}
+    actual_matchups = {(item.get("deckA"), item.get("deckB")) for item in matchups}
+    add(errors, len(matchups) == 36 and actual_matchups == expected_matchups, "conformance: expected all 36 ordered deck matchups")
+    add(errors, sum(item.get("kind") == "mirror" for item in matchups) == 6, "conformance: expected six mirrors")
 
     discrepancy_cards = {item["cardId"] for item in discrepancies.get("items") or []}
     for item in discrepancies.get("items") or []:

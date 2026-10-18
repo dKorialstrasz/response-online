@@ -17,12 +17,14 @@ type Match struct {
 	state     State
 	eventCap  int
 	abilities map[string]AbilityDefinition
+	cards     map[string]CardDefinition
 }
 
 type eventBudget struct {
 	state *State
 	used  int
 	limit int
+	cards map[string]CardDefinition
 }
 
 func NewMatch(config Config) (*Match, error) {
@@ -30,6 +32,10 @@ func NewMatch(config Config) (*Match, error) {
 		return nil, err
 	}
 	abilities, err := buildAbilityCatalog(config.Abilities)
+	if err != nil {
+		return nil, err
+	}
+	cards, err := buildCardCatalog(config.Cards, abilities)
 	if err != nil {
 		return nil, err
 	}
@@ -58,7 +64,7 @@ func NewMatch(config Config) (*Match, error) {
 		}
 		for cardIndex, definitionID := range playerConfig.DeckCardIDs {
 			instanceID := fmt.Sprintf("%s:s%d:c%02d", config.MatchID, index, cardIndex)
-			player.Objects = append(player.Objects, CardObject{
+			object := CardObject{
 				InstanceID:     instanceID,
 				DefinitionID:   definitionID,
 				OwnerSeat:      playerConfig.Seat,
@@ -68,7 +74,16 @@ func NewMatch(config Config) (*Match, error) {
 				Generation:     1,
 				ZoneIndex:      cardIndex,
 				Lane:           -1,
-			})
+			}
+			if definition, ok := cards[definitionID]; ok {
+				object.Keywords = append([]Keyword(nil), definition.NativeKeywords...)
+				object.BaseMagicShieldCost = definition.BaseMagicShieldCost
+				if definition.BasePower != nil {
+					object.BasePower = *definition.BasePower
+					object.Power = *definition.BasePower
+				}
+			}
+			player.Objects = append(player.Objects, object)
 		}
 		state.Players[index] = player
 	}
@@ -89,7 +104,7 @@ func NewMatch(config Config) (*Match, error) {
 	if err := ValidateState(state); err != nil {
 		return nil, err
 	}
-	return &Match{state: state, eventCap: eventCap, abilities: abilities}, nil
+	return &Match{state: state, eventCap: eventCap, abilities: abilities, cards: cards}, nil
 }
 
 func (match *Match) State() State { return match.state.Clone() }
@@ -115,7 +130,7 @@ func (match *Match) Handle(command Command) error {
 	}
 
 	next := match.state.Clone()
-	budget := eventBudget{state: &next, limit: match.eventCap}
+	budget := eventBudget{state: &next, limit: match.eventCap, cards: match.cards}
 	var err error
 	switch command.Kind {
 	case CommandArrangeOrders:
@@ -157,12 +172,19 @@ func normalizeCommand(command Command) Command {
 	command.ModeIDs = append([]string(nil), command.ModeIDs...)
 	command.TargetRefs = append([]ObjectRef(nil), command.TargetRefs...)
 	command.PaymentRefs = append([]ObjectRef(nil), command.PaymentRefs...)
+	command.ShieldPaymentRefs = append([]ObjectRef(nil), command.ShieldPaymentRefs...)
 	command.OptionIDs = append([]string(nil), command.OptionIDs...)
 	sort.Slice(command.PaymentRefs, func(left, right int) bool {
 		if command.PaymentRefs[left].ZoneObjectID != command.PaymentRefs[right].ZoneObjectID {
 			return command.PaymentRefs[left].ZoneObjectID < command.PaymentRefs[right].ZoneObjectID
 		}
 		return command.PaymentRefs[left].Generation < command.PaymentRefs[right].Generation
+	})
+	sort.Slice(command.ShieldPaymentRefs, func(left, right int) bool {
+		if command.ShieldPaymentRefs[left].ZoneObjectID != command.ShieldPaymentRefs[right].ZoneObjectID {
+			return command.ShieldPaymentRefs[left].ZoneObjectID < command.ShieldPaymentRefs[right].ZoneObjectID
+		}
+		return command.ShieldPaymentRefs[left].Generation < command.ShieldPaymentRefs[right].Generation
 	})
 	if command.Kind == CommandMulligan {
 		sort.Slice(command.ObjectRefs, func(left, right int) bool {

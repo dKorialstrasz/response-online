@@ -5,6 +5,8 @@ import (
 	"path/filepath"
 	"runtime"
 	"testing"
+
+	"github.com/dKorialstrasz/response-online/backend/internal/engine"
 )
 
 func TestFileMatchPinProviderLoadsApprovedReleaseAndAllowsMirrors(t *testing.T) {
@@ -20,7 +22,7 @@ func TestFileMatchPinProviderLoadsApprovedReleaseAndAllowsMirrors(t *testing.T) 
 	if err != nil {
 		t.Fatalf("pin mirror match: %v", err)
 	}
-	if pins.Versions.Content != "base-cards-v1" || pins.Versions.Engine != "effect-pipeline-v1" {
+	if pins.Versions.Content != "base-cards-v1" || pins.Versions.Engine != "base-abilities-v1" {
 		t.Fatalf("unexpected pinned versions: %#v", pins.Versions)
 	}
 	for index, deck := range pins.Decks {
@@ -34,12 +36,38 @@ func TestFileMatchPinProviderLoadsApprovedReleaseAndAllowsMirrors(t *testing.T) 
 			t.Fatalf("seat %d manifest pin = %q", index, deck.ManifestID)
 		}
 	}
+	assertCardRuntimeTraits(t, pins.Cards, "baz-002", []engine.Keyword{engine.KeywordRider}, 0)
+	assertCardRuntimeTraits(t, pins.Cards, "baz-051", []engine.Keyword{engine.KeywordRangedAttack}, 0)
+	assertCardRuntimeTraits(t, pins.Cards, "baz-114", nil, 2)
+	assertCardRuntimeTraits(t, pins.Cards, "baz-120", nil, 1)
 	// Returned slices must not mutate the immutable startup snapshot.
 	pins.Decks[0].CardIDs[0] = "tampered"
+	pins.Cards[0].AbilityIDs[0] = "tampered"
 	reloaded, err := provider.PinMatch(context.Background(), [2]SeatSelection{selection, selection})
-	if err != nil || reloaded.Decks[0].CardIDs[0] == "tampered" {
+	if err != nil || reloaded.Decks[0].CardIDs[0] == "tampered" || reloaded.Cards[0].AbilityIDs[0] == "tampered" {
 		t.Fatalf("provider snapshot was mutable: %#v, %v", reloaded.Decks[0].CardIDs, err)
 	}
+}
+
+func assertCardRuntimeTraits(t *testing.T, cards []engine.CardDefinition, cardID string, keywords []engine.Keyword, shieldCost int) {
+	t.Helper()
+	for _, card := range cards {
+		if card.CardID == cardID {
+			if len(card.NativeKeywords) != len(keywords) {
+				t.Fatalf("card %s keywords = %v, want %v", cardID, card.NativeKeywords, keywords)
+			}
+			for index := range keywords {
+				if card.NativeKeywords[index] != keywords[index] {
+					t.Fatalf("card %s keywords = %v, want %v", cardID, card.NativeKeywords, keywords)
+				}
+			}
+			if card.BaseMagicShieldCost != shieldCost {
+				t.Fatalf("card %s shield cost = %d, want %d", cardID, card.BaseMagicShieldCost, shieldCost)
+			}
+			return
+		}
+	}
+	t.Fatalf("card %s is not pinned", cardID)
 }
 
 func TestFileMatchPinProviderRejectsUnknownDeckAndOrder(t *testing.T) {

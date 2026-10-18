@@ -11,6 +11,11 @@ func (state State) Clone() State {
 	for index := range state.Players {
 		clone.Players[index] = state.Players[index]
 		clone.Players[index].Objects = append([]CardObject(nil), state.Players[index].Objects...)
+		for objectIndex := range clone.Players[index].Objects {
+			clone.Players[index].Objects[objectIndex].Keywords = append(
+				[]Keyword(nil), state.Players[index].Objects[objectIndex].Keywords...,
+			)
+		}
 		clone.Players[index].AvailableOrderIDs = append([]string(nil), state.Players[index].AvailableOrderIDs...)
 		clone.Players[index].Orders = append([]OrderState(nil), state.Players[index].Orders...)
 	}
@@ -33,6 +38,10 @@ func (state State) Clone() State {
 	for index, modifier := range state.Modifiers {
 		clone.Modifiers[index] = modifier
 		clone.Modifiers[index].SourceRef = cloneObjectRef(modifier.SourceRef)
+		if modifier.BasePowerSet != nil {
+			value := *modifier.BasePowerSet
+			clone.Modifiers[index].BasePowerSet = &value
+		}
 	}
 	clone.DelayedTriggers = make([]DelayedTriggerState, len(state.DelayedTriggers))
 	for index, trigger := range state.DelayedTriggers {
@@ -80,6 +89,7 @@ func (state State) Clone() State {
 		clone.Commands[index].Command.ModeIDs = append([]string(nil), record.Command.ModeIDs...)
 		clone.Commands[index].Command.TargetRefs = append([]ObjectRef(nil), record.Command.TargetRefs...)
 		clone.Commands[index].Command.PaymentRefs = append([]ObjectRef(nil), record.Command.PaymentRefs...)
+		clone.Commands[index].Command.ShieldPaymentRefs = append([]ObjectRef(nil), record.Command.ShieldPaymentRefs...)
 		clone.Commands[index].Command.OptionIDs = append([]string(nil), record.Command.OptionIDs...)
 	}
 	clone.DiagnosticTrace = append([]string(nil), state.DiagnosticTrace...)

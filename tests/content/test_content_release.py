@@ -58,9 +58,9 @@ class ContentReleaseValidationTest(unittest.TestCase):
         errors = self.validate(documents)
         self.assertTrue(any("rights must remain unknown" in error for error in errors), errors)
 
-    def test_core_engine_release_is_still_blocked_by_effects_and_protocol(self) -> None:
+    def test_core_engine_release_is_now_blocked_only_by_protocol(self) -> None:
         errors = self.validate(copy.deepcopy(self.documents), gameplay_ready=True)
-        self.assertTrue(any("126 effect specs are not implemented" in error for error in errors), errors)
+        self.assertFalse(any("effect specs are not implemented" in error for error in errors), errors)
         self.assertTrue(any("protocol version is not release-ready" in error for error in errors), errors)
         self.assertFalse(any("rules version is not release-ready" in error for error in errors), errors)
         self.assertFalse(any("engine version is not release-ready" in error for error in errors), errors)

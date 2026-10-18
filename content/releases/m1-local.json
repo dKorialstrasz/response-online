@@ -8,18 +8,23 @@
     "effectSpec": "effect-spec-v1",
     "rules": "response-rules-2026-10-17",
     "protocol": "scaffold-v1",
-    "engine": "effect-pipeline-v1"
+    "engine": "base-abilities-v1"
   },
   "artifacts": [
     {
       "path": "content/abilities/base-abilities.json",
       "schema": "content/schemas/abilities.schema.json",
-      "canonicalSha256": "2f908be1d89059f1dd925a6c1d9f3c54aed76c0b9205449741fe0f1375152eec"
+      "canonicalSha256": "ae559f3cd4dff174df4c612cbbd7b883aaa795f14d4873fe5cda37ec1e58ee45"
     },
     {
       "path": "content/cards/base/card-definitions.json",
       "schema": "content/schemas/card-definitions.schema.json",
       "canonicalSha256": "46029035045512ed6beb47b1352372b501ef1c1acc1f3dc4d0b4a92a65e878b2"
+    },
+    {
+      "path": "content/conformance/base-ability-scenarios.json",
+      "schema": "content/schemas/conformance-scenarios.schema.json",
+      "canonicalSha256": "e0f405324ca1da3afc5f3375f3c024e855b06f08a46e9feb937b73eb73b6cb2b"
     },
     {
       "path": "content/decks/base/chaos-enitokl.json",
@@ -64,11 +69,22 @@
   ],
   "matchPinning": {
     "required": true,
-    "versionFields": ["content", "deckManifests", "effectSpec", "rules", "protocol", "engine"],
+    "versionFields": [
+      "content",
+      "deckManifests",
+      "effectSpec",
+      "rules",
+      "protocol",
+      "engine"
+    ],
     "consumerIssue": "#10"
   },
   "publicRelease": {
     "allowed": false,
-    "blockers": ["rights-unknown", "public-deployment-out-of-scope", "gamepix-out-of-scope"]
+    "blockers": [
+      "rights-unknown",
+      "public-deployment-out-of-scope",
+      "gamepix-out-of-scope"
+    ]
   }
 }

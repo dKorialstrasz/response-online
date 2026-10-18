@@ -13,9 +13,15 @@
         "fieldPath": "cards[baz-001].faces[level-1].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-001.level-1.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -36,9 +42,15 @@
         "fieldPath": "cards[baz-002].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-002.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -59,9 +71,15 @@
         "fieldPath": "cards[baz-003].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-003.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -82,9 +100,15 @@
         "fieldPath": "cards[baz-004].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-004.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -105,9 +129,15 @@
         "fieldPath": "cards[baz-005].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-005.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -128,9 +158,15 @@
         "fieldPath": "cards[baz-006].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-006.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -151,9 +187,15 @@
         "fieldPath": "cards[baz-008].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-008.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -174,9 +216,15 @@
         "fieldPath": "cards[baz-009].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-009.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -197,9 +245,15 @@
         "fieldPath": "cards[baz-010].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-010.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -220,9 +274,15 @@
         "fieldPath": "cards[baz-011].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-011.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -243,9 +303,15 @@
         "fieldPath": "cards[baz-012].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-012.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -266,9 +332,15 @@
         "fieldPath": "cards[baz-013].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-013.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -289,9 +361,15 @@
         "fieldPath": "cards[baz-014].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-014.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -312,9 +390,15 @@
         "fieldPath": "cards[baz-015].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-015.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -335,9 +419,15 @@
         "fieldPath": "cards[baz-016].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-016.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -358,9 +448,15 @@
         "fieldPath": "cards[baz-017].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-017.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -381,9 +477,15 @@
         "fieldPath": "cards[baz-018].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-018.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -404,9 +506,15 @@
         "fieldPath": "cards[baz-019].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-019.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -427,9 +535,15 @@
         "fieldPath": "cards[baz-020].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-020.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -450,9 +564,15 @@
         "fieldPath": "cards[baz-021].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-021.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -473,9 +593,15 @@
         "fieldPath": "cards[baz-022].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-022.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -496,9 +622,15 @@
         "fieldPath": "cards[baz-023].faces[level-1].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-023.level-1.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -519,9 +651,15 @@
         "fieldPath": "cards[baz-024].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-024.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -542,9 +680,15 @@
         "fieldPath": "cards[baz-025].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-025.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -565,9 +709,15 @@
         "fieldPath": "cards[baz-027].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-027.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -588,9 +738,15 @@
         "fieldPath": "cards[baz-028].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-028.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -611,9 +767,15 @@
         "fieldPath": "cards[baz-029].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-029.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -634,9 +796,15 @@
         "fieldPath": "cards[baz-030].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-030.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -657,9 +825,15 @@
         "fieldPath": "cards[baz-031].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-031.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -680,9 +854,15 @@
         "fieldPath": "cards[baz-032].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-032.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -703,9 +883,15 @@
         "fieldPath": "cards[baz-033].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-033.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -726,9 +912,15 @@
         "fieldPath": "cards[baz-034].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-034.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -749,9 +941,15 @@
         "fieldPath": "cards[baz-035].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-035.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -772,9 +970,15 @@
         "fieldPath": "cards[baz-036].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-036.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -795,9 +999,15 @@
         "fieldPath": "cards[baz-037].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-037.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -818,9 +1028,15 @@
         "fieldPath": "cards[baz-038].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-038.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -841,9 +1057,15 @@
         "fieldPath": "cards[baz-039].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-039.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -864,9 +1086,15 @@
         "fieldPath": "cards[baz-040].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-040.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -887,9 +1115,15 @@
         "fieldPath": "cards[baz-041].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-041.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -910,9 +1144,15 @@
         "fieldPath": "cards[baz-042].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-042.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -933,9 +1173,15 @@
         "fieldPath": "cards[baz-043].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-043.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -956,9 +1202,15 @@
         "fieldPath": "cards[baz-044].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-044.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -979,9 +1231,15 @@
         "fieldPath": "cards[baz-045].faces[level-1].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-045.level-1.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1002,9 +1260,15 @@
         "fieldPath": "cards[baz-046].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-046.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1025,9 +1289,15 @@
         "fieldPath": "cards[baz-047].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-047.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1048,9 +1318,15 @@
         "fieldPath": "cards[baz-048].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-048.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1071,9 +1347,15 @@
         "fieldPath": "cards[baz-049].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-049.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1094,9 +1376,15 @@
         "fieldPath": "cards[baz-050].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-050.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1117,9 +1405,15 @@
         "fieldPath": "cards[baz-051].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-051.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1140,9 +1434,15 @@
         "fieldPath": "cards[baz-052].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-052.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1163,9 +1463,15 @@
         "fieldPath": "cards[baz-054].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-054.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1186,9 +1492,15 @@
         "fieldPath": "cards[baz-055].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-055.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1209,9 +1521,15 @@
         "fieldPath": "cards[baz-056].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-056.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1232,9 +1550,15 @@
         "fieldPath": "cards[baz-057].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-057.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1255,9 +1579,15 @@
         "fieldPath": "cards[baz-058].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-058.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1278,9 +1608,15 @@
         "fieldPath": "cards[baz-059].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-059.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1301,9 +1637,15 @@
         "fieldPath": "cards[baz-060].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-060.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1324,9 +1666,15 @@
         "fieldPath": "cards[baz-061].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-061.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1347,9 +1695,15 @@
         "fieldPath": "cards[baz-062].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-062.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1370,9 +1724,15 @@
         "fieldPath": "cards[baz-063].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-063.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1393,9 +1753,15 @@
         "fieldPath": "cards[baz-064].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-064.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1416,9 +1782,15 @@
         "fieldPath": "cards[baz-065].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-065.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1439,9 +1811,15 @@
         "fieldPath": "cards[baz-066].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-066.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1462,9 +1840,15 @@
         "fieldPath": "cards[baz-067].faces[level-1].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-067.level-1.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1485,9 +1869,15 @@
         "fieldPath": "cards[baz-068].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-068.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1508,9 +1898,15 @@
         "fieldPath": "cards[baz-070].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-070.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1531,9 +1927,15 @@
         "fieldPath": "cards[baz-071].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-071.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1554,9 +1956,15 @@
         "fieldPath": "cards[baz-072].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-072.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1577,9 +1985,15 @@
         "fieldPath": "cards[baz-073].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-073.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1600,9 +2014,15 @@
         "fieldPath": "cards[baz-074].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-074.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1623,9 +2043,15 @@
         "fieldPath": "cards[baz-075].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-075.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1646,9 +2072,15 @@
         "fieldPath": "cards[baz-076].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-076.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1669,9 +2101,15 @@
         "fieldPath": "cards[baz-077].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-077.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1692,9 +2130,15 @@
         "fieldPath": "cards[baz-078].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-078.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1715,9 +2159,15 @@
         "fieldPath": "cards[baz-079].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-079.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1738,9 +2188,15 @@
         "fieldPath": "cards[baz-080].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-080.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1761,9 +2217,15 @@
         "fieldPath": "cards[baz-081].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-081.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1784,9 +2246,15 @@
         "fieldPath": "cards[baz-082].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-082.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1807,9 +2275,15 @@
         "fieldPath": "cards[baz-083].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-083.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1830,9 +2304,15 @@
         "fieldPath": "cards[baz-084].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-084.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1853,9 +2333,15 @@
         "fieldPath": "cards[baz-085].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-085.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1876,9 +2362,15 @@
         "fieldPath": "cards[baz-086].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-086.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1899,9 +2391,15 @@
         "fieldPath": "cards[baz-087].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-087.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1922,9 +2420,15 @@
         "fieldPath": "cards[baz-088].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-088.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1945,9 +2449,15 @@
         "fieldPath": "cards[baz-089].faces[level-1].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-089.level-1.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1968,9 +2478,15 @@
         "fieldPath": "cards[baz-090].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-090.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -1991,9 +2507,15 @@
         "fieldPath": "cards[baz-091].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-091.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2014,9 +2536,15 @@
         "fieldPath": "cards[baz-093].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-093.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2037,9 +2565,15 @@
         "fieldPath": "cards[baz-094].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-094.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2060,9 +2594,15 @@
         "fieldPath": "cards[baz-095].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-095.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2083,9 +2623,15 @@
         "fieldPath": "cards[baz-096].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-096.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2106,9 +2652,15 @@
         "fieldPath": "cards[baz-097].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-097.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2129,9 +2681,15 @@
         "fieldPath": "cards[baz-098].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-098.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2152,9 +2710,15 @@
         "fieldPath": "cards[baz-099].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-099.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2175,9 +2739,15 @@
         "fieldPath": "cards[baz-100].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-100.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2198,9 +2768,15 @@
         "fieldPath": "cards[baz-101].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-101.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2221,9 +2797,15 @@
         "fieldPath": "cards[baz-102].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-102.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2244,9 +2826,15 @@
         "fieldPath": "cards[baz-103].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-103.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2267,9 +2855,15 @@
         "fieldPath": "cards[baz-104].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-104.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2290,9 +2884,15 @@
         "fieldPath": "cards[baz-105].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-105.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2313,9 +2913,15 @@
         "fieldPath": "cards[baz-106].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-106.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2336,9 +2942,15 @@
         "fieldPath": "cards[baz-107].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-107.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2359,9 +2971,15 @@
         "fieldPath": "cards[baz-108].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-108.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2382,9 +3000,15 @@
         "fieldPath": "cards[baz-109].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-109.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2405,9 +3029,15 @@
         "fieldPath": "cards[baz-110].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-110.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2428,9 +3058,15 @@
         "fieldPath": "cards[baz-111].faces[level-1].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-111.level-1.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2451,9 +3087,15 @@
         "fieldPath": "cards[baz-112].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-112.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2474,9 +3116,15 @@
         "fieldPath": "cards[baz-113].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-113.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2497,9 +3145,15 @@
         "fieldPath": "cards[baz-114].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-114.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2520,9 +3174,15 @@
         "fieldPath": "cards[baz-115].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-115.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2543,9 +3203,15 @@
         "fieldPath": "cards[baz-117].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-117.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2566,9 +3232,15 @@
         "fieldPath": "cards[baz-118].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-118.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2589,9 +3261,15 @@
         "fieldPath": "cards[baz-119].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-119.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2612,9 +3290,15 @@
         "fieldPath": "cards[baz-120].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-120.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2635,9 +3319,15 @@
         "fieldPath": "cards[baz-121].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-121.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2658,9 +3348,15 @@
         "fieldPath": "cards[baz-122].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-122.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2681,9 +3377,15 @@
         "fieldPath": "cards[baz-123].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-123.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2704,9 +3406,15 @@
         "fieldPath": "cards[baz-124].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-124.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2727,9 +3435,15 @@
         "fieldPath": "cards[baz-125].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-125.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2750,9 +3464,15 @@
         "fieldPath": "cards[baz-126].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-126.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2773,9 +3493,15 @@
         "fieldPath": "cards[baz-127].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-127.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2796,9 +3522,15 @@
         "fieldPath": "cards[baz-128].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-128.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2819,9 +3551,15 @@
         "fieldPath": "cards[baz-129].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-129.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2842,9 +3580,15 @@
         "fieldPath": "cards[baz-130].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-130.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2865,9 +3609,15 @@
         "fieldPath": "cards[baz-131].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-131.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",
@@ -2888,9 +3638,15 @@
         "fieldPath": "cards[baz-132].faces[front].exactAbilityText"
       },
       "effectSpec": {
-        "status": "deferred",
-        "trackingIssue": "#12",
-        "reason": "Issue #6 records exact text; executable semantics belong to M1-P10."
+        "status": "implemented",
+        "rulesVersion": "response-rules-2026-10-17",
+        "reviewStatus": "self-checked",
+        "operations": [
+          {
+            "kind": "closed-handler",
+            "handler": "baz-132.front.ability"
+          }
+        ]
       },
       "ambiguityReview": {
         "status": "none-recorded",

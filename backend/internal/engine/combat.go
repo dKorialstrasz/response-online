@@ -54,18 +54,45 @@ func completeTurn(state *State, budget *eventBudget) error {
 func resolveLane(state *State, lane int, budget *eventBudget) error {
 	unitA := state.boardObject(SeatA, lane, SlotUnit)
 	unitB := state.boardObject(SeatB, lane, SlotUnit)
+	if unitA != nil && unitSkipsCombat(state, unitA) {
+		unitA = nil
+	}
+	if unitB != nil && unitSkipsCombat(state, unitB) {
+		unitB = nil
+	}
 	if unitA != nil && unitB != nil {
-		damageToA := unitB.Power
-		damageToB := unitA.Power
-		unitA.Power -= damageToA
-		unitB.Power -= damageToB
-		unitADied := unitA.Power <= 0
-		unitBDied := unitB.Power <= 0
-		if unitADied {
-			moveToGraveyard(state, unitA)
+		bypassA := objectHasKeyword(state, unitA.Ref(), KeywordBypass)
+		bypassB := objectHasKeyword(state, unitB.Ref(), KeywordBypass)
+		if bypassA != bypassB {
+			first, firstDefender, second, secondDefender := unitA, SeatB, unitB, SeatA
+			if state.InitiativeSeat == SeatB {
+				first, firstDefender, second, secondDefender = unitB, SeatA, unitA, SeatB
+			}
+			if err := resolveUnopposedAttack(state, first, firstDefender, lane, budget); err != nil || state.Result != nil {
+				return err
+			}
+			return resolveUnopposedAttack(state, second, secondDefender, lane, budget)
 		}
-		if unitBDied {
-			moveToGraveyard(state, unitB)
+
+		rangedA := objectHasKeyword(state, unitA.Ref(), KeywordRangedAttack)
+		rangedB := objectHasKeyword(state, unitB.Ref(), KeywordRangedAttack)
+		poisonA := objectHasKeyword(state, unitA.Ref(), KeywordPoison)
+		poisonB := objectHasKeyword(state, unitB.Ref(), KeywordPoison)
+		unitADied, unitBDied := false, false
+		if rangedA && !rangedB {
+			unitBDied = applyUnitPowerLoss(state, unitB, unitA.Power, poisonA)
+			if !unitBDied {
+				unitADied = applyUnitPowerLoss(state, unitA, unitB.Power, poisonB)
+			}
+		} else if rangedB && !rangedA {
+			unitADied = applyUnitPowerLoss(state, unitA, unitB.Power, poisonB)
+			if !unitADied {
+				unitBDied = applyUnitPowerLoss(state, unitB, unitA.Power, poisonA)
+			}
+		} else {
+			damageToA, damageToB := unitB.Power, unitA.Power
+			unitADied = applyUnitPowerLoss(state, unitA, damageToA, poisonB)
+			unitBDied = applyUnitPowerLoss(state, unitB, damageToB, poisonA)
 		}
 		if err := budget.emit("units_collided", nil, fmt.Sprintf("lane=%d", lane)); err != nil {
 			return err
@@ -80,6 +107,12 @@ func resolveLane(state *State, lane int, budget *eventBudget) error {
 				return err
 			}
 		}
+		if unitBDied && !unitADied && objectHasKeyword(state, unitA.Ref(), KeywordCharge) {
+			return resolveUnopposedAttack(state, unitA, SeatB, lane, budget)
+		}
+		if unitADied && !unitBDied && objectHasKeyword(state, unitB.Ref(), KeywordCharge) {
+			return resolveUnopposedAttack(state, unitB, SeatA, lane, budget)
+		}
 		return nil
 	}
 	if unitA != nil {
@@ -89,6 +122,28 @@ func resolveLane(state *State, lane int, budget *eventBudget) error {
 		return resolveUnopposedAttack(state, unitB, SeatA, lane, budget)
 	}
 	return nil
+}
+
+func applyUnitPowerLoss(state *State, target *CardObject, amount int, poisonous bool) bool {
+	if target == nil || amount <= 0 || objectHasKeyword(state, target.Ref(), KeywordResilience) {
+		return false
+	}
+	reduction := modifierInt(state, target.Ref(), func(modifier ModifierState) int { return modifier.DamageReduction })
+	amount -= reduction
+	if amount <= 0 {
+		return false
+	}
+	target.Power -= amount
+	if target.Power > 0 && !poisonous {
+		return false
+	}
+	moveToGraveyard(state, target)
+	pruneStaleEffectState(state)
+	return true
+}
+
+func unitSkipsCombat(state *State, unit *CardObject) bool {
+	return unit.SkipCombat || modifierBool(state, unit.Ref(), func(modifier ModifierState) bool { return modifier.SkipCombat })
 }
 
 func resolveUnopposedAttack(state *State, attacker *CardObject, defender Seat, lane int, budget *eventBudget) error {

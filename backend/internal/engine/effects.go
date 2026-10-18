@@ -103,6 +103,17 @@ func (state State) PendingChoiceProjections(viewer Seat) []PendingChoiceProjecti
 func buildAbilityCatalog(definitions []AbilityDefinition) (map[string]AbilityDefinition, error) {
 	catalog := make(map[string]AbilityDefinition, len(definitions))
 	for _, definition := range definitions {
+		if definition.BuiltinHandler != "" {
+			spec, ok := builtinAbility(definition.BuiltinHandler)
+			if !ok || definition.BuiltinHandler != definition.AbilityID {
+				return nil, fmt.Errorf("ability %q: builtin handler is not in the closed Base registry", definition.AbilityID)
+			}
+			definition.SourceRequired = spec.sourceRequired
+			definition.SourceZones = append([]Zone(nil), spec.sourceZones...)
+			definition.ConsumesAction = spec.consumesAction
+			definition.Payment = spec.payment
+			definition.Targets = TargetDefinition{Min: 0, Max: 8, Controller: TargetAny}
+		}
 		if err := validateAbilityDefinition(definition); err != nil {
 			return nil, fmt.Errorf("ability %q: %w", definition.AbilityID, err)
 		}
@@ -180,6 +191,11 @@ func validateAbilityDefinition(definition AbilityDefinition) error {
 	}
 	if definition.Status != AbilityReady {
 		return errors.New("status must be ready or blocked")
+	}
+	if definition.BuiltinHandler != "" {
+		if _, ok := builtinAbility(definition.BuiltinHandler); !ok || definition.BuiltinHandler != definition.AbilityID {
+			return errors.New("builtin handler is not in the closed Base registry")
+		}
 	}
 	if definition.MinModes < 0 || definition.MaxModes < definition.MinModes || definition.MaxModes > len(definition.Modes) {
 		return errors.New("invalid mode bounds")
@@ -377,6 +393,12 @@ func applyActivateAbility(state *State, command Command, catalog map[string]Abil
 	if err := validateAndApplyPayment(state, command, definition.Payment); err != nil {
 		return err
 	}
+	if definition.BuiltinHandler != "" {
+		targets, err = applyMagicShieldPayments(state, command, targets)
+		if err != nil {
+			return err
+		}
+	}
 	instructions := append([]EffectInstruction(nil), definition.Effects...)
 	for _, mode := range modes {
 		instructions = append(instructions, mode.Effects...)
@@ -393,6 +415,11 @@ func applyActivateAbility(state *State, command Command, catalog map[string]Abil
 		player.ActionsRemaining--
 		state.ActionResolution = &ActionResolutionState{Seat: command.Seat}
 		state.ConsecutivePasses = 0
+	}
+	if definition.BuiltinHandler != "" {
+		if err := executeBuiltinAbility(state, command, source, targets, budget); err != nil {
+			return err
+		}
 	}
 	batchID := fmt.Sprintf("ability:%s:r%d", definition.AbilityID, state.Revision+1)
 	enqueueResolvedEffects(state, batchID, effects, QueueAfterExisting)
@@ -837,16 +864,81 @@ func recalculatePower(state *State, target ObjectRef) {
 		}
 		return modifiers[left].CreatedSequence < modifiers[right].CreatedSequence
 	})
-	object.Power = object.BasePower
+	previousPower := object.Power
+	basePower := object.BasePower
+	for _, modifier := range modifiers {
+		if modifier.TargetRef == target && modifier.BasePowerSet != nil && durationSourceValid(state, modifier.Duration, modifier.SourceRef) {
+			basePower = *modifier.BasePowerSet
+		}
+	}
+	object.Power = basePower
 	for _, modifier := range modifiers {
 		if modifier.TargetRef == target && durationSourceValid(state, modifier.Duration, modifier.SourceRef) {
+			if modifier.PowerDelta < 0 && objectHasKeyword(state, target, KeywordResilience) {
+				continue
+			}
 			object.Power += modifier.PowerDelta
 		}
+	}
+	if objectHasKeyword(state, target, KeywordResilience) && object.Power < previousPower {
+		object.Power = previousPower
+	}
+	if modifierPreventsPowerIncrease(state, target) && object.Power > basePower {
+		object.Power = basePower
 	}
 	if object.Power <= 0 {
 		moveToGraveyard(state, object)
 		pruneStaleEffectState(state)
 	}
+}
+
+func objectHasKeyword(state *State, target ObjectRef, keyword Keyword) bool {
+	object, err := state.findObject(target)
+	if err != nil {
+		return false
+	}
+	suppressed := object.BaseAbilitiesSuppressed || modifierBool(state, target, func(modifier ModifierState) bool { return modifier.SuppressBaseAbilities })
+	if !suppressed {
+		for _, current := range object.Keywords {
+			if current == keyword {
+				return true
+			}
+		}
+	}
+	for _, modifier := range state.Modifiers {
+		if modifier.TargetRef == target && modifier.Keyword == keyword && durationSourceValid(state, modifier.Duration, modifier.SourceRef) {
+			return true
+		}
+	}
+	return false
+}
+
+func modifierPreventsPowerIncrease(state *State, target ObjectRef) bool {
+	for _, modifier := range state.Modifiers {
+		if modifier.TargetRef == target && modifier.CannotIncreasePower && durationSourceValid(state, modifier.Duration, modifier.SourceRef) {
+			return true
+		}
+	}
+	return false
+}
+
+func modifierInt(state *State, target ObjectRef, selectValue func(ModifierState) int) int {
+	total := 0
+	for _, modifier := range state.Modifiers {
+		if modifier.TargetRef == target && durationSourceValid(state, modifier.Duration, modifier.SourceRef) {
+			total += selectValue(modifier)
+		}
+	}
+	return total
+}
+
+func modifierBool(state *State, target ObjectRef, selectValue func(ModifierState) bool) bool {
+	for _, modifier := range state.Modifiers {
+		if modifier.TargetRef == target && durationSourceValid(state, modifier.Duration, modifier.SourceRef) && selectValue(modifier) {
+			return true
+		}
+	}
+	return false
 }
 
 func expireEffects(state *State, duration DurationKind) {
