@@ -26,11 +26,11 @@ rules, protocol и engine. Новый матч в #10 обязан копиро�
 
 `make m1-release-check` — строгий финальный gate локального M1. После #10
 базовые rules/engine закреплены как `response-rules-2026-10-17` и
-`effect-pipeline-v1` (базовый автомат #10 плюс pipeline #11). Gate всё ещё обязан
-завершаться ошибкой: 126 EffectSpec
-имеют статус `deferred`, а protocol остаётся `scaffold-v1`. Это ожидаемое
-состояние до #12/#14, а не дефект валидатора. После реализации gameplay этот
-gate должен стать зелёным до #22.
+`base-abilities-v1` (базовый автомат #10, pipeline #11 и закрытый каталог #12).
+Все 126 EffectSpec имеют статус `implemented` и проходят conformance gate.
+Финальный gate всё ещё обязан завершаться ошибкой только из-за
+`protocolVersion: scaffold-v1`; это ожидаемое состояние до #14, а не дефект
+валидатора. После готовности gameplay protocol gate должен стать зелёным до #22.
 
 ## Права и публикация
 

@@ -23,8 +23,8 @@ SHA-256 закреплены в
 | Артефакт | Назначение |
 | --- | --- |
 | [`card-definitions.json`](../../content/cards/base/card-definitions.json) | 132 определения: идентификатор, точное название галереи, типовая строка, фракция, стоимость, характеристики, лицо/уровень, точный текст, отдельные пояснения и field-level evidence |
-| [`base-abilities.json`](../../content/abilities/base-abilities.json) | 126 стабильных abilityId, источник, хеш точного текста, состояние ambiguity review и отдельная ссылка на будущий effectSpec |
-| [`base-ability-scenarios.json`](../../content/conformance/base-ability-scenarios.json) | По одному обязательному conformance-сценарию на abilityId; игровая реализация и исполняемые проверки относятся к #12 |
+| [`base-abilities.json`](../../content/abilities/base-abilities.json) | 126 стабильных abilityId, источник, хеш точного текста и закрытая ссылка на исполняемый handler #12 |
+| [`base-ability-scenarios.json`](../../content/conformance/base-ability-scenarios.json) | По одному обязательному сценарию на abilityId и три исполняемых класса проверки: positive, negative и interaction |
 | [`base-content-closure.json`](../../content/closure/base-content-closure.json) | Шесть manifests как корни, 132 разрешённых определения и отсутствие дополнительных создаваемых объектов |
 | [`registry.json`](../../content/licenses/registry.json) | 132 ссылки на изображения со статусом прав `unknown`; отсутствие bundled fonts, sounds и advertising assets |
 | [`base-name-discrepancies.json`](../../content/reviews/base-name-discrepancies.json) | Различия написания между product pages и галереей без молчаливой нормализации |
@@ -40,9 +40,9 @@ SHA-256 закреплены в
 
 Точный русский текст находится только в `faces[].exactAbilityText`.
 `clarifications[]` содержит отдельное поле «Пояснение» из галереи. Машинная
-семантика не выводится из текста: `effectSpec.status` остаётся `deferred` и
-ссылается на #12. Это сохраняет границу между источником, будущей реализацией и
-решениями rules owner.
+семантика не выводится из текста: #12 переводит EffectSpec в `implemented` и
+связывает abilityId ровно с одним handler из закрытого реестра. Runtime не
+интерпретирует русский текст и отклоняет отсутствующий либо несовпадающий handler.
 
 ## Транзитивное замыкание
 

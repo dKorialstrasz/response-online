@@ -31,8 +31,11 @@
 - Setup + полная пересдача Seat A + нулевая пересдача Seat B при seed `42`:
   `f7ebf0fdfae4ee50bdb16de00aca6f7e1e2f43fa337fb2dd3e051ef5ba1429c9`
   для исторического pin `deterministic-core-v1`; после добавления сериализуемого
-  effect state в #11 текущий pin `effect-pipeline-v1` имеет hash
+  effect state в #11 pin `effect-pipeline-v1` имел hash
   `3a390ad4affd4ae802ba39cd1ace26996d29cfbdfc1f3927ae969de64526995c`.
+  Текущий pin #12 — `base-abilities-v1`; replay hash
+  `edf68ffb3988075479701d4695327b92f28b86c068d58e0dd0d49df7dddbbcca`
+  фиксируется матрицей карточных способностей.
 - Replay проверяет тот же RNG cursor и canonical state hash.
 - Race-test `MatchSession` допускает ровно одну команду на ожидаемой revision;
   конкурент получает `ErrStaleRevision` без второй мутации.
@@ -44,7 +47,8 @@
 - #11: общий play/activation pipeline, очередь, триггеры, pending choices,
   targets и payment semantics реализованы; карточные записи не считаются
   исполняемыми без #12.
-- #12: все verified abilityId и keyword/conformance scenarios шести колод.
+- #12: 126 verified abilityId и keyword/conformance scenarios реализованы;
+  явная пользовательская приёмка остаётся review gate PR.
 - #14: публичные protocol commands и персональные PlayerView; внутренний
   `commit_action` не экспортируется клиенту.
 
