@@ -62,6 +62,8 @@ secrets:
 
 dependencies:
 	cd backend && $(GO) mod verify
+	cd backend && $(GO) run golang.org/x/vuln/cmd/govulncheck@v1.9.0 ./...
+	$(PYTHON) scripts/check_dependency_licenses.py
 	$(PNPM) --dir frontend audit --audit-level high
 
 smoke:
