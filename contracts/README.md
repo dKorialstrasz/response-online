@@ -1,9 +1,12 @@
 # Контракты M1
 
-- `http/openapi.json` — реализованные локальные HTTP endpoints scaffold.
-- `ws/envelope.schema.json` — общий транспортный envelope без игровых команд.
+- `http/openapi.json` — protocol `1.0`: диагностика, анонимная сессия, lobby и
+  одноразовый WebSocket ticket.
+- `ws/envelope.schema.json` — protocol `1.0`: first-message authentication,
+  commands, server events, error codes и allowlisted PlayerView.
+- `ws/examples/` — синтетические примеры без реальных секретов/скрытых карт.
 
-Новые сообщения добавляются только вместе с реализующей roadmap issue, тестом
-совместимости и проверкой, что персональная проекция не раскрывает скрытое
-состояние. Текущие схемы не утверждают правила игры или содержимое карт.
+`scripts/validate_contracts.py` проверяет обязательные endpoints/types, payload
+schemas, примеры, error parity и literal-типы Go/TypeScript. Новые сообщения
+добавляются только вместе с roadmap issue и leak/adversarial test.
 
