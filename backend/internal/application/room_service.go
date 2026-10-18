@@ -184,6 +184,19 @@ func (service *RoomService) CreateSession() (AnonymousSession, error) {
 	return AnonymousSession{}, fmt.Errorf("session identifier collision budget exhausted")
 }
 
+// RefreshSession validates recovery credentials and returns the renewed
+// sliding expiration so HTTP can keep the host-only cookie aligned with the
+// server-side 24-hour activity window.
+func (service *RoomService) RefreshSession(credentials SessionCredentials) (time.Time, error) {
+	service.mu.Lock()
+	defer service.mu.Unlock()
+	session, err := service.authenticateLocked(credentials, service.clock.Now().UTC())
+	if err != nil {
+		return time.Time{}, err
+	}
+	return session.expiresAt, nil
+}
+
 func (service *RoomService) CreateRoom(
 	credentials SessionCredentials,
 	idempotencyKey string,
@@ -582,6 +595,57 @@ func (service *RoomService) AuthorizeConnection(lease ConnectionLease) error {
 	return nil
 }
 
+// SnapshotForConnection returns the same allowlisted room projection as the
+// cookie-authenticated HTTP path after re-validating the exact connection
+// generation. It lets the WebSocket boundary avoid retaining a recovery
+// secret after the one-time ticket has been redeemed.
+func (service *RoomService) SnapshotForConnection(lease ConnectionLease) (RoomSnapshot, error) {
+	service.mu.Lock()
+	defer service.mu.Unlock()
+	now := service.clock.Now().UTC()
+	room, seat, err := service.authorizedConnectionLocked(lease, now)
+	if err != nil {
+		return RoomSnapshot{}, err
+	}
+	return service.snapshotLocked(room, seat), nil
+}
+
+// MatchSessionForConnection resolves the serialized owner for an authenticated
+// connection without exposing session identifiers or recovery credentials to
+// the transport.
+func (service *RoomService) MatchSessionForConnection(lease ConnectionLease) (*MatchSession, error) {
+	service.mu.Lock()
+	defer service.mu.Unlock()
+	room, _, err := service.authorizedConnectionLocked(lease, service.clock.Now().UTC())
+	if err != nil {
+		return nil, err
+	}
+	if room.match == nil {
+		return nil, ErrRoomUnavailable
+	}
+	return room.match.session, nil
+}
+
+// SubmitForConnection revalidates the exact connection generation at the
+// serialization boundary. Holding the room lock until the match owner commits
+// prevents a replaced socket from racing a final command after takeover.
+func (service *RoomService) SubmitForConnection(
+	ctx context.Context,
+	lease ConnectionLease,
+	command engine.Command,
+) error {
+	service.mu.Lock()
+	defer service.mu.Unlock()
+	room, _, err := service.authorizedConnectionLocked(lease, service.clock.Now().UTC())
+	if err != nil {
+		return err
+	}
+	if room.match == nil {
+		return ErrRoomUnavailable
+	}
+	return room.match.session.Submit(ctx, command)
+}
+
 func (service *RoomService) ReleaseConnection(lease ConnectionLease) error {
 	service.mu.Lock()
 	defer service.mu.Unlock()
@@ -597,6 +661,33 @@ func (service *RoomService) ReleaseConnection(lease ConnectionLease) error {
 	seat.connectionID = ""
 	seat.connectionGeneration++
 	return nil
+}
+
+func (service *RoomService) authorizedConnectionLocked(
+	lease ConnectionLease,
+	now time.Time,
+) (*roomRecord, SeatID, error) {
+	room := service.rooms[lease.RoomID]
+	if room == nil {
+		if service.tombstoneActiveLocked(service.expiredRoomIDs, lease.RoomID, now) {
+			return nil, "", ErrRoomExpired
+		}
+		return nil, "", ErrRoomUnavailable
+	}
+	index := seatIndex(lease.Seat)
+	if index < 0 {
+		return nil, "", ErrConnectionReplaced
+	}
+	seat := &room.seats[index]
+	session := service.sessions[seat.sessionID]
+	if session == nil || !now.Before(session.expiresAt) {
+		return nil, "", ErrSessionLost
+	}
+	if seat.connectionID != lease.ConnectionID || seat.connectionGeneration != lease.Generation {
+		return nil, "", ErrConnectionReplaced
+	}
+	session.expiresAt = now.Add(service.sessionTTL)
+	return room, lease.Seat, nil
 }
 
 func (service *RoomService) RevokeSession(credentials SessionCredentials) error {
@@ -893,7 +984,14 @@ func (service *RoomService) snapshotLocked(room *roomRecord, ownSeat SeatID) Roo
 		snapshot.OwnSelection = cloneSelection(room.seats[index].selection)
 	}
 	if room.match != nil {
-		match := cloneStartedMatch(room.match.started)
+		started := room.match.started
+		match := StartedMatchSnapshot{
+			MatchID: started.MatchID, StartedAt: started.StartedAt, Versions: started.Versions,
+			InitialRevision: started.InitialRevision,
+		}
+		if index := seatIndex(ownSeat); index >= 0 {
+			match.OwnDeckManifestID = started.DeckManifestIDs[index]
+		}
 		snapshot.Match = &match
 	}
 	return snapshot

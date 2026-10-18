@@ -1,0 +1,16 @@
+{
+  "protocolVersion": "1.0",
+  "type": "error",
+  "commandId": "example-command-1",
+  "matchId": "example-match-1",
+  "revision": 43,
+  "eventSeq": 109,
+  "accepted": false,
+  "error": {
+    "code": "STALE_REVISION",
+    "retryable": false,
+    "correlationId": "example-command-1",
+    "messageKey": "error.revision.stale",
+    "resyncRequired": true
+  }
+}

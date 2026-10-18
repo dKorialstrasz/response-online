@@ -1,0 +1,51 @@
+{
+  "protocolVersion": "1.0",
+  "type": "matchSnapshot",
+  "correlationId": "example-auth-1",
+  "matchId": "example-match-1",
+  "revision": 42,
+  "eventSeq": 108,
+  "payload": {
+    "matchId": "example-match-1",
+    "versions": {
+      "content": "base-cards-v1",
+      "deckManifests": "base-decks-v1",
+      "effectSpec": "effect-spec-v1",
+      "rules": "response-rules-2026-10-17",
+      "protocol": "1.0",
+      "engine": "effect-pipeline-v1"
+    },
+    "revision": 42,
+    "status": "active",
+    "phase": "action",
+    "turnNumber": 3,
+    "ownSeat": "seat-1",
+    "initiativeSeat": "seat-1",
+    "actingSeat": "seat-2",
+    "players": [
+      {
+        "seat": "seat-1",
+        "heroId": "base-order-001",
+        "influence": 10,
+        "actionsRemaining": 4,
+        "deckCount": 22,
+        "handCount": 7,
+        "hand": [],
+        "graveyard": [],
+        "orders": []
+      },
+      {
+        "seat": "seat-2",
+        "heroId": "base-death-001",
+        "influence": 10,
+        "actionsRemaining": 5,
+        "deckCount": 23,
+        "handCount": 7,
+        "graveyard": [],
+        "orders": []
+      }
+    ],
+    "board": [],
+    "choices": []
+  }
+}

@@ -2,48 +2,38 @@
   "openapi": "3.1.1",
   "info": {
     "title": "Response Online local M1 API",
-    "version": "scaffold-v1",
-    "description": "Implemented diagnostic surface for the local-only M1 scaffold."
+    "version": "1.0",
+    "description": "Versioned anonymous-session, lobby and WebSocket-ticket boundary for local M1."
   },
   "servers": [
     {
       "url": "http://127.0.0.1:8080",
-      "description": "Local development only"
+      "description": "Local standalone development. Public environments must use HTTPS/WSS."
     }
   ],
   "paths": {
     "/healthz": {
       "get": {
-        "operationId": "getHealth",
-        "responses": {
-          "200": {
-            "description": "Process is alive",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Status"
-                }
-              }
-            }
-          }
-        }
+        "operationId": "getLegacyHealth",
+        "responses": {"200": {"$ref": "#/components/responses/StatusOK"}}
       }
     },
     "/readyz": {
       "get": {
+        "operationId": "getLegacyReadiness",
+        "responses": {"200": {"$ref": "#/components/responses/StatusOK"}}
+      }
+    },
+    "/health/live": {
+      "get": {
+        "operationId": "getHealth",
+        "responses": {"200": {"$ref": "#/components/responses/StatusOK"}}
+      }
+    },
+    "/health/ready": {
+      "get": {
         "operationId": "getReadiness",
-        "responses": {
-          "200": {
-            "description": "Process can accept local requests",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Status"
-                }
-              }
-            }
-          }
-        }
+        "responses": {"200": {"$ref": "#/components/responses/StatusOK"}}
       }
     },
     "/api/v1/build": {
@@ -51,52 +41,368 @@
         "operationId": "getBuildInfo",
         "responses": {
           "200": {
-            "description": "Immutable build identity and explicit verification status",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BuildInfo"
-                }
-              }
-            }
+            "description": "Immutable build identity and version pins.",
+            "headers": {"Cache-Control": {"schema": {"const": "no-store"}}},
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/BuildInfo"}}}
           }
+        }
+      }
+    },
+    "/api/v1/sessions": {
+      "post": {
+        "operationId": "createSession",
+        "parameters": [{"$ref": "#/components/parameters/Origin"}],
+        "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/EmptyObject"}}}},
+        "responses": {
+          "201": {
+            "description": "Anonymous session. Recovery secret is stored only in a host-only HttpOnly cookie.",
+            "headers": {
+              "Set-Cookie": {"schema": {"type": "string"}},
+              "Cache-Control": {"schema": {"const": "no-store"}}
+            },
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Session"}}}
+          },
+          "400": {"$ref": "#/components/responses/InvalidPayload"},
+          "403": {"$ref": "#/components/responses/Forbidden"},
+          "503": {"$ref": "#/components/responses/Unavailable"}
+        }
+      }
+    },
+    "/api/v1/rooms": {
+      "post": {
+        "operationId": "createRoom",
+        "security": [{"sessionCookie": []}],
+        "parameters": [
+          {"$ref": "#/components/parameters/Origin"},
+          {"$ref": "#/components/parameters/CSRF"},
+          {"$ref": "#/components/parameters/IdempotencyKey"}
+        ],
+        "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/EmptyObject"}}}},
+        "responses": {
+          "201": {"$ref": "#/components/responses/Room"},
+          "400": {"$ref": "#/components/responses/InvalidPayload"},
+          "401": {"$ref": "#/components/responses/Unauthenticated"},
+          "403": {"$ref": "#/components/responses/Forbidden"},
+          "409": {"$ref": "#/components/responses/Conflict"},
+          "429": {"$ref": "#/components/responses/RateLimited"}
+        }
+      }
+    },
+    "/api/v1/rooms/join": {
+      "post": {
+        "operationId": "joinRoom",
+        "security": [{"sessionCookie": []}],
+        "parameters": [
+          {"$ref": "#/components/parameters/Origin"},
+          {"$ref": "#/components/parameters/CSRF"},
+          {"$ref": "#/components/parameters/IdempotencyKey"}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/JoinRoom"}}}
+        },
+        "responses": {
+          "200": {"$ref": "#/components/responses/Room"},
+          "400": {"$ref": "#/components/responses/InvalidPayload"},
+          "401": {"$ref": "#/components/responses/Unauthenticated"},
+          "403": {"$ref": "#/components/responses/Forbidden"},
+          "404": {"$ref": "#/components/responses/RoomUnavailable"},
+          "409": {"$ref": "#/components/responses/Conflict"},
+          "429": {"$ref": "#/components/responses/RateLimited"}
+        }
+      }
+    },
+    "/api/v1/rooms/{roomId}": {
+      "get": {
+        "operationId": "getRoom",
+        "security": [{"sessionCookie": []}],
+        "parameters": [
+          {"$ref": "#/components/parameters/Origin"},
+          {"$ref": "#/components/parameters/RoomID"}
+        ],
+        "responses": {
+          "200": {"$ref": "#/components/responses/Room"},
+          "401": {"$ref": "#/components/responses/Unauthenticated"},
+          "403": {"$ref": "#/components/responses/Forbidden"},
+          "404": {"$ref": "#/components/responses/RoomUnavailable"}
+        }
+      }
+    },
+    "/api/v1/rooms/{roomId}/selection": {
+      "post": {
+        "operationId": "setSelection",
+        "security": [{"sessionCookie": []}],
+        "parameters": [
+          {"$ref": "#/components/parameters/Origin"},
+          {"$ref": "#/components/parameters/CSRF"},
+          {"$ref": "#/components/parameters/RoomID"}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Selection"}}}
+        },
+        "responses": {
+          "200": {"$ref": "#/components/responses/Room"},
+          "400": {"$ref": "#/components/responses/InvalidPayload"},
+          "401": {"$ref": "#/components/responses/Unauthenticated"},
+          "403": {"$ref": "#/components/responses/Forbidden"},
+          "404": {"$ref": "#/components/responses/RoomUnavailable"},
+          "422": {"$ref": "#/components/responses/InvalidPayload"}
+        }
+      }
+    },
+    "/api/v1/rooms/{roomId}/ready": {
+      "post": {
+        "operationId": "setReady",
+        "security": [{"sessionCookie": []}],
+        "parameters": [
+          {"$ref": "#/components/parameters/Origin"},
+          {"$ref": "#/components/parameters/CSRF"},
+          {"$ref": "#/components/parameters/RoomID"}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Ready"}}}
+        },
+        "responses": {
+          "200": {"$ref": "#/components/responses/Room"},
+          "400": {"$ref": "#/components/responses/InvalidPayload"},
+          "401": {"$ref": "#/components/responses/Unauthenticated"},
+          "403": {"$ref": "#/components/responses/Forbidden"},
+          "404": {"$ref": "#/components/responses/RoomUnavailable"},
+          "422": {"$ref": "#/components/responses/InvalidPayload"}
+        }
+      }
+    },
+    "/api/v1/rooms/{roomId}/leave": {
+      "post": {
+        "operationId": "leaveRoom",
+        "security": [{"sessionCookie": []}],
+        "parameters": [
+          {"$ref": "#/components/parameters/Origin"},
+          {"$ref": "#/components/parameters/CSRF"},
+          {"$ref": "#/components/parameters/RoomID"}
+        ],
+        "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/EmptyObject"}}}},
+        "responses": {
+          "200": {"$ref": "#/components/responses/Room"},
+          "400": {"$ref": "#/components/responses/InvalidPayload"},
+          "401": {"$ref": "#/components/responses/Unauthenticated"},
+          "403": {"$ref": "#/components/responses/Forbidden"},
+          "404": {"$ref": "#/components/responses/RoomUnavailable"}
+        }
+      }
+    },
+    "/api/v1/ws-tickets": {
+      "post": {
+        "operationId": "createWebSocketTicket",
+        "security": [{"sessionCookie": []}],
+        "parameters": [
+          {"$ref": "#/components/parameters/Origin"},
+          {"$ref": "#/components/parameters/CSRF"}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TicketRequest"}}}
+        },
+        "responses": {
+          "201": {
+            "description": "One-time 30-second ticket. The ticket must be sent only in the first WebSocket message.",
+            "headers": {"Cache-Control": {"schema": {"const": "no-store"}}},
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Ticket"}}}
+          },
+          "400": {"$ref": "#/components/responses/InvalidPayload"},
+          "401": {"$ref": "#/components/responses/Unauthenticated"},
+          "403": {"$ref": "#/components/responses/Forbidden"},
+          "404": {"$ref": "#/components/responses/RoomUnavailable"}
+        }
+      }
+    },
+    "/api/v1/ws": {
+      "get": {
+        "operationId": "upgradeWebSocket",
+        "description": "Upgrade without query credentials. Authenticate with a one-time ticket in the first frame within five seconds.",
+        "parameters": [{"$ref": "#/components/parameters/Origin"}],
+        "responses": {
+          "101": {"description": "WebSocket upgrade accepted."},
+          "400": {"$ref": "#/components/responses/InvalidPayload"},
+          "403": {"$ref": "#/components/responses/Forbidden"}
         }
       }
     }
   },
   "components": {
+    "securitySchemes": {
+      "sessionCookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "response_session",
+        "description": "Host-only HttpOnly SameSite=Strict cookie; Secure is mandatory outside loopback development."
+      }
+    },
+    "parameters": {
+      "Origin": {"name": "Origin", "in": "header", "required": true, "schema": {"type": "string", "format": "uri", "maxLength": 512}},
+      "CSRF": {"name": "X-CSRF-Token", "in": "header", "required": true, "schema": {"type": "string", "minLength": 32, "maxLength": 128}},
+      "IdempotencyKey": {"name": "Idempotency-Key", "in": "header", "required": true, "schema": {"type": "string", "minLength": 1, "maxLength": 128}},
+      "RoomID": {"name": "roomId", "in": "path", "required": true, "schema": {"type": "string", "minLength": 1, "maxLength": 128}}
+    },
+    "responses": {
+      "StatusOK": {
+        "description": "Process status.",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Status"}}}
+      },
+      "Room": {
+        "description": "Personal allowlisted room projection.",
+        "headers": {"Cache-Control": {"schema": {"const": "no-store"}}},
+        "content": {"application/json": {"schema": {"type": "object", "additionalProperties": false, "required": ["room"], "properties": {"room": {"$ref": "#/components/schemas/RoomSnapshot"}}}}}
+      },
+      "InvalidPayload": {"description": "Invalid JSON or request shape.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}},
+      "Unauthenticated": {"description": "Anonymous session is missing or expired.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}},
+      "Forbidden": {"description": "Origin, CSRF or seat authorization failed.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}},
+      "RoomUnavailable": {"description": "Safe room-unavailable category.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}},
+      "Conflict": {"description": "Idempotency key or room state conflict.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}},
+      "RateLimited": {"description": "Configured request limit exceeded.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}},
+      "Unavailable": {"description": "Service unavailable without internal details.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}}
+    },
     "schemas": {
+      "EmptyObject": {"type": "object", "additionalProperties": false},
       "Status": {
         "type": "object",
         "additionalProperties": false,
         "required": ["status"],
-        "properties": {
-          "status": {
-            "type": "string"
-          }
-        }
+        "properties": {"status": {"type": "string"}}
       },
       "BuildInfo": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "commit",
-          "builtAt",
-          "protocolVersion",
-          "contentVersion",
-          "rulesVersion",
-          "engineVersion"
-        ],
+        "required": ["commit", "builtAt", "protocolVersion", "contentVersion", "rulesVersion", "engineVersion"],
         "properties": {
-          "commit": { "type": "string" },
-          "builtAt": { "type": "string" },
-          "protocolVersion": { "type": "string" },
-          "contentVersion": { "type": "string" },
-          "rulesVersion": { "type": "string" },
-          "engineVersion": { "type": "string" }
+          "commit": {"type": "string"},
+          "builtAt": {"type": "string"},
+          "protocolVersion": {"const": "1.0"},
+          "contentVersion": {"type": "string"},
+          "rulesVersion": {"type": "string"},
+          "engineVersion": {"type": "string"}
+        }
+      },
+      "Session": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["sessionId", "expiresAt", "csrfToken"],
+        "properties": {
+          "sessionId": {"type": "string", "minLength": 1, "maxLength": 128},
+          "expiresAt": {"type": "string", "format": "date-time"},
+          "csrfToken": {"type": "string", "minLength": 32, "maxLength": 128}
+        }
+      },
+      "JoinRoom": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code"],
+        "properties": {"code": {"type": "string", "minLength": 10, "maxLength": 32}}
+      },
+      "Selection": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["deckId", "orderIds"],
+        "properties": {
+          "deckId": {"type": "string", "minLength": 1, "maxLength": 128},
+          "orderIds": {"type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 128}}
+        }
+      },
+      "Ready": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ready"],
+        "properties": {"ready": {"type": "boolean"}}
+      },
+      "TicketRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["roomId"],
+        "properties": {"roomId": {"type": "string", "minLength": 1, "maxLength": 128}}
+      },
+      "Ticket": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ticket", "expiresAt"],
+        "properties": {
+          "ticket": {"type": "string", "minLength": 32, "maxLength": 256, "readOnly": true},
+          "expiresAt": {"type": "string", "format": "date-time"}
+        }
+      },
+      "Seat": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["seatId", "occupied", "ready"],
+        "properties": {
+          "seatId": {"enum": ["seat-1", "seat-2"]},
+          "occupied": {"type": "boolean"},
+          "ready": {"type": "boolean"}
+        }
+      },
+      "SelectionView": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["deckId", "orderIds"],
+        "properties": {
+          "deckId": {"type": "string"},
+          "orderIds": {"type": ["array", "null"], "maxItems": 5, "items": {"type": "string"}}
+        }
+      },
+      "Versions": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["content", "deckManifests", "effectSpec", "rules", "protocol", "engine"],
+        "properties": {
+          "content": {"type": "string", "minLength": 1},
+          "deckManifests": {"type": "string", "minLength": 1},
+          "effectSpec": {"type": "string", "minLength": 1},
+          "rules": {"type": "string", "minLength": 1},
+          "protocol": {"const": "1.0"},
+          "engine": {"type": "string", "minLength": 1}
+        }
+      },
+      "StartedMatch": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["matchId", "startedAt", "versions", "ownDeckManifestId", "initialRevision"],
+        "properties": {
+          "matchId": {"type": "string"},
+          "startedAt": {"type": "string", "format": "date-time"},
+          "versions": {"$ref": "#/components/schemas/Versions"},
+          "ownDeckManifestId": {"type": "string"},
+          "initialRevision": {"type": "integer", "minimum": 0}
+        }
+      },
+      "RoomSnapshot": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["roomId", "code", "status", "revision", "ownSeat", "ownSelection", "seats", "match"],
+        "properties": {
+          "roomId": {"type": "string"},
+          "code": {"type": "string"},
+          "status": {"enum": ["waiting", "active"]},
+          "revision": {"type": "integer", "minimum": 0},
+          "ownSeat": {"enum": ["", "seat-1", "seat-2"]},
+          "ownSelection": {"$ref": "#/components/schemas/SelectionView"},
+          "seats": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"$ref": "#/components/schemas/Seat"}},
+          "match": {"oneOf": [{"type": "null"}, {"$ref": "#/components/schemas/StartedMatch"}]}
+        }
+      },
+      "Error": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "retryable", "correlationId", "messageKey"],
+        "properties": {
+          "code": {
+            "enum": ["INVALID_PAYLOAD", "UNAUTHENTICATED", "FORBIDDEN", "ROOM_UNAVAILABLE", "ROOM_FULL", "MATCH_FINISHED", "NOT_YOUR_DECISION", "ILLEGAL_ACTION", "INVALID_TARGET", "INSUFFICIENT_COST", "STALE_REVISION", "CHOICE_EXPIRED", "COMMAND_ID_REUSED", "RATE_LIMITED", "VERSION_UNSUPPORTED", "SERVER_UNAVAILABLE"]
+          },
+          "retryable": {"type": "boolean"},
+          "correlationId": {"type": "string", "minLength": 1, "maxLength": 128},
+          "messageKey": {"type": "string", "pattern": "^error\\.[a-z0-9_.]+$"}
         }
       }
     }
   }
 }
-

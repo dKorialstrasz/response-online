@@ -4,7 +4,7 @@
 Архитектурное решение: [ADR-0006](../adr/0006-anonymous-sessions-and-rooms.md).
 
 Матрица фиксирует реализацию application boundary. Публичные HTTP/WSS contracts,
-cookie/CSRF/Origin, rate limits и PlayerView остаются #14; reconnect и технические
+cookie/CSRF/Origin, rate limits и PlayerView реализованы в #14; reconnect и технические
 исходы — #15; frontend UC-01–03 — #16.
 
 | Требование | Реализация | Автоматическое доказательство |

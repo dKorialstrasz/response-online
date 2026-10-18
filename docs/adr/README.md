@@ -9,6 +9,7 @@
 | [0005](0005-deterministic-match-core.md) | Принято к проверке | Детерминированное ядро и предел 10 000 событий | #10 |
 | [0006](0006-anonymous-sessions-and-rooms.md) | Принято к проверке | Анонимные сессии, атомарные комнаты и connection leases | #13 |
 | [0007](0007-effect-resolution-and-pending-choices.md) | Принято к проверке | Типизированная очередь эффектов, choices и modifiers | #11 |
+| [0008](0008-http-ws-security-boundary.md) | Принято к проверке | HTTP/WSS security boundary и opaque PlayerView refs | #14 |
 
 ADR фиксирует инженерное решение, но не заменяет официальный ruling по правилам
 или подтверждение карточного контента.

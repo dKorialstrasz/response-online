@@ -1,0 +1,259 @@
+// Schema-aligned parity surface for contracts/ws/envelope.schema.json.
+// Contract validation checks the discriminants; TypeScript checks consumers.
+export const protocolVersion = "1.0" as const;
+
+export const clientCommandNames = [
+  "selectDeck",
+  "setOrderArrangement",
+  "setReady",
+  "submitMulligan",
+  "playCard",
+  "activateAbility",
+  "passAction",
+  "submitChoice",
+  "surrender",
+  "requestRematch",
+  "leaveRoom",
+  "resync",
+] as const;
+
+export const serverEventTypes = [
+  "authenticated",
+  "roomSnapshot",
+  "matchSnapshot",
+  "stateUpdate",
+  "choiceRequested",
+  "commandResult",
+  "error",
+  "connectionStatus",
+  "matchFinished",
+  "serverDraining",
+  "heartbeat",
+] as const;
+
+export type ClientCommandName = (typeof clientCommandNames)[number];
+export type ServerEventType = (typeof serverEventTypes)[number];
+export type SeatId = "seat-1" | "seat-2";
+
+export interface ObjectRef {
+  zoneObjectId: string;
+  generation: number;
+}
+
+export interface Versions {
+  content: string;
+  deckManifests: string;
+  effectSpec: string;
+  rules: string;
+  protocol: typeof protocolVersion;
+  engine: string;
+}
+
+export interface CommandPayloadByName {
+  selectDeck: { deckId: string };
+  setOrderArrangement: { orderIds: string[] };
+  setReady: { ready: boolean };
+  submitMulligan: { objectRefs: ObjectRef[] };
+  playCard: {
+    sourceObjectId: string;
+    declaredType: string;
+    modeIds?: string[];
+    targetRefs?: ObjectRef[];
+    placement?: {
+      lane?: number;
+      slot?: "unit" | "support" | "location";
+    } | null;
+    paymentChoice?: { objectRefs?: ObjectRef[] };
+  };
+  activateAbility: {
+    abilityId: string;
+    sourceRef?: ObjectRef;
+    modeIds?: string[];
+    targetRefs?: ObjectRef[];
+    paymentRefs?: ObjectRef[];
+  };
+  passAction: Record<string, never>;
+  submitChoice: { choiceId: string; optionIds: string[] };
+  surrender: Record<string, never>;
+  requestRematch: Record<string, never>;
+  leaveRoom: Record<string, never>;
+  resync: { lastEventSeq?: number };
+}
+
+export interface CommandEnvelope<TName extends ClientCommandName> {
+  protocolVersion: typeof protocolVersion;
+  type: "command";
+  commandId: string;
+  matchId: string;
+  expectedRevision: number;
+  name: TName;
+  payload: CommandPayloadByName[TName];
+}
+
+export type ClientCommand = {
+  [TName in ClientCommandName]: CommandEnvelope<TName>;
+}[ClientCommandName];
+
+export interface VisibleCard {
+  objectRef: ObjectRef;
+  definitionId: string;
+  ownerSeat?: SeatId;
+  controllerSeat?: SeatId;
+  lane?: number;
+  slot?: "unit" | "support" | "location";
+  power?: number;
+  durability?: number;
+  tapped?: boolean;
+}
+
+export interface PlayerViewChoice {
+  choiceId?: string;
+  waitingSeat: SeatId;
+  kind?: string;
+  mandatory?: boolean;
+  revision: number;
+  optionCount?: number;
+  options?: Array<{ id: string; objects?: ObjectRef[] }>;
+  private: boolean;
+  redacted: boolean;
+}
+
+export interface PlayerView {
+  matchId: string;
+  versions: Versions;
+  revision: number;
+  status: "preparing" | "active" | "finished";
+  phase: string;
+  combatStep?: string;
+  combatLane?: number;
+  turnNumber: number;
+  ownSeat: SeatId;
+  initiativeSeat: SeatId;
+  actingSeat: SeatId;
+  players: [
+    {
+      seat: SeatId;
+      heroId: string;
+      influence: number;
+      actionsRemaining: number;
+      deckCount: number;
+      handCount: number;
+      hand?: VisibleCard[];
+      graveyard: VisibleCard[];
+      orders: Array<{
+        position: number;
+        revealed: boolean;
+        definitionId?: string;
+      }>;
+    },
+    {
+      seat: SeatId;
+      heroId: string;
+      influence: number;
+      actionsRemaining: number;
+      deckCount: number;
+      handCount: number;
+      hand?: VisibleCard[];
+      graveyard: VisibleCard[];
+      orders: Array<{
+        position: number;
+        revealed: boolean;
+        definitionId?: string;
+      }>;
+    },
+  ];
+  board: VisibleCard[];
+  choices: PlayerViewChoice[];
+  result?: {
+    reason: "rules_loss" | "card_effect" | "surrender" | "aborted_technical";
+    winnerSeat?: SeatId;
+    loserSeat?: SeatId;
+  };
+}
+
+export interface RoomSnapshot {
+  roomId: string;
+  code: string;
+  status: "waiting" | "active";
+  revision: number;
+  ownSeat: SeatId;
+  ownSelection: { deckId: string; orderIds: string[] | null };
+  seats: [
+    { seatId: SeatId; occupied: boolean; ready: boolean },
+    { seatId: SeatId; occupied: boolean; ready: boolean },
+  ];
+  match: {
+    matchId: string;
+    startedAt: string;
+    versions: Versions;
+    ownDeckManifestId: string;
+    initialRevision: number;
+  } | null;
+}
+
+export interface ProtocolError {
+  code:
+    | "INVALID_PAYLOAD"
+    | "UNAUTHENTICATED"
+    | "FORBIDDEN"
+    | "ROOM_UNAVAILABLE"
+    | "ROOM_FULL"
+    | "MATCH_FINISHED"
+    | "NOT_YOUR_DECISION"
+    | "ILLEGAL_ACTION"
+    | "INVALID_TARGET"
+    | "INSUFFICIENT_COST"
+    | "STALE_REVISION"
+    | "CHOICE_EXPIRED"
+    | "COMMAND_ID_REUSED"
+    | "RATE_LIMITED"
+    | "VERSION_UNSUPPORTED"
+    | "SERVER_UNAVAILABLE";
+  retryable: boolean;
+  correlationId: string;
+  messageKey: string;
+  resyncRequired?: boolean;
+  view?: PlayerView;
+}
+
+interface ServerEventBase<TType extends ServerEventType> {
+  protocolVersion: typeof protocolVersion;
+  type: TType;
+  correlationId?: string;
+  commandId?: string;
+  matchId?: string;
+  revision: number;
+  eventSeq: number;
+}
+
+export type ServerEvent =
+  | (ServerEventBase<"authenticated"> & {
+      correlationId: string;
+      payload: { seatId: SeatId };
+    })
+  | (ServerEventBase<"roomSnapshot"> & {
+      correlationId: string;
+      payload: RoomSnapshot;
+    })
+  | (ServerEventBase<
+      "matchSnapshot" | "stateUpdate" | "choiceRequested" | "matchFinished"
+    > & {
+      matchId: string;
+      payload: PlayerView;
+    })
+  | (ServerEventBase<"commandResult"> & {
+      commandId: string;
+      matchId: string;
+      accepted: true;
+    })
+  | (ServerEventBase<"error"> & { accepted: false; error: ProtocolError })
+  | (ServerEventBase<"connectionStatus"> & {
+      matchId: string;
+      payload: {
+        seatId: SeatId;
+        status: "connected" | "reconnecting" | "disconnected";
+        deadlineAt?: string;
+      };
+    })
+  | (ServerEventBase<"serverDraining"> & { payload: { retryAfterMs: number } })
+  | (ServerEventBase<"heartbeat"> & { correlationId: string });

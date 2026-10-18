@@ -4,7 +4,8 @@
 - Дата: 17 октября 2026 года
 - Решение: владелец проекта dKorialstrasz
 - Связанные требования: NFR-03, SEC-06–09, PROC-02, OPS-02
-- Связанная задача: [#8](https://github.com/dKorialstrasz/response-online/issues/8)
+- Связанные задачи: [#8](https://github.com/dKorialstrasz/response-online/issues/8),
+  [#14](https://github.com/dKorialstrasz/response-online/issues/14)
 
 ## Контекст
 
@@ -21,8 +22,8 @@ HTTP и WebSocket payloads описываются версиями в `contracts
 сериализованное внутреннее состояние. Публичный журнал также строится allowlist-ом.
 
 Общий WebSocket envelope содержит версию протокола, тип сообщения, correlation id,
-payload и при необходимости match/revision. Issue #8 не определяет игровые типы
-сообщений: они добавляются #14 вместе с contract/adversarial tests. Диагностический
+payload и при необходимости match/revision. Issue #8 не определяла игровые типы
+сообщений: они добавлены #14 вместе с contract/adversarial tests. Диагностический
 HTTP endpoint сообщает commit и версии, причём неподтверждённые правила явно имеют
 значение `unverified`.
 
@@ -31,7 +32,7 @@ HTTP endpoint сообщает commit и версии, причём неподт
 - Изменение внутренней Go-модели не становится неявным breaking change.
 - Контрактные тесты могут проверять Go и TypeScript независимо.
 - Каждое новое приватное поле требует явного решения о проекции.
-- До #14 WebSocket transport не считается реализованным.
+- WebSocket transport реализован в #14 согласно ADR-0008.
 
 ## Рассмотренные альтернативы
 

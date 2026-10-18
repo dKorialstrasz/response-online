@@ -1,0 +1,7 @@
+{
+  "github.com/gorilla/websocket": {
+    "version": "v1.5.3",
+    "license": "BSD-3-Clause",
+    "source": "https://github.com/gorilla/websocket/blob/v1.5.3/LICENSE"
+  }
+}
