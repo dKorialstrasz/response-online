@@ -7,7 +7,7 @@
     "deckManifests": "base-decks-v1",
     "effectSpec": "effect-spec-v1",
     "rules": "response-rules-2026-10-17",
-    "protocol": "scaffold-v1",
+    "protocol": "1.0",
     "engine": "base-abilities-v1"
   },
   "artifacts": [

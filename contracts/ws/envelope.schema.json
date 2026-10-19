@@ -1,38 +1,448 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://response-online.local/contracts/ws/envelope.schema.json",
-  "title": "Response Online WebSocket envelope",
-  "description": "Transport-only scaffold. Gameplay message types are intentionally not defined by Issue #8.",
-  "type": "object",
-  "additionalProperties": false,
-  "required": ["protocolVersion", "messageType", "correlationId", "payload"],
-  "properties": {
-    "protocolVersion": {
-      "const": "scaffold-v1"
+  "title": "Response Online WebSocket protocol 1.0",
+  "description": "The one-time ticket is allowed only in Authenticate, never in the URL or later frames.",
+  "oneOf": [
+    {"$ref": "#/$defs/authenticate"},
+    {"$ref": "#/$defs/heartbeat"},
+    {"$ref": "#/$defs/clientCommand"},
+    {"$ref": "#/$defs/serverEvent"}
+  ],
+  "$defs": {
+    "identifier": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[!-~]+$"},
+    "objectRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["zoneObjectId", "generation"],
+      "properties": {
+        "zoneObjectId": {"type": "string", "pattern": "^obj_[A-Za-z0-9_-]{24}$"},
+        "generation": {"type": "integer", "minimum": 1}
+      }
     },
-    "messageType": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 80,
-      "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9_]*)+$"
+    "versions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["content", "deckManifests", "effectSpec", "rules", "protocol", "engine"],
+      "properties": {
+        "content": {"type": "string", "minLength": 1},
+        "deckManifests": {"type": "string", "minLength": 1},
+        "effectSpec": {"type": "string", "minLength": 1},
+        "rules": {"type": "string", "minLength": 1},
+        "protocol": {"const": "1.0"},
+        "engine": {"type": "string", "minLength": 1}
+      }
     },
-    "correlationId": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 128
+    "authenticate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocolVersion", "type", "correlationId", "ticket", "connectionId"],
+      "properties": {
+        "protocolVersion": {"const": "1.0"},
+        "type": {"const": "authenticate"},
+        "correlationId": {"$ref": "#/$defs/identifier"},
+        "ticket": {"type": "string", "minLength": 32, "maxLength": 256, "writeOnly": true},
+        "connectionId": {"$ref": "#/$defs/identifier"}
+      }
     },
-    "matchId": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 128
+    "heartbeat": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocolVersion", "type", "correlationId"],
+      "properties": {
+        "protocolVersion": {"const": "1.0"},
+        "type": {"const": "heartbeat"},
+        "correlationId": {"$ref": "#/$defs/identifier"}
+      }
     },
-    "revision": {
-      "type": "integer",
-      "minimum": 0
+    "commandBase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocolVersion", "type", "commandId", "matchId", "expectedRevision", "name", "payload"],
+      "properties": {
+        "protocolVersion": {"const": "1.0"},
+        "type": {"const": "command"},
+        "commandId": {"$ref": "#/$defs/identifier"},
+        "matchId": {"$ref": "#/$defs/identifier"},
+        "expectedRevision": {"type": "integer", "minimum": 0},
+        "name": {
+          "enum": ["selectDeck", "setOrderArrangement", "setReady", "submitMulligan", "playCard", "activateAbility", "passAction", "submitChoice", "surrender", "requestRematch", "leaveRoom", "resync"]
+        },
+        "payload": {"type": "object"}
+      }
     },
-    "payload": {
-      "type": "object"
+    "clientCommand": {
+      "allOf": [
+        {"$ref": "#/$defs/commandBase"},
+        {
+          "if": {"properties": {"name": {"const": "selectDeck"}}},
+          "then": {"properties": {"payload": {"$ref": "#/$defs/selectDeckPayload"}}}
+        },
+        {
+          "if": {"properties": {"name": {"const": "setOrderArrangement"}}},
+          "then": {"properties": {"payload": {"$ref": "#/$defs/orderPayload"}}}
+        },
+        {
+          "if": {"properties": {"name": {"const": "setReady"}}},
+          "then": {"properties": {"payload": {"$ref": "#/$defs/readyPayload"}}}
+        },
+        {
+          "if": {"properties": {"name": {"const": "submitMulligan"}}},
+          "then": {"properties": {"payload": {"$ref": "#/$defs/mulliganPayload"}}}
+        },
+        {
+          "if": {"properties": {"name": {"const": "playCard"}}},
+          "then": {"properties": {"payload": {"$ref": "#/$defs/playCardPayload"}}}
+        },
+        {
+          "if": {"properties": {"name": {"const": "activateAbility"}}},
+          "then": {"properties": {"payload": {"$ref": "#/$defs/abilityPayload"}}}
+        },
+        {
+          "if": {"properties": {"name": {"enum": ["passAction", "surrender", "requestRematch", "leaveRoom"]}}},
+          "then": {"properties": {"payload": {"$ref": "#/$defs/emptyPayload"}}}
+        },
+        {
+          "if": {"properties": {"name": {"const": "submitChoice"}}},
+          "then": {"properties": {"payload": {"$ref": "#/$defs/choicePayload"}}}
+        },
+        {
+          "if": {"properties": {"name": {"const": "resync"}}},
+          "then": {"properties": {"payload": {"$ref": "#/$defs/resyncPayload"}}}
+        }
+      ]
+    },
+    "emptyPayload": {"type": "object", "additionalProperties": false},
+    "selectDeckPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["deckId"],
+      "properties": {"deckId": {"$ref": "#/$defs/identifier"}}
+    },
+    "orderPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["orderIds"],
+      "properties": {"orderIds": {"type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": {"$ref": "#/$defs/identifier"}}}
+    },
+    "readyPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ready"],
+      "properties": {"ready": {"type": "boolean"}}
+    },
+    "mulliganPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["objectRefs"],
+      "properties": {"objectRefs": {"type": "array", "maxItems": 7, "uniqueItems": true, "items": {"$ref": "#/$defs/objectRef"}}}
+    },
+    "playCardPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceObjectId", "declaredType"],
+      "properties": {
+        "sourceObjectId": {"type": "string", "pattern": "^obj_[A-Za-z0-9_-]{24}$"},
+        "declaredType": {"type": "string", "minLength": 1, "maxLength": 64},
+        "modeIds": {"type": "array", "maxItems": 8, "items": {"$ref": "#/$defs/identifier"}},
+        "targetRefs": {"type": "array", "maxItems": 16, "items": {"$ref": "#/$defs/objectRef"}},
+        "placement": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "lane": {"type": "integer", "minimum": 0, "maximum": 4},
+            "slot": {"enum": ["unit", "support", "location"]}
+          }
+        },
+        "paymentChoice": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {"objectRefs": {"type": "array", "maxItems": 16, "items": {"$ref": "#/$defs/objectRef"}}}
+        }
+      }
+    },
+    "abilityPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["abilityId"],
+      "properties": {
+        "abilityId": {"$ref": "#/$defs/identifier"},
+        "sourceRef": {"$ref": "#/$defs/objectRef"},
+        "modeIds": {"type": "array", "maxItems": 8, "items": {"$ref": "#/$defs/identifier"}},
+        "targetRefs": {"type": "array", "maxItems": 16, "items": {"$ref": "#/$defs/objectRef"}},
+        "paymentRefs": {"type": "array", "maxItems": 16, "items": {"$ref": "#/$defs/objectRef"}}
+      }
+    },
+    "choicePayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["choiceId", "optionIds"],
+      "properties": {
+        "choiceId": {"$ref": "#/$defs/identifier"},
+        "optionIds": {"type": "array", "maxItems": 32, "items": {"$ref": "#/$defs/identifier"}}
+      }
+    },
+    "resyncPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {"lastEventSeq": {"type": "integer", "minimum": 0}}
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "retryable", "correlationId", "messageKey"],
+      "properties": {
+        "code": {
+          "enum": ["INVALID_PAYLOAD", "UNAUTHENTICATED", "FORBIDDEN", "ROOM_UNAVAILABLE", "ROOM_FULL", "MATCH_FINISHED", "NOT_YOUR_DECISION", "ILLEGAL_ACTION", "INVALID_TARGET", "INSUFFICIENT_COST", "STALE_REVISION", "CHOICE_EXPIRED", "COMMAND_ID_REUSED", "RATE_LIMITED", "VERSION_UNSUPPORTED", "SERVER_UNAVAILABLE"]
+        },
+        "retryable": {"type": "boolean"},
+        "correlationId": {"type": "string", "minLength": 1, "maxLength": 128},
+        "messageKey": {"type": "string", "pattern": "^error\\.[a-z0-9_.]+$"},
+        "resyncRequired": {"type": "boolean"},
+        "view": {"$ref": "#/$defs/playerView"}
+      }
+    },
+    "serverEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocolVersion", "type", "revision", "eventSeq"],
+      "properties": {
+        "protocolVersion": {"const": "1.0"},
+        "type": {
+          "enum": ["authenticated", "roomSnapshot", "matchSnapshot", "stateUpdate", "choiceRequested", "commandResult", "error", "connectionStatus", "matchFinished", "serverDraining", "heartbeat"]
+        },
+        "correlationId": {"type": "string", "minLength": 1, "maxLength": 128},
+        "commandId": {"type": "string", "maxLength": 128},
+        "matchId": {"type": "string", "maxLength": 128},
+        "revision": {"type": "integer", "minimum": 0},
+        "eventSeq": {"type": "integer", "minimum": 0},
+        "accepted": {"type": "boolean"},
+        "payload": {"type": ["object", "null"]},
+        "error": {"$ref": "#/$defs/error"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"type": {"const": "authenticated"}}},
+          "then": {
+            "required": ["correlationId", "payload"],
+            "properties": {"payload": {"$ref": "#/$defs/authenticatedPayload"}}
+          }
+        },
+        {
+          "if": {"properties": {"type": {"const": "roomSnapshot"}}},
+          "then": {
+            "required": ["correlationId", "payload"],
+            "properties": {"payload": {"$ref": "#/$defs/roomSnapshot"}}
+          }
+        },
+        {
+          "if": {"properties": {"type": {"enum": ["matchSnapshot", "stateUpdate", "choiceRequested", "matchFinished"]}}},
+          "then": {
+            "required": ["matchId", "payload"],
+            "properties": {"payload": {"$ref": "#/$defs/playerView"}}
+          }
+        },
+        {
+          "if": {"properties": {"type": {"const": "commandResult"}}},
+          "then": {
+            "required": ["commandId", "matchId", "accepted"],
+            "properties": {"accepted": {"const": true}}
+          }
+        },
+        {
+          "if": {"properties": {"type": {"const": "error"}}},
+          "then": {
+            "required": ["accepted", "error"],
+            "properties": {"accepted": {"const": false}}
+          }
+        },
+        {
+          "if": {"properties": {"type": {"const": "connectionStatus"}}},
+          "then": {
+            "required": ["matchId", "payload"],
+            "properties": {"payload": {"$ref": "#/$defs/connectionStatusPayload"}}
+          }
+        },
+        {
+          "if": {"properties": {"type": {"const": "serverDraining"}}},
+          "then": {
+            "required": ["payload"],
+            "properties": {"payload": {"$ref": "#/$defs/serverDrainingPayload"}}
+          }
+        },
+        {
+          "if": {"properties": {"type": {"const": "heartbeat"}}},
+          "then": {"required": ["correlationId"]}
+        }
+      ]
+    },
+    "authenticatedPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["seatId"],
+      "properties": {"seatId": {"enum": ["seat-1", "seat-2"]}}
+    },
+    "roomSeat": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["seatId", "occupied", "ready"],
+      "properties": {
+        "seatId": {"enum": ["seat-1", "seat-2"]},
+        "occupied": {"type": "boolean"},
+        "ready": {"type": "boolean"}
+      }
+    },
+    "roomSelection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["deckId", "orderIds"],
+      "properties": {
+        "deckId": {"type": "string"},
+        "orderIds": {"type": ["array", "null"], "maxItems": 5, "items": {"$ref": "#/$defs/identifier"}}
+      }
+    },
+    "startedMatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["matchId", "startedAt", "versions", "ownDeckManifestId", "initialRevision"],
+      "properties": {
+        "matchId": {"$ref": "#/$defs/identifier"},
+        "startedAt": {"type": "string", "format": "date-time"},
+        "versions": {"$ref": "#/$defs/versions"},
+        "ownDeckManifestId": {"type": "string", "minLength": 1},
+        "initialRevision": {"type": "integer", "minimum": 0}
+      }
+    },
+    "roomSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["roomId", "code", "status", "revision", "ownSeat", "ownSelection", "seats", "match"],
+      "properties": {
+        "roomId": {"$ref": "#/$defs/identifier"},
+        "code": {"type": "string", "minLength": 1, "maxLength": 32},
+        "status": {"enum": ["waiting", "active"]},
+        "revision": {"type": "integer", "minimum": 0},
+        "ownSeat": {"enum": ["seat-1", "seat-2"]},
+        "ownSelection": {"$ref": "#/$defs/roomSelection"},
+        "seats": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"$ref": "#/$defs/roomSeat"}},
+        "match": {"oneOf": [{"$ref": "#/$defs/startedMatch"}, {"type": "null"}]}
+      }
+    },
+    "connectionStatusPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["seatId", "status"],
+      "properties": {
+        "seatId": {"enum": ["seat-1", "seat-2"]},
+        "status": {"enum": ["connected", "reconnecting", "disconnected"]},
+        "deadlineAt": {"type": "string", "format": "date-time"}
+      }
+    },
+    "serverDrainingPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["retryAfterMs"],
+      "properties": {"retryAfterMs": {"type": "integer", "minimum": 0}}
+    },
+    "visibleCard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["objectRef", "definitionId"],
+      "properties": {
+        "objectRef": {"$ref": "#/$defs/objectRef"},
+        "definitionId": {"type": "string"},
+        "ownerSeat": {"enum": ["seat-1", "seat-2"]},
+        "controllerSeat": {"enum": ["seat-1", "seat-2"]},
+        "lane": {"type": "integer", "minimum": 0, "maximum": 4},
+        "slot": {"enum": ["unit", "support", "location"]},
+        "power": {"type": "integer"},
+        "durability": {"type": "integer"},
+        "tapped": {"type": "boolean"}
+      }
+    },
+    "visibleOrder": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["position", "revealed"],
+      "properties": {
+        "position": {"type": "integer", "minimum": 0, "maximum": 4},
+        "revealed": {"type": "boolean"},
+        "definitionId": {"type": "string"}
+      }
+    },
+    "playerViewPlayer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["seat", "heroId", "influence", "actionsRemaining", "deckCount", "handCount", "graveyard", "orders"],
+      "properties": {
+        "seat": {"enum": ["seat-1", "seat-2"]},
+        "heroId": {"type": "string"},
+        "influence": {"type": "integer"},
+        "actionsRemaining": {"type": "integer", "minimum": 0},
+        "deckCount": {"type": "integer", "minimum": 0},
+        "handCount": {"type": "integer", "minimum": 0},
+        "hand": {"type": "array", "items": {"$ref": "#/$defs/visibleCard"}},
+        "graveyard": {"type": "array", "items": {"$ref": "#/$defs/visibleCard"}},
+        "orders": {"type": "array", "maxItems": 5, "items": {"$ref": "#/$defs/visibleOrder"}}
+      }
+    },
+    "playerViewChoice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["waitingSeat", "revision", "private", "redacted"],
+      "properties": {
+        "choiceId": {"type": "string"},
+        "waitingSeat": {"enum": ["seat-1", "seat-2"]},
+        "kind": {"type": "string"},
+        "mandatory": {"type": "boolean"},
+        "revision": {"type": "integer", "minimum": 0},
+        "optionCount": {"type": "integer", "minimum": 0},
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id"],
+            "properties": {
+              "id": {"type": "string"},
+              "objects": {"type": "array", "items": {"$ref": "#/$defs/objectRef"}}
+            }
+          }
+        },
+        "private": {"type": "boolean"},
+        "redacted": {"type": "boolean"}
+      }
+    },
+    "playerView": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["matchId", "versions", "revision", "status", "phase", "turnNumber", "ownSeat", "initiativeSeat", "actingSeat", "players", "board", "choices"],
+      "properties": {
+        "matchId": {"type": "string"},
+        "versions": {"$ref": "#/$defs/versions"},
+        "revision": {"type": "integer", "minimum": 0},
+        "status": {"enum": ["preparing", "active", "finished"]},
+        "phase": {"type": "string"},
+        "combatStep": {"type": "string"},
+        "combatLane": {"type": "integer", "minimum": -1, "maximum": 4},
+        "turnNumber": {"type": "integer", "minimum": 0},
+        "ownSeat": {"enum": ["seat-1", "seat-2"]},
+        "initiativeSeat": {"enum": ["seat-1", "seat-2"]},
+        "actingSeat": {"enum": ["seat-1", "seat-2"]},
+        "players": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"$ref": "#/$defs/playerViewPlayer"}},
+        "board": {"type": "array", "items": {"$ref": "#/$defs/visibleCard"}},
+        "choices": {"type": "array", "items": {"$ref": "#/$defs/playerViewChoice"}},
+        "result": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["reason"],
+          "properties": {
+            "reason": {"enum": ["rules_loss", "card_effect", "surrender", "aborted_technical"]},
+            "winnerSeat": {"enum": ["seat-1", "seat-2"]},
+            "loserSeat": {"enum": ["seat-1", "seat-2"]}
+          }
+        }
+      }
     }
   }
 }
-

@@ -1,0 +1,9 @@
+{
+  "protocolVersion": "1.0",
+  "type": "command",
+  "commandId": "example-command-1",
+  "matchId": "example-match-1",
+  "expectedRevision": 42,
+  "name": "passAction",
+  "payload": {}
+}

@@ -57,7 +57,7 @@ fizzle-ится событием и никогда не находит новы�
 - Framework и synthetic golden fixtures выполнены в #11.
 - Конкретные EffectSpec, keywords, timing/rulings и conformance каждого
   `baz-*` реализуются в #12; текущие 126 записей остаются `deferred`.
-- HTTP/WSS payload и полноценные PlayerView определяются в #14. Методы projection
+- HTTP/WSS payload и полноценные PlayerView определены в #14. Методы projection
   здесь задают engine boundary и не являются готовым сетевым контрактом.
 - Неоднозначная способность остаётся `blocked` по OQ-02; handler «по аналогии»
   не добавляется.

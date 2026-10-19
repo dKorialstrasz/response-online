@@ -5,7 +5,7 @@ production, TLS, GamePix или публичный доступ.
 
 ## Закреплённые инструменты
 
-- Go 1.22.2 — `backend/go.mod`.
+- Go 1.26.9 — `backend/go.mod`.
 - Node.js 24.x — `frontend/package.json` и Application CI.
 - pnpm 11.25.0 — `frontend/package.json` и Application CI.
 - Python 3.11+ — проверки схем и manifests используют только standard library.
@@ -42,9 +42,32 @@ RESPONSE_HTTP_ADDR=127.0.0.1:18080 make dev-backend
 `engineVersion: base-abilities-v1` относится к базовому автомату #10,
 типизированному pipeline #11 и закрытому каталогу 126 способностей #12.
 Русский card text не исполняется; матч получает только version-pinned handlers.
-`protocolVersion: scaffold-v1` сохраняется до сетевого контракта gameplay.
-Application service сессий/комнат и проверка закреплённых manifests реализованы в
-#13, но намеренно не публикуют HTTP/WSS endpoints до contracts/security gate #14.
+`protocolVersion: 1.0` относится к HTTP/WSS contracts, security boundary и
+PlayerView из #14. Lobby работает по HTTP JSON; активный матч — по WebSocket.
+Reconnect outcomes/rematch остаются #15.
+
+Локальный allowlist по умолчанию разрешает origins `127.0.0.1:5173`,
+`localhost:5173`, `127.0.0.1:8080` и `localhost:8080`. Другой точный список
+задаётся через `RESPONSE_ALLOWED_ORIGINS` (через запятую). Loopback HTTP запускает
+cookie без `Secure`; для любой TLS-среды обязательно установить
+`RESPONSE_SECURE_COOKIES=true`. Публичная среда не входит в M1.
+
+Стартовые security limits можно уменьшать или увеличивать положительными целыми
+значениями окружения; отсутствие переменной сохраняет утверждённый M1 default:
+
+| Переменная | Default |
+| --- | ---: |
+| `RESPONSE_CREATE_ROOMS_PER_SESSION` | 5/мин |
+| `RESPONSE_CREATE_ROOMS_PER_IP` | 20/мин |
+| `RESPONSE_JOINS_PER_SESSION` | 10/мин |
+| `RESPONSE_JOINS_PER_IP` | 30/мин |
+| `RESPONSE_WS_COMMANDS_PER_SECOND` | 20/с |
+| `RESPONSE_WS_COMMAND_BURST` | 40 |
+| `RESPONSE_HTTP_BODY_BYTES` | 65536 |
+| `RESPONSE_WS_FRAME_BYTES` | 32768 |
+| `RESPONSE_JSON_DEPTH` | 16 |
+
+Отрицательные и нулевые явные значения считаются ошибкой конфигурации.
 
 ## Сборка и manifest
 
@@ -70,9 +93,9 @@ bash tests/smoke/local_backend.sh
 ## Контролируемое завершение
 
 `Ctrl+C` отправляет процессу SIGINT; backend прекращает приём запросов и ждёт до
-10 секунд. Runtime wiring HTTP/WSS и controlled room/match shutdown остаются #14 и
-#18. После их появления shutdown должен помечать незавершённые матчи
-`aborted_technical` по OPS-03; это не считается реализованным задачей #13.
+10 секунд. Controlled room/match shutdown остаётся #18. После его появления
+shutdown должен помечать незавершённые матчи
+`aborted_technical` по OPS-03; это не считается реализованным задачей #14.
 
 При crash/restart in-memory состояние теряется согласно ADR-0001. Не обещайте
 recovery и не приписывайте потерянной партии игровой результат.

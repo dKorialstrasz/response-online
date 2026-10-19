@@ -1,6 +1,6 @@
 # ADR-0009: Закрытый реестр способностей «Базового» выпуска
 
-- Статус: принято к проверке владельцем
+- Статус: принято
 - Дата: 19 октября 2026 года
 - Связанная задача: [#12](https://github.com/dKorialstrasz/response-online/issues/12)
 - Требования: DATA-05–06, RULE-10–11, AC-02, AC-04–05
@@ -37,9 +37,8 @@ interaction case, а также все 36 ordered deck pairings, включая 
 ## Последствия
 
 - Engine pin повышен до `base-abilities-v1`.
-- Content release больше не блокируется 126 deferred EffectSpec; до #14 остаётся
-  только ожидаемый `protocolVersion: scaffold-v1` gate.
+- Content release больше не блокируется 126 deferred EffectSpec; вместе с
+  `protocolVersion: 1.0` из #14 gameplay-ready gate проходит.
 - Изменение handler, сценария или карточного runtime artifact меняет release
   SHA-256 и требует новых тестов и rules/content review.
-- Self-check и CI не считаются подписью владельца; явная пользовательская
-  приёмка и отдельное разрешение merge сохраняются обязательными.
+- Rules/content review принят владельцем при явном разрешении merge PR #34.

@@ -28,9 +28,8 @@ rules, protocol и engine. Новый матч в #10 обязан копиро�
 базовые rules/engine закреплены как `response-rules-2026-10-17` и
 `base-abilities-v1` (базовый автомат #10, pipeline #11 и закрытый каталог #12).
 Все 126 EffectSpec имеют статус `implemented` и проходят conformance gate.
-Финальный gate всё ещё обязан завершаться ошибкой только из-за
-`protocolVersion: scaffold-v1`; это ожидаемое состояние до #14, а не дефект
-валидатора. После готовности gameplay protocol gate должен стать зелёным до #22.
+Protocol `1.0` закрывает transport gate #14. После объединения #12 и #14 строгий
+gameplay-ready gate зелёный; полная локальная приёмка остаётся задачей #22.
 
 ## Права и публикация
 

@@ -21,7 +21,7 @@
 | RULE-14 | Pending choice сохраняется в State; submit — новая команда; private projection не содержит effect bodies | `TestMandatoryAndOptionalChoicesPersistWithPrivateProjection` | Mandatory/optional выбор переживает commit; owner/opponent видят разные allowlists |
 | RULE-15 | Инварианты queue IDs, modifiers, delayed triggers, replacements, choice bounds и action resolution проверяются после событий/команд | engine invariant tests + весь package под race detector | Незавершённый выбор/queue не теряется; finished state не сохраняет resolution |
 | OQ-02 | `AbilityBlocked` требует ruling reference и возвращает `ErrAbilityBlocked` | `TestBlockedAbilityAndCatalogEvidenceAreEnforced` | Неоднозначность не закрепляется кодом |
-| AC-04 | Queue state входит в canonical JSON/replay hash | `TestPendingChoiceCommandsReplayDeterministically`; текущий queue golden hash `e6424a7046f888e4eed81bd8f42794df0c81cf1a377ae0f57dfd45baed4b1a28` | Commands с паузой выбора воспроизводятся; synthetic queue fixture детерминирован |
+| AC-04 | Queue state входит в canonical JSON/replay hash | `TestPendingChoiceCommandsReplayDeterministically`; текущий queue golden hash `155bf8f07f80c0d70d28ea88bc983b9112e610b1fc92cb267adb64fee1c2431c` | Commands с паузой выбора воспроизводятся; synthetic queue fixture детерминирован |
 
 ## Проекции pending choice
 

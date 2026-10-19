@@ -74,27 +74,27 @@ const (
 )
 
 type SeatSelection struct {
-	DeckID   string
-	OrderIDs []string
+	DeckID   string   `json:"deckId"`
+	OrderIDs []string `json:"orderIds"`
 }
 
 type SeatSnapshot struct {
-	SeatID   SeatID
-	Occupied bool
-	Ready    bool
+	SeatID   SeatID `json:"seatId"`
+	Occupied bool   `json:"occupied"`
+	Ready    bool   `json:"ready"`
 }
 
 // RoomSnapshot is deliberately allowlisted. It contains no session IDs,
 // recovery secrets, connection IDs, opponent deck choice, or engine state.
 type RoomSnapshot struct {
-	RoomID       string
-	Code         string
-	Status       RoomStatus
-	Revision     uint64
-	OwnSeat      SeatID
-	OwnSelection SeatSelection
-	Seats        [2]SeatSnapshot
-	Match        *StartedMatch
+	RoomID       string                `json:"roomId"`
+	Code         string                `json:"code"`
+	Status       RoomStatus            `json:"status"`
+	Revision     uint64                `json:"revision"`
+	OwnSeat      SeatID                `json:"ownSeat"`
+	OwnSelection SeatSelection         `json:"ownSelection"`
+	Seats        [2]SeatSnapshot       `json:"seats"`
+	Match        *StartedMatchSnapshot `json:"match"`
 }
 
 type RoomAdmission struct {
@@ -126,11 +126,22 @@ type MatchPinProvider interface {
 }
 
 type StartedMatch struct {
-	MatchID         string
-	StartedAt       time.Time
-	Versions        engine.Versions
-	DeckManifestIDs [2]string
-	InitialRevision uint64
+	MatchID         string          `json:"matchId"`
+	StartedAt       time.Time       `json:"startedAt"`
+	Versions        engine.Versions `json:"versions"`
+	DeckManifestIDs [2]string       `json:"-"`
+	InitialRevision uint64          `json:"initialRevision"`
+}
+
+// StartedMatchSnapshot is the public room projection of a started match. It
+// exposes only the viewer's manifest pin; the opponent selection remains
+// private even though the server audit record pins both manifests.
+type StartedMatchSnapshot struct {
+	MatchID           string          `json:"matchId"`
+	StartedAt         time.Time       `json:"startedAt"`
+	Versions          engine.Versions `json:"versions"`
+	OwnDeckManifestID string          `json:"ownDeckManifestId"`
+	InitialRevision   uint64          `json:"initialRevision"`
 }
 
 type ConnectionLease struct {

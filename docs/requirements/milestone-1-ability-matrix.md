@@ -10,9 +10,8 @@ Runtime получает подтверждённые CardDefinition и EffectSp
 Русский текст не интерпретируется: каждый abilityId связан ровно с одним handler
 закрытого реестра. Неизвестный, дублированный или несовпадающий handler блокирует
 создание матча. Сценарии закреплены хешом exact text и содержат positive, negative
-и interaction case. Статус ниже — self-check исполнителя; требуемая Issue #12
-приёмка владельцем в роли rules/content reviewer остаётся gate PR и не подменяется
-этим документом.
+и interaction case. Технический статус строк ниже — self-check исполнителя.
+Rules/content review принят владельцем при явном разрешении merge PR #34.
 
 ## Общая проверка
 
@@ -154,9 +153,9 @@ Runtime получает подтверждённые CardDefinition и EffectSp
 | `baz-131` Узкая тропа | `baz-131.front.ability` | `baz-131.front.ability` | `baz-131.front.ability.conformance.positive` / `.negative` / `.interaction` | implemented; self-check passed |
 | `baz-132` Ледяной поток | `baz-132.front.ability` | `baz-132.front.ability` | `baz-132.front.ability.conformance.positive` / `.negative` / `.interaction` | implemented; self-check passed |
 
-## Оставшиеся gates
+## Статус приёмки
 
-- Явная пользовательская приёмка rules/content review и отдельное разрешение merge.
+- Rules/content review и merge PR #34 явно приняты владельцем.
 - Полные 72 end-to-end smoke-прогона относятся к #20, не подменяются 36 engine interaction rows.
-- Gameplay protocol остаётся `scaffold-v1` до #14; поэтому `make m1-release-check` ожидаемо блокируется только protocol gate.
+- Gameplay protocol `1.0` реализован в #14; `make m1-release-check` проходит.
 - Публичное развёртывание, GamePix и права на публикацию остаются вне M1.
