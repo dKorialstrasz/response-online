@@ -1,4 +1,3 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
 import { App } from "./App";
@@ -9,8 +8,4 @@ if (root === null) {
   throw new Error("Не найден корневой элемент приложения");
 }
 
-createRoot(root).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
+createRoot(root).render(<App />);

@@ -15,6 +15,7 @@
 - [Журнал продуктовых решений M1](docs/decisions/m1-product-decisions.md)
 - [Матрица HTTP/WSS и security boundary](docs/requirements/milestone-1-transport-security-matrix.md)
 - [Transport/security self-check](docs/reports/m1-transport-security.md)
+- [Lobby/preparation self-check и viewport evidence](docs/reports/m1-lobby-preparation.md)
 - [ADR-0001: in-memory состояние матчей M1](docs/adr/0001-in-memory-match-state.md)
 - [Правила участия и traceability](CONTRIBUTING.md)
 - [Архитектурные решения](docs/adr/README.md)

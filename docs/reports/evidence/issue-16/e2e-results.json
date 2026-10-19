@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-10-19",
+  "environment": "local Chromium, real HTTP/WebSocket backend",
+  "roomCodeLength": 13,
+  "invitationQueryKeys": ["room"],
+  "thirdPlayerRejected": true,
+  "mirrorMatch": true,
+  "keyboardReorder": true,
+  "readyResetAfterOrderChange": true,
+  "initiativeComplementary": true,
+  "startingHandCounts": [7, 7],
+  "reconnectRecovered": true,
+  "privateWaiting": true,
+  "opponentDecisionRedacted": true,
+  "preparationCompleted": true,
+  "clipboardFallback": true
+}
