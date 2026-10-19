@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://response-online.local/schemas/conformance-scenarios.schema.json",
+  "title": "Response Online M1 executable card conformance scenarios",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "contentVersion", "effectSpecVersion", "rulesVersion", "scenarios", "matchups"],
+  "properties": {
+    "schemaVersion": { "const": 2 },
+    "contentVersion": { "const": "base-cards-v1" },
+    "effectSpecVersion": { "const": "effect-spec-v1" },
+    "rulesVersion": { "const": "response-rules-2026-10-17" },
+    "scenarios": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/scenario" }
+    },
+    "matchups": {
+      "type": "array",
+      "minItems": 36,
+      "maxItems": 36,
+      "items": { "$ref": "#/$defs/matchup" }
+    }
+  },
+  "$defs": {
+    "matchup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["matchupId", "deckA", "deckB", "kind", "testName"],
+      "properties": {
+        "matchupId": { "type": "string", "pattern": "^matchup\\.[a-z-]+\\.[a-z-]+$" },
+        "deckA": { "type": "string", "minLength": 1 },
+        "deckB": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["mirror", "cross-faction"] },
+        "testName": { "type": "string", "pattern": "^TestBaseMatchupInteractionCoverage/" }
+      }
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["caseId", "kind", "testName", "assertions"],
+      "properties": {
+        "caseId": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["positive", "negative", "interaction"] },
+        "testName": { "type": "string", "pattern": "^TestBaseAbilityConformance/" },
+        "assertions": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        }
+      }
+    },
+    "scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scenarioId",
+        "abilityId",
+        "cardId",
+        "faceId",
+        "sourceTextSha256",
+        "sourceAssertion",
+        "gameplayStatus",
+        "requiredAssertions",
+        "cases"
+      ],
+      "properties": {
+        "scenarioId": { "type": "string", "minLength": 1 },
+        "abilityId": { "type": "string", "pattern": "^baz-[0-9]{3}\\.(front|level-[0-9]+)\\.ability$" },
+        "cardId": { "type": "string", "pattern": "^baz-[0-9]{3}$" },
+        "faceId": { "type": "string", "minLength": 1 },
+        "sourceTextSha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "sourceAssertion": { "type": "string", "minLength": 1 },
+        "gameplayStatus": { "const": "implemented" },
+        "requiredAssertions": {
+          "type": "array",
+          "minItems": 4,
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "cases": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": { "$ref": "#/$defs/case" }
+        }
+      }
+    }
+  }
+}

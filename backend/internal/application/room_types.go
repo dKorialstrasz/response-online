@@ -113,8 +113,10 @@ type PinnedDeck struct {
 }
 
 type MatchPins struct {
-	Versions engine.Versions
-	Decks    [2]PinnedDeck
+	Versions  engine.Versions
+	Decks     [2]PinnedDeck
+	Cards     []engine.CardDefinition
+	Abilities []engine.AbilityDefinition
 }
 
 // MatchPinProvider validates both selected manifests against one content

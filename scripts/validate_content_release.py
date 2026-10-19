@@ -19,6 +19,7 @@ SCHEMA_BINDINGS = {
     "content/cards/base/card-definitions.json": "content/schemas/card-definitions.schema.json",
     "content/evidence/base-gallery-evidence.json": "content/schemas/gallery-evidence.schema.json",
     "content/abilities/base-abilities.json": "content/schemas/abilities.schema.json",
+    "content/conformance/base-ability-scenarios.json": "content/schemas/conformance-scenarios.schema.json",
     "content/licenses/registry.json": "content/schemas/license-registry.schema.json",
     RELEASE_PATH: "content/schemas/release-manifest.schema.json",
 }

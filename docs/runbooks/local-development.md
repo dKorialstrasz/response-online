@@ -39,13 +39,12 @@ RESPONSE_HTTP_ADDR=127.0.0.1:18080 make dev-backend
 - `bash tests/smoke/local_backend.sh` — чёрный ящик диагностического API.
 
 `rulesVersion: response-rules-2026-10-17` и
-`engineVersion: effect-pipeline-v1` относится к базовому автомату #10 и
-типизированному pipeline эффектов #11.
-Они не означают готовность карточных EffectSpec: общий pipeline закрывает #11,
-а все конкретные способности и keywords остаются в #12.
+`engineVersion: base-abilities-v1` относится к базовому автомату #10,
+типизированному pipeline #11 и закрытому каталогу 126 способностей #12.
+Русский card text не исполняется; матч получает только version-pinned handlers.
 `protocolVersion: 1.0` относится к HTTP/WSS contracts, security boundary и
 PlayerView из #14. Lobby работает по HTTP JSON; активный матч — по WebSocket.
-`playCard` и ability conformance остаются #12, reconnect outcomes/rematch — #15.
+Reconnect outcomes/rematch остаются #15.
 
 Локальный allowlist по умолчанию разрешает origins `127.0.0.1:5173`,
 `localhost:5173`, `127.0.0.1:8080` и `localhost:8080`. Другой точный список

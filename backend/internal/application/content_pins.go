@@ -48,10 +48,19 @@ type cardDefinitionsDocument struct {
 }
 
 type cardDefinitionDocument struct {
-	CardID string `json:"cardId"`
-	Stats  struct {
+	CardID   string `json:"cardId"`
+	Name     string `json:"name"`
+	TypeLine struct {
+		Types []string `json:"types"`
+	} `json:"typeLine"`
+	Cost  verifiedInteger `json:"cost"`
+	Stats struct {
 		Influence verifiedInteger `json:"influence"`
+		Strength  verifiedInteger `json:"strength"`
 	} `json:"stats"`
+	Faces []struct {
+		AbilityIDs []string `json:"abilityIds"`
+	} `json:"faces"`
 }
 
 type verifiedInteger struct {
@@ -63,8 +72,24 @@ type verifiedInteger struct {
 // verifies every consumed artifact against the release digest before exposing
 // immutable deck inputs to RoomService.
 type FileMatchPinProvider struct {
-	versions engine.Versions
-	decks    map[string]PinnedDeck
+	versions  engine.Versions
+	decks     map[string]PinnedDeck
+	cards     []engine.CardDefinition
+	abilities []engine.AbilityDefinition
+}
+
+type abilityCatalogDocument struct {
+	Abilities []struct {
+		AbilityID              string   `json:"abilityId"`
+		ConformanceScenarioIDs []string `json:"conformanceScenarioIds"`
+		EffectSpec             struct {
+			Status     string `json:"status"`
+			Operations []struct {
+				Kind    string `json:"kind"`
+				Handler string `json:"handler"`
+			} `json:"operations"`
+		} `json:"effectSpec"`
+	} `json:"abilities"`
 }
 
 func NewFileMatchPinProvider(repositoryRoot, releaseRelativePath string) (*FileMatchPinProvider, error) {
@@ -115,10 +140,81 @@ func NewFileMatchPinProvider(repositoryRoot, releaseRelativePath string) (*FileM
 		return nil, fmt.Errorf("card definitions do not match the approved release")
 	}
 	heroInfluence := make(map[string]int)
+	cards := make([]engine.CardDefinition, 0, len(definitions.Definitions))
 	for _, definition := range definitions.Definitions {
 		if definition.Stats.Influence.Kind == "fixed" && definition.Stats.Influence.Value > 0 {
 			heroInfluence[definition.CardID] = definition.Stats.Influence.Value
 		}
+		card := engine.CardDefinition{CardID: definition.CardID, Name: definition.Name}
+		for _, rawType := range definition.TypeLine.Types {
+			switch rawType {
+			case "Герой":
+				card.Types = append(card.Types, engine.CardHero)
+			case "Юнит":
+				card.Types = append(card.Types, engine.CardUnit)
+			case "Заклинание":
+				card.Types = append(card.Types, engine.CardSpell)
+			case "Усиление":
+				card.Types = append(card.Types, engine.CardEnhancement)
+			default:
+				return nil, fmt.Errorf("card %q has unsupported M1 type %q", definition.CardID, rawType)
+			}
+		}
+		if definition.Cost.Kind == "fixed" {
+			value := definition.Cost.Value
+			card.Cost = &value
+		}
+		if definition.Stats.Strength.Kind == "fixed" {
+			value := definition.Stats.Strength.Value
+			card.BasePower = &value
+		}
+		for _, face := range definition.Faces {
+			card.AbilityIDs = append(card.AbilityIDs, face.AbilityIDs...)
+		}
+		for _, abilityID := range card.AbilityIDs {
+			switch abilityID {
+			case "baz-002.front.ability":
+				card.NativeKeywords = append(card.NativeKeywords, engine.KeywordRider)
+			case "baz-008.front.ability", "baz-052.front.ability", "baz-095.front.ability":
+				card.NativeKeywords = append(card.NativeKeywords, engine.KeywordBypass)
+			case "baz-010.front.ability", "baz-024.front.ability":
+				card.NativeKeywords = append(card.NativeKeywords, engine.KeywordPoison)
+			case "baz-030.front.ability", "baz-068.front.ability", "baz-074.front.ability":
+				card.NativeKeywords = append(card.NativeKeywords, engine.KeywordCharge)
+			case "baz-032.front.ability":
+				card.NativeKeywords = append(card.NativeKeywords, engine.KeywordResilience)
+			case "baz-051.front.ability":
+				card.NativeKeywords = append(card.NativeKeywords, engine.KeywordRangedAttack)
+			case "baz-114.front.ability":
+				card.BaseMagicShieldCost = 2
+			case "baz-120.front.ability":
+				card.BaseMagicShieldCost = 1
+			}
+		}
+		cards = append(cards, card)
+	}
+
+	abilitiesPath := "content/abilities/base-abilities.json"
+	abilitiesBytes, err := verifiedArtifact(root, artifacts, abilitiesPath)
+	if err != nil {
+		return nil, err
+	}
+	var abilityCatalog abilityCatalogDocument
+	if err := json.Unmarshal(abilitiesBytes, &abilityCatalog); err != nil {
+		return nil, fmt.Errorf("decode ability catalog: %w", err)
+	}
+	abilities := make([]engine.AbilityDefinition, 0, len(abilityCatalog.Abilities))
+	for _, record := range abilityCatalog.Abilities {
+		if record.EffectSpec.Status != "implemented" || len(record.EffectSpec.Operations) != 1 ||
+			record.EffectSpec.Operations[0].Kind != "closed-handler" || record.EffectSpec.Operations[0].Handler != record.AbilityID {
+			return nil, fmt.Errorf("ability %q does not pin exactly one closed handler", record.AbilityID)
+		}
+		abilities = append(abilities, engine.AbilityDefinition{
+			AbilityID:              record.AbilityID,
+			Status:                 engine.AbilityReady,
+			ConformanceScenarioIDs: append([]string(nil), record.ConformanceScenarioIDs...),
+			BuiltinHandler:         record.EffectSpec.Operations[0].Handler,
+		})
 	}
 
 	deckPaths := make([]string, 0, 6)
@@ -178,7 +274,7 @@ func NewFileMatchPinProvider(repositoryRoot, releaseRelativePath string) (*FileM
 		}
 		decks[manifest.DeckID] = deck
 	}
-	return &FileMatchPinProvider{versions: release.Versions, decks: decks}, nil
+	return &FileMatchPinProvider{versions: release.Versions, decks: decks, cards: cards, abilities: abilities}, nil
 }
 
 func (provider *FileMatchPinProvider) PinMatch(
@@ -189,6 +285,8 @@ func (provider *FileMatchPinProvider) PinMatch(
 		return MatchPins{}, fmt.Errorf("content pin provider is nil")
 	}
 	result := MatchPins{Versions: provider.versions}
+	result.Cards = cloneCardDefinitions(provider.cards)
+	result.Abilities = cloneAbilityDefinitions(provider.abilities)
 	for index, selection := range selections {
 		deck, exists := provider.decks[selection.DeckID]
 		if !exists {
@@ -200,6 +298,26 @@ func (provider *FileMatchPinProvider) PinMatch(
 		result.Decks[index] = clonePinnedDeck(deck)
 	}
 	return result, nil
+}
+
+func cloneCardDefinitions(source []engine.CardDefinition) []engine.CardDefinition {
+	result := make([]engine.CardDefinition, len(source))
+	for index, definition := range source {
+		result[index] = definition
+		result[index].Types = append([]engine.CardType(nil), definition.Types...)
+		result[index].AbilityIDs = append([]string(nil), definition.AbilityIDs...)
+		result[index].NativeKeywords = append([]engine.Keyword(nil), definition.NativeKeywords...)
+	}
+	return result
+}
+
+func cloneAbilityDefinitions(source []engine.AbilityDefinition) []engine.AbilityDefinition {
+	result := make([]engine.AbilityDefinition, len(source))
+	for index, definition := range source {
+		result[index] = definition
+		result[index].ConformanceScenarioIDs = append([]string(nil), definition.ConformanceScenarioIDs...)
+	}
+	return result
 }
 
 func verifiedArtifact(
