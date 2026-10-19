@@ -30,6 +30,7 @@ type RoomServiceConfig struct {
 	TicketTTL        time.Duration
 	RoomCodeLength   int
 	MailboxCapacity  int
+	MatchPolicy      MatchRuntimePolicy
 }
 
 type sessionRecord struct {
@@ -54,12 +55,14 @@ type roomRecord struct {
 	lastActivity time.Time
 	seats        [2]seatRecord
 	match        *matchRecord
+	history      []CompletedMatchSnapshot
 	changed      chan struct{}
 }
 
 type matchRecord struct {
-	started StartedMatch
-	session *MatchSession
+	started      StartedMatch
+	session      *MatchSession
+	rematchReady [2]bool
 }
 
 type idempotencyRecord struct {
@@ -96,6 +99,7 @@ type RoomService struct {
 	ticketTTL        time.Duration
 	roomCodeLength   int
 	mailboxCapacity  int
+	matchPolicy      MatchRuntimePolicy
 
 	sessions       map[string]*sessionRecord
 	rooms          map[string]*roomRecord
@@ -134,6 +138,10 @@ func NewRoomService(config RoomServiceConfig) (*RoomService, error) {
 	if config.MailboxCapacity <= 0 {
 		config.MailboxCapacity = 64
 	}
+	matchPolicy, err := normalizeMatchRuntimePolicy(config.MatchPolicy)
+	if err != nil {
+		return nil, fmt.Errorf("%w: %v", ErrInvalidInput, err)
+	}
 	if config.SessionTTL <= 0 || config.EmptyRoomTTL <= 0 || config.LobbyTTL <= 0 ||
 		config.RoomTombstoneTTL <= 0 || config.TicketTTL <= 0 || config.RoomCodeLength < 10 {
 		return nil, fmt.Errorf("%w: positive TTLs and room code length >= 10 are required", ErrInvalidInput)
@@ -149,6 +157,7 @@ func NewRoomService(config RoomServiceConfig) (*RoomService, error) {
 		ticketTTL:        config.TicketTTL,
 		roomCodeLength:   config.RoomCodeLength,
 		mailboxCapacity:  config.MailboxCapacity,
+		matchPolicy:      matchPolicy,
 		sessions:         make(map[string]*sessionRecord),
 		rooms:            make(map[string]*roomRecord),
 		roomByCode:       make(map[string]string),
@@ -646,6 +655,60 @@ func (service *RoomService) SubmitForConnection(
 	return room.match.session.Submit(ctx, command)
 }
 
+// RequestRematchForConnection records an explicit ready/refusal decision for
+// the finished match. Only two ready decisions create a new match; the prior
+// immutable result is copied to room history before replacement.
+func (service *RoomService) RequestRematchForConnection(
+	ctx context.Context,
+	lease ConnectionLease,
+	matchID string,
+	ready bool,
+) (RoomSnapshot, *StartedMatch, error) {
+	service.mu.Lock()
+	defer service.mu.Unlock()
+	now := service.clock.Now().UTC()
+	room, seat, err := service.authorizedConnectionLocked(lease, now)
+	if err != nil {
+		return RoomSnapshot{}, nil, err
+	}
+	if room.match == nil || room.match.started.MatchID != matchID {
+		return RoomSnapshot{}, nil, ErrRoomUnavailable
+	}
+	state, err := room.match.session.Snapshot(ctx)
+	if err != nil {
+		return RoomSnapshot{}, nil, err
+	}
+	if state.Status != engine.StatusFinished || state.Result == nil {
+		return RoomSnapshot{}, nil, fmt.Errorf("%w: rematch requires a finished match", ErrInvalidInput)
+	}
+	index := seatIndex(seat)
+	if room.match.rematchReady[index] != ready {
+		room.match.rematchReady[index] = ready
+		room.revision++
+		service.signalRoomLocked(room)
+	}
+	if !room.match.rematchReady[0] || !room.match.rematchReady[1] {
+		return service.snapshotLocked(room, seat), nil, nil
+	}
+	completed := completedMatchSnapshot(state)
+	currentSession := room.match.session
+	newMatch, err := service.prepareMatchLocked(ctx, room, now)
+	if err != nil {
+		return RoomSnapshot{}, nil, err
+	}
+	if err := currentSession.ReplaceMatch(ctx, newMatch.session.match); err != nil {
+		return RoomSnapshot{}, nil, err
+	}
+	newMatch.session = currentSession
+	room.history = append(room.history, completed)
+	room.match = newMatch
+	room.revision++
+	room.lastActivity = now
+	service.signalRoomLocked(room)
+	started := cloneStartedMatch(newMatch.started)
+	return service.snapshotLocked(room, seat), &started, nil
+}
+
 func (service *RoomService) ReleaseConnection(lease ConnectionLease) error {
 	service.mu.Lock()
 	defer service.mu.Unlock()
@@ -864,7 +927,9 @@ func (service *RoomService) prepareMatchLocked(
 			return nil, fmt.Errorf("%w: pinned order arrangement is invalid: %v", ErrMatchSetupUnavailable, err)
 		}
 	}
-	matchSession, err := NewMatchSession(match, service.mailboxCapacity)
+	matchSession, err := NewMatchSessionWithConfig(match, MatchSessionConfig{
+		MailboxCapacity: service.mailboxCapacity, Clock: service.clock, Policy: service.matchPolicy,
+	})
 	if err != nil {
 		return nil, fmt.Errorf("%w: %v", ErrMatchSetupUnavailable, err)
 	}
@@ -983,11 +1048,14 @@ func (service *RoomService) snapshotLocked(room *roomRecord, ownSeat SeatID) Roo
 			{SeatID: SeatOne, Occupied: room.seats[0].sessionID != "", Ready: room.seats[0].ready},
 			{SeatID: SeatTwo, Occupied: room.seats[1].sessionID != "", Ready: room.seats[1].ready},
 		},
+		PreviousMatches: append([]CompletedMatchSnapshot(nil), room.history...),
 	}
 	if index := seatIndex(ownSeat); index >= 0 {
 		snapshot.OwnSelection = cloneSelection(room.seats[index].selection)
 	}
 	if room.match != nil {
+		snapshot.Seats[0].RematchReady = room.match.rematchReady[0]
+		snapshot.Seats[1].RematchReady = room.match.rematchReady[1]
 		started := room.match.started
 		match := StartedMatchSnapshot{
 			MatchID: started.MatchID, StartedAt: started.StartedAt, Versions: started.Versions,
@@ -1046,6 +1114,15 @@ func (service *RoomService) uniqueMatchIDLocked() (string, error) {
 		for _, room := range service.rooms {
 			if room.match != nil && room.match.started.MatchID == matchID {
 				collision = true
+				break
+			}
+			for _, completed := range room.history {
+				if completed.MatchID == matchID {
+					collision = true
+					break
+				}
+			}
+			if collision {
 				break
 			}
 		}
@@ -1221,8 +1298,20 @@ func cloneStartedMatch(match StartedMatch) StartedMatch { return match }
 
 func cloneRoom(room *roomRecord) *roomRecord {
 	clone := *room
+	clone.history = append([]CompletedMatchSnapshot(nil), room.history...)
 	for index := range clone.seats {
 		clone.seats[index].selection = cloneSelection(room.seats[index].selection)
 	}
 	return &clone
+}
+
+func completedMatchSnapshot(state engine.State) CompletedMatchSnapshot {
+	result := CompletedMatchSnapshot{MatchID: state.MatchID, Reason: state.Result.Reason}
+	if state.Result.WinnerSeat != nil {
+		result.WinnerSeat = seatIDForIndex(int(*state.Result.WinnerSeat))
+	}
+	if state.Result.LoserSeat != nil {
+		result.LoserSeat = seatIDForIndex(int(*state.Result.LoserSeat))
+	}
+	return result
 }

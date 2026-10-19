@@ -57,6 +57,7 @@ EXPECTED_EVENTS = {
     "commandResult",
     "error",
     "connectionStatus",
+    "lifecycleNotice",
     "matchFinished",
     "serverDraining",
     "heartbeat",

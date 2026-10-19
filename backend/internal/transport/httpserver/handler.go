@@ -350,6 +350,12 @@ func (gateway *Gateway) ensureMatchRunning(credentials application.SessionCreden
 	go func() { _ = session.Run(gateway.ctx) }()
 }
 
+func (gateway *Gateway) markMatchRunning(matchID string) {
+	gateway.startedMu.Lock()
+	gateway.startedMatches[matchID] = struct{}{}
+	gateway.startedMu.Unlock()
+}
+
 func (gateway *Gateway) writeApplicationError(writer http.ResponseWriter, request *http.Request, err error) {
 	switch {
 	case errors.Is(err, application.ErrSessionLost):

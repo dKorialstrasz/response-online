@@ -79,22 +79,31 @@ type SeatSelection struct {
 }
 
 type SeatSnapshot struct {
-	SeatID   SeatID `json:"seatId"`
-	Occupied bool   `json:"occupied"`
-	Ready    bool   `json:"ready"`
+	SeatID       SeatID `json:"seatId"`
+	Occupied     bool   `json:"occupied"`
+	Ready        bool   `json:"ready"`
+	RematchReady bool   `json:"rematchReady"`
 }
 
 // RoomSnapshot is deliberately allowlisted. It contains no session IDs,
 // recovery secrets, connection IDs, opponent deck choice, or engine state.
 type RoomSnapshot struct {
-	RoomID       string                `json:"roomId"`
-	Code         string                `json:"code"`
-	Status       RoomStatus            `json:"status"`
-	Revision     uint64                `json:"revision"`
-	OwnSeat      SeatID                `json:"ownSeat"`
-	OwnSelection SeatSelection         `json:"ownSelection"`
-	Seats        [2]SeatSnapshot       `json:"seats"`
-	Match        *StartedMatchSnapshot `json:"match"`
+	RoomID          string                   `json:"roomId"`
+	Code            string                   `json:"code"`
+	Status          RoomStatus               `json:"status"`
+	Revision        uint64                   `json:"revision"`
+	OwnSeat         SeatID                   `json:"ownSeat"`
+	OwnSelection    SeatSelection            `json:"ownSelection"`
+	Seats           [2]SeatSnapshot          `json:"seats"`
+	Match           *StartedMatchSnapshot    `json:"match"`
+	PreviousMatches []CompletedMatchSnapshot `json:"previousMatches,omitempty"`
+}
+
+type CompletedMatchSnapshot struct {
+	MatchID    string              `json:"matchId"`
+	Reason     engine.ResultReason `json:"reason"`
+	WinnerSeat SeatID              `json:"winnerSeat,omitempty"`
+	LoserSeat  SeatID              `json:"loserSeat,omitempty"`
 }
 
 type RoomAdmission struct {

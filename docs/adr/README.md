@@ -11,6 +11,7 @@
 | [0007](0007-effect-resolution-and-pending-choices.md) | Принято к проверке | Типизированная очередь эффектов, choices и modifiers | #11 |
 | [0008](0008-http-ws-security-boundary.md) | Принято к проверке | HTTP/WSS security boundary и opaque PlayerView refs | #14 |
 | [0009](0009-closed-base-ability-registry.md) | Принято | Закрытый registry 126 способностей и conformance | #12 |
+| [0010](0010-match-lifecycle-reconnect-rematch.md) | Принято к проверке | Монотонные lifecycle-дедлайны, reconnect и rematch | #15 |
 
 ADR фиксирует инженерное решение, но не заменяет официальный ruling по правилам
 или подтверждение карточного контента.

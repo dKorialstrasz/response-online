@@ -26,6 +26,7 @@ export const serverEventTypes = [
   "commandResult",
   "error",
   "connectionStatus",
+  "lifecycleNotice",
   "matchFinished",
   "serverDraining",
   "heartbeat",
@@ -75,7 +76,7 @@ export interface CommandPayloadByName {
   passAction: Record<string, never>;
   submitChoice: { choiceId: string; optionIds: string[] };
   surrender: Record<string, never>;
-  requestRematch: Record<string, never>;
+  requestRematch: { ready: boolean };
   leaveRoom: Record<string, never>;
   resync: { lastEventSeq?: number };
 }
@@ -165,7 +166,12 @@ export interface PlayerView {
   board: VisibleCard[];
   choices: PlayerViewChoice[];
   result?: {
-    reason: "rules_loss" | "card_effect" | "surrender" | "aborted_technical";
+    reason:
+      | "rules_loss"
+      | "card_effect"
+      | "surrender"
+      | "disconnect_forfeit"
+      | "aborted_technical";
     winnerSeat?: SeatId;
     loserSeat?: SeatId;
   };
@@ -179,8 +185,18 @@ export interface RoomSnapshot {
   ownSeat: SeatId;
   ownSelection: { deckId: string; orderIds: string[] | null };
   seats: [
-    { seatId: SeatId; occupied: boolean; ready: boolean },
-    { seatId: SeatId; occupied: boolean; ready: boolean },
+    {
+      seatId: SeatId;
+      occupied: boolean;
+      ready: boolean;
+      rematchReady: boolean;
+    },
+    {
+      seatId: SeatId;
+      occupied: boolean;
+      ready: boolean;
+      rematchReady: boolean;
+    },
   ];
   match: {
     matchId: string;
@@ -189,6 +205,17 @@ export interface RoomSnapshot {
     ownDeckManifestId: string;
     initialRevision: number;
   } | null;
+  previousMatches?: Array<{
+    matchId: string;
+    reason:
+      | "rules_loss"
+      | "card_effect"
+      | "surrender"
+      | "disconnect_forfeit"
+      | "aborted_technical";
+    winnerSeat?: SeatId;
+    loserSeat?: SeatId;
+  }>;
 }
 
 export interface ProtocolError {
@@ -215,6 +242,16 @@ export interface ProtocolError {
   resyncRequired?: boolean;
   view?: PlayerView;
 }
+
+export type LifecycleNoticeMessage =
+  | "Связь с сервером потеряна. Пытаемся восстановить соединение. На восстановление отведено до 20 секунд"
+  | "Связь с соперником потеряна. Ожидаем восстановление до 20 секунд"
+  | "Соединение восстановлено. Состояние игры обновлено"
+  | "Игрок не восстановил соединение за 20 секунд. Ему засчитано техническое поражение"
+  | "Оба игрока не восстановили соединение. Матч завершён технически без победителя"
+  | "Нет принятого действия уже 30 секунд. Если сервер не примет действие в течение следующих 60 секунд, матч завершится технически без победителя"
+  | "Ожидаем действие соперника. Если бездействие продолжится, матч завершится технически без победителя"
+  | "Матч завершён технически из-за бездействия. Победитель не определяется";
 
 interface ServerEventBase<TType extends ServerEventType> {
   protocolVersion: typeof protocolVersion;
@@ -254,6 +291,9 @@ export type ServerEvent =
         status: "connected" | "reconnecting" | "disconnected";
         deadlineAt?: string;
       };
+    })
+  | (ServerEventBase<"lifecycleNotice"> & {
+      payload: { message: LifecycleNoticeMessage; view?: PlayerView };
     })
   | (ServerEventBase<"serverDraining"> & { payload: { retryAfterMs: number } })
   | (ServerEventBase<"heartbeat"> & { correlationId: string });

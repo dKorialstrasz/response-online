@@ -11,3 +11,10 @@ gameplay conformance, integration и E2E наборы добавляются з�
 реализуют соответствующую функциональность; scaffold не подменяет их пустыми
 тестами.
 
+Issue #15 добавляет virtual-clock и race-проверки lifecycle рядом с
+`backend/internal/application`: границы heartbeat/detection/reconnect/budget и
+idle 1/5/20/60/30/90 секунд, повторные disconnect, accepted-action/timeout,
+reconnect/timeout, единственный terminal result и rematch history. Transport
+набор повторно проверяет command replay и персональный `PlayerView` после
+аутентифицированного resume.
+
