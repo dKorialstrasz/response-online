@@ -1,14 +1,163 @@
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
-import { App } from "./App";
+import { DeckPicker, EntryScreen, MatchScreen, moveItem } from "./App";
+import { decks } from "./catalog";
+import type { PlayerView, RoomSnapshot } from "./protocol";
 
-describe("App", () => {
-  it("marks the build as local and does not claim verified rules", () => {
-    const html = renderToStaticMarkup(<App />);
+const room: RoomSnapshot = {
+  roomId: "room-public-id",
+  code: "ABCDEFGH23456",
+  status: "active",
+  revision: 4,
+  ownSeat: "seat-1",
+  ownSelection: {
+    deckId: "technology-dari",
+    orderIds: ["baz-018", "baz-019", "baz-020", "baz-021", "baz-022"],
+  },
+  seats: [
+    { seatId: "seat-1", occupied: true, ready: true, rematchReady: false },
+    { seatId: "seat-2", occupied: true, ready: true, rematchReady: false },
+  ],
+  match: {
+    matchId: "match-public-id",
+    startedAt: "2026-10-19T00:00:00Z",
+    versions: {
+      content: "content",
+      deckManifests: "decks",
+      effectSpec: "effects",
+      rules: "rules",
+      protocol: "1.0",
+      engine: "engine",
+    },
+    ownDeckManifestId: "own-manifest",
+    initialRevision: 0,
+  },
+};
 
-    expect(html).toContain("Локальный прототип M1");
-    expect(html).toContain("Проверяем локальный backend");
-    expect(html).toContain("не входят в M1");
+const view: PlayerView = {
+  matchId: "match-public-id",
+  versions: room.match!.versions,
+  revision: 3,
+  status: "preparing",
+  phase: "mulligan",
+  turnNumber: 0,
+  ownSeat: "seat-1",
+  initiativeSeat: "seat-2",
+  actingSeat: "seat-2",
+  players: [
+    {
+      seat: "seat-1",
+      heroId: "baz-001",
+      influence: 5,
+      actionsRemaining: 0,
+      deckCount: 23,
+      handCount: 7,
+      hand: [
+        {
+          objectRef: {
+            zoneObjectId: "obj_AAAAAAAAAAAAAAAAAAAAAAAA",
+            generation: 1,
+          },
+          definitionId: "baz-002",
+        },
+      ],
+      graveyard: [],
+      orders: [],
+    },
+    {
+      seat: "seat-2",
+      heroId: "baz-023",
+      influence: 5,
+      actionsRemaining: 0,
+      deckCount: 23,
+      handCount: 7,
+      hand: [
+        {
+          objectRef: {
+            zoneObjectId: "obj_BBBBBBBBBBBBBBBBBBBBBBBB",
+            generation: 1,
+          },
+          definitionId: "секрет-соперника",
+        },
+      ],
+      graveyard: [],
+      orders: [],
+    },
+  ],
+  board: [],
+  choices: [],
+};
+
+describe("интерфейс комнаты", () => {
+  it("показывает русский вход и ручной ввод кода", () => {
+    const html = renderToStaticMarkup(
+      <EntryScreen
+        busy={false}
+        code=""
+        error=""
+        onCodeChange={vi.fn()}
+        onCreate={vi.fn()}
+        onJoin={vi.fn()}
+      />,
+    );
+    expect(html).toContain("Создать приватную комнату");
+    expect(html).toContain("Код комнаты");
+    expect(html).toContain("Буфер обмена не требуется");
+  });
+
+  it("рендерит ровно шесть утверждённых колод", () => {
+    const html = renderToStaticMarkup(
+      <DeckPicker
+        currentDeckId=""
+        disabled={false}
+        inspectedDeck={decks[0]}
+        onChoose={vi.fn()}
+        onInspect={vi.fn()}
+      />,
+    );
+    expect(decks).toHaveLength(6);
+    for (const deck of decks) expect(html).toContain(deck.displayName);
+    expect(html.match(/class="deck-tile/g)).toHaveLength(6);
+    expect(html).toContain("Показаны только подтверждённые данные");
+  });
+
+  it("меняет порядок без перетаскивания и не выходит за границы", () => {
+    expect(moveItem(["а", "б", "в"], 1, -1)).toEqual(["б", "а", "в"]);
+    const original = ["а", "б", "в"];
+    expect(moveItem(original, 0, -1)).toBe(original);
+    expect(moveItem(original, 2, 1)).toBe(original);
+  });
+
+  it("не выводит руку или решение соперника даже из лишнего поля ответа", () => {
+    const html = renderToStaticMarkup(
+      <MatchScreen
+        connection="подключено"
+        error=""
+        mulliganSubmitted
+        room={room}
+        view={view}
+        onMulligan={vi.fn()}
+      />,
+    );
+    expect(html).toContain("Рука соперника скрыта");
+    expect(html).toContain("рука и выбор остаются скрыты");
+    expect(html).not.toContain("секрет-соперника");
+    expect(html).not.toContain("obj_BBBBB");
+  });
+
+  it("объявляет ожидание и восстановление соединения", () => {
+    const waiting = renderToStaticMarkup(
+      <MatchScreen
+        connection="восстановление"
+        error="Соединение потеряно"
+        mulliganSubmitted={false}
+        room={room}
+        view={null}
+        onMulligan={vi.fn()}
+      />,
+    );
+    expect(waiting).toContain("Восстанавливаем соединение");
+    expect(waiting).toContain("Соединение потеряно");
   });
 });
