@@ -105,6 +105,25 @@ func (gateway *Gateway) serveWebSocket(writer http.ResponseWriter, request *http
 		client.close(websocket.ClosePolicyViolation, "authorization failed")
 		return
 	}
+	var matchSession *application.MatchSession
+	var lifecycleEvents <-chan application.LifecycleEvent
+	var subscriptionID uint64
+	if room.Match != nil {
+		matchSession, err = gateway.service.MatchSessionForConnection(claim.Lease)
+		if err == nil {
+			subscriptionID, lifecycleEvents, err = matchSession.Subscribe(request.Context(), seatForLease(claim.Lease))
+		}
+		if err != nil {
+			client.close(websocket.ClosePolicyViolation, "match unavailable")
+			return
+		}
+		defer matchSession.Unsubscribe(gateway.ctx, subscriptionID)
+		connectErr := matchSession.Connected(request.Context(), seatForLease(claim.Lease))
+		if connectErr != nil && !errors.Is(connectErr, engine.ErrMatchFinished) {
+			client.close(websocket.ClosePolicyViolation, "match unavailable")
+			return
+		}
+	}
 	gateway.writeWSEvent(client, wsEvent{
 		ProtocolVersion: ProtocolVersion, Type: "authenticated", CorrelationID: auth.CorrelationID,
 		Revision: room.Revision, Payload: map[string]any{"seatId": claim.Lease.Seat},
@@ -117,6 +136,12 @@ func (gateway *Gateway) serveWebSocket(writer http.ResponseWriter, request *http
 		if event, snapshotErr := gateway.matchSnapshotEvent(request.Context(), claim.Lease, auth.CorrelationID, "matchSnapshot"); snapshotErr == nil {
 			gateway.writeWSEvent(client, event)
 		}
+	}
+	done := make(chan struct{})
+	defer close(done)
+	if matchSession != nil {
+		go gateway.writeLifecycleEvents(request.Context(), client, claim.Lease, lifecycleEvents, done)
+		go gateway.writeServerHeartbeats(client, done)
 	}
 
 	limiter := newTokenBucket(gateway.limits.WSCommandsPerSecond, gateway.limits.WSCommandBurst)
@@ -158,6 +183,12 @@ func (gateway *Gateway) serveWebSocket(writer http.ResponseWriter, request *http
 				gateway.writeWSError(client, "", 0, 0, apiError{Code: codeInvalidPayload, MessageKey: "error.payload.invalid"})
 				continue
 			}
+			if matchSession != nil {
+				if err := matchSession.Heartbeat(request.Context(), seatForLease(claim.Lease)); err != nil {
+					client.close(websocket.ClosePolicyViolation, "heartbeat timeout")
+					return
+				}
+			}
 			gateway.writeWSEvent(client, wsEvent{
 				ProtocolVersion: ProtocolVersion, Type: "heartbeat", CorrelationID: heartbeat.CorrelationID,
 			})
@@ -180,6 +211,65 @@ func (gateway *Gateway) serveWebSocket(writer http.ResponseWriter, request *http
 			}
 		default:
 			gateway.writeWSError(client, "", 0, 0, apiError{Code: codeInvalidPayload, MessageKey: "error.message_type.invalid"})
+		}
+	}
+}
+
+func (gateway *Gateway) writeServerHeartbeats(client *wsClient, done <-chan struct{}) {
+	ticker := time.NewTicker(time.Second)
+	defer ticker.Stop()
+	for {
+		select {
+		case <-done:
+			return
+		case <-ticker.C:
+			_, correlationID, err := randomToken(12)
+			if err != nil {
+				return
+			}
+			gateway.writeWSEvent(client, wsEvent{
+				ProtocolVersion: ProtocolVersion, Type: "heartbeat", CorrelationID: correlationID,
+			})
+		}
+	}
+}
+
+func (gateway *Gateway) writeLifecycleEvents(
+	ctx context.Context,
+	client *wsClient,
+	lease application.ConnectionLease,
+	events <-chan application.LifecycleEvent,
+	done <-chan struct{},
+) {
+	for {
+		select {
+		case <-done:
+			return
+		case event, ok := <-events:
+			if !ok {
+				return
+			}
+			payload := lifecycleNoticePayload{Message: event.Message}
+			out := wsEvent{ProtocolVersion: ProtocolVersion, Type: "lifecycleNotice", Payload: payload}
+			if event.SnapshotRequired {
+				if snapshot, err := gateway.matchSnapshotEvent(ctx, lease, "", "matchSnapshot"); err == nil {
+					view, ok := snapshot.Payload.(PlayerView)
+					if ok {
+						payload.View = &view
+						out.Payload = payload
+						out.MatchID = snapshot.MatchID
+						out.Revision = snapshot.Revision
+						out.EventSeq = snapshot.EventSeq
+					}
+				}
+			}
+			gateway.writeWSEvent(client, out)
+			if event.MatchFinished && payload.View != nil {
+				gateway.writeWSEvent(client, wsEvent{
+					ProtocolVersion: ProtocolVersion, Type: "matchFinished", MatchID: out.MatchID,
+					Revision: out.Revision, EventSeq: out.EventSeq, Payload: *payload.View,
+				})
+			}
 		}
 	}
 }
@@ -233,6 +323,32 @@ func (gateway *Gateway) executeWSCommand(
 			Accepted: &accepted, Payload: projectPlayerView(state, seatForLease(lease), gateway.references),
 		}
 		gateway.commandCache[cacheKey] = cachedCommandResult{fingerprint: fingerprint, event: event, matchID: state.MatchID}
+		return event
+	}
+	if command.Name == "requestRematch" {
+		var payload rematchPayload
+		if err := gateway.decodeWSJSON(command.Payload, &payload); err != nil {
+			return rejectedEvent(command, state.Revision, eventSequence(state), codeInvalidPayload, "error.payload.invalid", false, nil)
+		}
+		if command.ExpectedRevision != state.Revision {
+			view := projectPlayerView(state, seatForLease(lease), gateway.references)
+			return rejectedEvent(command, state.Revision, eventSequence(state), codeStaleRevision, "error.revision.stale", false, &view)
+		}
+		room, started, err := gateway.service.RequestRematchForConnection(ctx, lease, command.MatchID, payload.Ready)
+		if err != nil {
+			code, key := engineError(err)
+			return rejectedEvent(command, state.Revision, eventSequence(state), code, key, false, nil)
+		}
+		if started != nil {
+			gateway.markMatchRunning(started.MatchID)
+		}
+		accepted := true
+		event := wsEvent{
+			ProtocolVersion: ProtocolVersion, Type: "commandResult", CommandID: command.CommandID,
+			MatchID: command.MatchID, Revision: state.Revision, EventSeq: eventSequence(state),
+			Accepted: &accepted, Payload: room,
+		}
+		gateway.commandCache[cacheKey] = cachedCommandResult{fingerprint: fingerprint, event: event, matchID: command.MatchID}
 		return event
 	}
 	engineCommand, parseErr := gateway.engineCommand(state, lease, command)
@@ -371,7 +487,7 @@ func (gateway *Gateway) engineCommand(
 			return invalid(codeInvalidPayload, "error.payload.invalid")
 		}
 		return invalid(codeIllegalAction, "error.action.not_available")
-	case "selectDeck", "setOrderArrangement", "setReady", "requestRematch", "leaveRoom":
+	case "selectDeck", "setOrderArrangement", "setReady", "leaveRoom":
 		return invalid(codeIllegalAction, "error.command.transport")
 	default:
 		return invalid(codeInvalidPayload, "error.command.unknown")

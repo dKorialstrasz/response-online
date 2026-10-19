@@ -160,6 +160,11 @@ type wsHeartbeat struct {
 	CorrelationID   string `json:"correlationId"`
 }
 
+type lifecycleNoticePayload struct {
+	Message string      `json:"message"`
+	View    *PlayerView `json:"view,omitempty"`
+}
+
 type wsEvent struct {
 	ProtocolVersion string    `json:"protocolVersion"`
 	Type            string    `json:"type"`
@@ -210,6 +215,10 @@ type playCardPayload struct {
 
 type resyncPayload struct {
 	LastEventSeq uint64 `json:"lastEventSeq,omitempty"`
+}
+
+type rematchPayload struct {
+	Ready bool `json:"ready"`
 }
 
 type cachedCommandResult struct {

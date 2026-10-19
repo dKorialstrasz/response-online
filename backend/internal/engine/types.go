@@ -455,10 +455,11 @@ type PendingChoiceProjection struct {
 type ResultReason string
 
 const (
-	ResultRulesLoss        ResultReason = "rules_loss"
-	ResultCardEffect       ResultReason = "card_effect"
-	ResultSurrender        ResultReason = "surrender"
-	ResultAbortedTechnical ResultReason = "aborted_technical"
+	ResultRulesLoss         ResultReason = "rules_loss"
+	ResultCardEffect        ResultReason = "card_effect"
+	ResultSurrender         ResultReason = "surrender"
+	ResultDisconnectForfeit ResultReason = "disconnect_forfeit"
+	ResultAbortedTechnical  ResultReason = "aborted_technical"
 )
 
 type MatchResult struct {

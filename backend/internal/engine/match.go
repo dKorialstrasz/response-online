@@ -109,6 +109,37 @@ func NewMatch(config Config) (*Match, error) {
 
 func (match *Match) State() State { return match.state.Clone() }
 
+// FinishTechnical commits a server-owned lifecycle result through the same
+// single-writer boundary as player commands. A second terminal transition is
+// rejected and therefore cannot overwrite the first committed result.
+func (match *Match) FinishTechnical(reason ResultReason, winner, loser *Seat, detail string) error {
+	if match.state.Status == StatusFinished {
+		return ErrMatchFinished
+	}
+	if reason != ResultDisconnectForfeit && reason != ResultAbortedTechnical {
+		return fmt.Errorf("%w: unsupported technical result %q", ErrInvalidCommand, reason)
+	}
+	if reason == ResultDisconnectForfeit {
+		if winner == nil || loser == nil || !winner.Valid() || !loser.Valid() || *winner == *loser {
+			return fmt.Errorf("%w: disconnect forfeit requires distinct winner and loser", ErrInvalidCommand)
+		}
+	} else if winner != nil || loser != nil {
+		return fmt.Errorf("%w: technical abort cannot declare a winner", ErrInvalidCommand)
+	}
+
+	next := match.state.Clone()
+	next.finish(reason, winner, loser, detail)
+	next.Events = append(next.Events, Event{
+		Sequence: uint64(len(next.Events) + 1), Kind: "match_" + string(reason), Detail: detail,
+	})
+	next.Revision++
+	if err := ValidateState(next); err != nil {
+		return fmt.Errorf("technical-result invariant: %w", err)
+	}
+	match.state = next
+	return nil
+}
+
 func (match *Match) Handle(command Command) error {
 	command = normalizeCommand(command)
 	if command.ID == "" || !command.Seat.Valid() {

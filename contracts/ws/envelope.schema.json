@@ -99,8 +99,12 @@
           "then": {"properties": {"payload": {"$ref": "#/$defs/abilityPayload"}}}
         },
         {
-          "if": {"properties": {"name": {"enum": ["passAction", "surrender", "requestRematch", "leaveRoom"]}}},
+          "if": {"properties": {"name": {"enum": ["passAction", "surrender", "leaveRoom"]}}},
           "then": {"properties": {"payload": {"$ref": "#/$defs/emptyPayload"}}}
+        },
+        {
+          "if": {"properties": {"name": {"const": "requestRematch"}}},
+          "then": {"properties": {"payload": {"$ref": "#/$defs/rematchPayload"}}}
         },
         {
           "if": {"properties": {"name": {"const": "submitChoice"}}},
@@ -126,6 +130,12 @@
       "properties": {"orderIds": {"type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": {"$ref": "#/$defs/identifier"}}}
     },
     "readyPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ready"],
+      "properties": {"ready": {"type": "boolean"}}
+    },
+    "rematchPayload": {
       "type": "object",
       "additionalProperties": false,
       "required": ["ready"],
@@ -209,7 +219,7 @@
       "properties": {
         "protocolVersion": {"const": "1.0"},
         "type": {
-          "enum": ["authenticated", "roomSnapshot", "matchSnapshot", "stateUpdate", "choiceRequested", "commandResult", "error", "connectionStatus", "matchFinished", "serverDraining", "heartbeat"]
+          "enum": ["authenticated", "roomSnapshot", "matchSnapshot", "stateUpdate", "choiceRequested", "commandResult", "error", "connectionStatus", "lifecycleNotice", "matchFinished", "serverDraining", "heartbeat"]
         },
         "correlationId": {"type": "string", "minLength": 1, "maxLength": 128},
         "commandId": {"type": "string", "maxLength": 128},
@@ -221,6 +231,13 @@
         "error": {"$ref": "#/$defs/error"}
       },
       "allOf": [
+        {
+          "if": {"properties": {"type": {"const": "lifecycleNotice"}}},
+          "then": {
+            "required": ["payload"],
+            "properties": {"payload": {"$ref": "#/$defs/lifecycleNoticePayload"}}
+          }
+        },
         {
           "if": {"properties": {"type": {"const": "authenticated"}}},
           "then": {
@@ -285,11 +302,12 @@
     "roomSeat": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["seatId", "occupied", "ready"],
+      "required": ["seatId", "occupied", "ready", "rematchReady"],
       "properties": {
         "seatId": {"enum": ["seat-1", "seat-2"]},
         "occupied": {"type": "boolean"},
-        "ready": {"type": "boolean"}
+        "ready": {"type": "boolean"},
+        "rematchReady": {"type": "boolean"}
       }
     },
     "roomSelection": {
@@ -325,7 +343,39 @@
         "ownSeat": {"enum": ["seat-1", "seat-2"]},
         "ownSelection": {"$ref": "#/$defs/roomSelection"},
         "seats": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"$ref": "#/$defs/roomSeat"}},
-        "match": {"oneOf": [{"$ref": "#/$defs/startedMatch"}, {"type": "null"}]}
+        "match": {"oneOf": [{"$ref": "#/$defs/startedMatch"}, {"type": "null"}]},
+        "previousMatches": {"type": "array", "items": {"$ref": "#/$defs/completedMatch"}}
+      }
+    },
+    "completedMatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["matchId", "reason"],
+      "properties": {
+        "matchId": {"$ref": "#/$defs/identifier"},
+        "reason": {"enum": ["rules_loss", "card_effect", "surrender", "disconnect_forfeit", "aborted_technical"]},
+        "winnerSeat": {"enum": ["seat-1", "seat-2"]},
+        "loserSeat": {"enum": ["seat-1", "seat-2"]}
+      }
+    },
+    "lifecycleNoticePayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["message"],
+      "properties": {
+        "message": {
+          "enum": [
+            "Связь с сервером потеряна. Пытаемся восстановить соединение. На восстановление отведено до 20 секунд",
+            "Связь с соперником потеряна. Ожидаем восстановление до 20 секунд",
+            "Соединение восстановлено. Состояние игры обновлено",
+            "Игрок не восстановил соединение за 20 секунд. Ему засчитано техническое поражение",
+            "Оба игрока не восстановили соединение. Матч завершён технически без победителя",
+            "Нет принятого действия уже 30 секунд. Если сервер не примет действие в течение следующих 60 секунд, матч завершится технически без победителя",
+            "Ожидаем действие соперника. Если бездействие продолжится, матч завершится технически без победителя",
+            "Матч завершён технически из-за бездействия. Победитель не определяется"
+          ]
+        },
+        "view": {"$ref": "#/$defs/playerView"}
       }
     },
     "connectionStatusPayload": {
@@ -437,7 +487,7 @@
           "additionalProperties": false,
           "required": ["reason"],
           "properties": {
-            "reason": {"enum": ["rules_loss", "card_effect", "surrender", "aborted_technical"]},
+            "reason": {"enum": ["rules_loss", "card_effect", "surrender", "disconnect_forfeit", "aborted_technical"]},
             "winnerSeat": {"enum": ["seat-1", "seat-2"]},
             "loserSeat": {"enum": ["seat-1", "seat-2"]}
           }

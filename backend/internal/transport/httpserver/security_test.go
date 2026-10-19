@@ -449,6 +449,61 @@ func TestCommandReplayAndInvalidReferenceDoNotMutateState(t *testing.T) {
 	}
 }
 
+func TestResumeReturnsFreshPersonalViewAndReplayDoesNotRepeatEffect(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	service, credentials, roomID, lease, session := activeRoom(t)
+	go func() { _ = session.Run(ctx) }()
+	if err := session.Connected(ctx, engine.SeatA); err != nil {
+		t.Fatal(err)
+	}
+	limits, _ := normalizeSecurityLimits(SecurityLimits{})
+	gateway := &Gateway{
+		ctx: ctx, service: service, references: newReferenceCodec(bytes.Repeat([]byte{7}, 32)),
+		commandCache: make(map[string]cachedCommandResult), limits: limits,
+	}
+	before, err := session.Snapshot(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	command := wsCommand{
+		ProtocolVersion: ProtocolVersion, Type: "command", CommandID: "resume-replay",
+		MatchID: before.MatchID, ExpectedRevision: before.Revision, Name: "submitMulligan",
+		Payload: json.RawMessage(`{"objectRefs":[]}`),
+	}
+	accepted := gateway.executeWSCommand(ctx, lease, command)
+	if accepted.Accepted == nil || !*accepted.Accepted {
+		t.Fatalf("initial command=%+v", accepted)
+	}
+	after, _ := session.Snapshot(ctx)
+	claim, err := service.ReplaceConnection(credentials, roomID, "resumed-connection")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := session.Connected(ctx, engine.SeatA); err != nil {
+		t.Fatal(err)
+	}
+	event, err := gateway.matchSnapshotEvent(ctx, claim.Lease, "resume", "matchSnapshot")
+	if err != nil {
+		t.Fatal(err)
+	}
+	view, ok := event.Payload.(PlayerView)
+	if !ok || view.OwnSeat != "seat-1" || view.Revision != after.Revision || event.Revision != after.Revision {
+		t.Fatalf("resume snapshot=%+v", event)
+	}
+	encoded, _ := json.Marshal(view)
+	for _, forbidden := range []string{"instanceId", "seed", "commands", "diagnosticTrace", "match-test:s1:c"} {
+		if strings.Contains(string(encoded), forbidden) {
+			t.Fatalf("resumed PlayerView leaked %q: %s", forbidden, encoded)
+		}
+	}
+	replayed := gateway.executeWSCommand(ctx, claim.Lease, command)
+	final, _ := session.Snapshot(ctx)
+	if replayed.Accepted == nil || !*replayed.Accepted || replayed.Revision != accepted.Revision || final.Revision != after.Revision {
+		t.Fatalf("replay after resume repeated effect: accepted=%+v replayed=%+v revisions=%d/%d", accepted, replayed, after.Revision, final.Revision)
+	}
+}
+
 type fixedPins struct{}
 
 func (fixedPins) PinMatch(_ context.Context, selections [2]application.SeatSelection) (application.MatchPins, error) {
