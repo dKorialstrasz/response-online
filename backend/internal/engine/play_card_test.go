@@ -227,6 +227,65 @@ func TestBaz102OptionalPostRevealChoiceCanDeclineAndSurvivesResyncSnapshot(t *te
 	}
 }
 
+func TestBaz009UnitPlacementCreatesOptionalMoveChoiceAndCanDecline(t *testing.T) {
+	cost := 1
+	power := 2
+	config := testConfig()
+	config.Versions.Protocol = "1.2"
+	config.Versions.Engine = "base-abilities-v2"
+	config.Abilities = []AbilityDefinition{{
+		AbilityID: "baz-009.front.ability", Status: AbilityReady, BuiltinHandler: "baz-009.front.ability",
+		ConformanceScenarioIDs: []string{"baz-009.front.ability.conformance"},
+	}}
+	config.Cards = []CardDefinition{{
+		CardID: "baz-009", Name: "Патрульный энобот", Types: []CardType{CardUnit}, Cost: &cost,
+		BasePower: &power, AbilityIDs: []string{"baz-009.front.ability"},
+	}}
+	for seat := range config.Players {
+		for index := range config.Players[seat].DeckCardIDs {
+			config.Players[seat].DeckCardIDs[index] = "baz-009"
+		}
+	}
+	match := preparedMatch(t, config)
+	before := match.State()
+	actor := before.ActingSeat
+	other := addBoardObject(&before, actor.Other(), "public-target", 1, 1, SlotUnit)
+	match.state = before
+	source := before.objectsInZone(actor, ZoneHand)[0].Ref()
+	if err := match.Handle(Command{
+		ID: "play-baz-009", Kind: CommandPlayCard, Seat: actor, ExpectedRevision: before.Revision,
+		SourceRef: &source, DeclaredType: CardUnit, DestinationLane: 0, DestinationLaneSet: true, DestinationSlot: SlotUnit,
+	}); err != nil {
+		t.Fatal(err)
+	}
+	waiting := match.State()
+	if len(waiting.PendingChoices) != 1 || waiting.PendingChoices[0].Mandatory || waiting.PendingChoices[0].MinSelections != 0 ||
+		waiting.PendingChoices[0].MaxSelections != 1 || waiting.PendingChoices[0].Visibility != ChoicePublic {
+		t.Fatalf("baz-009 optional move choice = %+v", waiting.PendingChoices)
+	}
+	choice := waiting.PendingChoices[0]
+	foundTarget := false
+	for _, option := range choice.Options {
+		if len(option.Objects) == 1 && option.Objects[0] == other.Ref() {
+			foundTarget = true
+			break
+		}
+	}
+	if !foundTarget {
+		t.Fatalf("public board target absent from choice: %+v", choice.Options)
+	}
+	if err := match.Handle(Command{
+		ID: "decline-baz-009", Kind: CommandSubmitChoice, Seat: actor, ExpectedRevision: waiting.Revision,
+		ChoiceID: choice.ChoiceID,
+	}); err != nil {
+		t.Fatal(err)
+	}
+	after := match.State()
+	if len(after.PendingChoices) != 0 || after.ActionResolution != nil || after.ActingSeat != actor.Other() {
+		t.Fatalf("decline did not complete baz-009 action: choices=%+v acting=%d", after.PendingChoices, after.ActingSeat)
+	}
+}
+
 func TestPotionDeathTargetIsChosenAfterDrawAndSacrifice(t *testing.T) {
 	config := testConfig()
 	config.Abilities = []AbilityDefinition{{
@@ -282,7 +341,7 @@ func preparedBaseSpellMatch(t *testing.T, cardID, abilityID string) (*Match, Con
 	t.Helper()
 	cost := 1
 	config := testConfig()
-	config.Versions.Protocol = "1.1"
+	config.Versions.Protocol = "1.2"
 	config.Versions.Engine = "base-abilities-v2"
 	config.Abilities = []AbilityDefinition{{
 		AbilityID: abilityID, Status: AbilityReady, BuiltinHandler: abilityID,

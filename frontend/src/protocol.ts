@@ -1,6 +1,6 @@
 // Schema-aligned parity surface for contracts/ws/envelope.schema.json.
 // Contract validation checks the discriminants; TypeScript checks consumers.
-export const protocolVersion = "1.1" as const;
+export const protocolVersion = "1.2" as const;
 
 export const clientCommandNames = [
   "selectDeck",
@@ -140,8 +140,19 @@ export interface PlayerViewAction {
   paymentRefs: ObjectRef[];
   paymentCount: number;
   influenceCosts: number[];
-  placements: Array<{ lane: number; slot: "unit" | "support" | "location" }>;
+  placements: Array<{ lane: number; slot: "unit" | "support" }>;
   shieldTargets: ObjectRef[];
+}
+
+export interface PlayerViewQueueItem {
+  position: number;
+  kind: string;
+}
+
+export interface PlayerViewJournalEntry {
+  sequence: number;
+  seat?: SeatId;
+  message: string;
 }
 
 export interface PlayerView {
@@ -191,6 +202,8 @@ export interface PlayerView {
   board: VisibleCard[];
   choices: PlayerViewChoice[];
   legalActions: PlayerViewAction[];
+  queue: PlayerViewQueueItem[];
+  journal: PlayerViewJournalEntry[];
   result?: {
     reason:
       | "rules_loss"
@@ -308,6 +321,7 @@ export type ServerEvent =
       commandId: string;
       matchId: string;
       accepted: true;
+      payload?: RoomSnapshot;
     })
   | (ServerEventBase<"error"> & { accepted: false; error: ProtocolError })
   | (ServerEventBase<"connectionStatus"> & {

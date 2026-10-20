@@ -265,7 +265,7 @@ def validate_examples(schema: dict[str, Any], errors: list[str]) -> None:
             continue
         for validation_error in schema_errors(value, schema, schema):
             errors.append(f"{path.relative_to(ROOT)}: {validation_error}")
-        if value.get("protocolVersion") != "1.1":
+        if value.get("protocolVersion") != "1.2":
             errors.append(f"{path.relative_to(ROOT)}: protocolVersion must be 1.1")
         message_type = value.get("type")
         seen_types.add(str(message_type))
@@ -305,7 +305,7 @@ def main() -> int:
     if openapi.get("openapi") != "3.1.1":
         errors.append("openapi.json: expected OpenAPI 3.1.1")
     info = openapi.get("info")
-    if not isinstance(info, dict) or info.get("version") != "1.1":
+    if not isinstance(info, dict) or info.get("version") != "1.2":
         errors.append("openapi.json: expected info.version 1.1")
     paths = openapi.get("paths")
     if not isinstance(paths, dict) or set(paths) != EXPECTED_PATHS:
@@ -366,9 +366,9 @@ def main() -> int:
         errors.append("frontend/src/protocol.ts: client command parity failed")
     if literal_array(typescript, "serverEventTypes") != EXPECTED_EVENTS:
         errors.append("frontend/src/protocol.ts: server event parity failed")
-    if 'protocolVersion = "1.1"' not in typescript:
+    if 'protocolVersion = "1.2"' not in typescript:
         errors.append("frontend/src/protocol.ts: protocol version parity failed")
-    if 'ProtocolVersion = "1.1"' not in go_protocol:
+    if 'ProtocolVersion = "1.2"' not in go_protocol:
         errors.append("backend protocol.go: protocol version parity failed")
 
     http_errors = set(

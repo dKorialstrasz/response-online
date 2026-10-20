@@ -28,6 +28,6 @@
 `requestRematch` использует отдельный ready каждого игрока и реализован в #15.
 Lobby-команды выполняются по HTTP; их WS-имена сохранены
 для полной клиентской taxonomy и не обходят cookie/CSRF boundary. Полный gameplay
-`playCard` в protocol 1.1 исполняется авторитетно из закреплённых CardDefinition и
+`playCard` в protocol 1.2 исполняется авторитетно из закреплённых CardDefinition и
 AbilityDefinition. Клиент остаётся projection-only и отправляет только значение
 из текущего allowlist.

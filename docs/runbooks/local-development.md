@@ -43,7 +43,7 @@ RESPONSE_HTTP_ADDR=127.0.0.1:18080 make dev-backend
 типизированному pipeline #11, закрытому каталогу 126 способностей #12 и
 server-authoritative playCard/PendingChoice #37.
 Русский card text не исполняется; матч получает только version-pinned handlers.
-`protocolVersion: 1.1` относится к HTTP/WSS contracts, security boundary,
+`protocolVersion: 1.2` относится к HTTP/WSS contracts, security boundary,
 generation-safe refs, legalActions и PlayerView. Lobby работает по HTTP JSON;
 активный матч — по WebSocket.
 Reconnect outcomes/rematch остаются #15.

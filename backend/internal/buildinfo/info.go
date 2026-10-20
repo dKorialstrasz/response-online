@@ -7,7 +7,7 @@ var (
 )
 
 const (
-	ProtocolVersion = "1.1"
+	ProtocolVersion = "1.2"
 	ContentVersion  = "base-cards-v1"
 	RulesVersion    = "response-rules-2026-10-17"
 	EngineVersion   = "base-abilities-v2"

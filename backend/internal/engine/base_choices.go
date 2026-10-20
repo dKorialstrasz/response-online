@@ -43,7 +43,7 @@ func choiceOptions(objects []*CardObject) []ChoiceOption {
 }
 
 func (context *builtinAbilityContext) requestBaz009Choice() error {
-	if len(context.command.TargetRefs) != 0 || context.command.DestinationLaneSet {
+	if len(context.command.TargetRefs) != 0 {
 		return fmt.Errorf("%w: baz-009 optional move is a pending choice", ErrInvalidCommand)
 	}
 	source, err := context.sourceObject()
