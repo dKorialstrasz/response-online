@@ -74,7 +74,7 @@ fizzle-ится событием и никогда не находит новы�
 
 ## Расширение issue #37
 
-Protocol 1.1 применяет эту модель к реальному `playCard`. Команда не передаёт
+Protocol 1.2 применяет эту модель к реальному `playCard`. Команда не передаёт
 интерпретированный effect: сервер сам строит `legalActions` из закреплённых
 CardDefinition/AbilityDefinition, проверяет generation, стоимость, оплату и
 placement, затем открывает persisted PendingChoice только в точном окне текста.

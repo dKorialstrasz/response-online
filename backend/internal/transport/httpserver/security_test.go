@@ -337,6 +337,99 @@ func TestAcceptedCommandBroadcastsPersonalizedStateToBothSeats(t *testing.T) {
 	}
 }
 
+func TestRematchDecisionBroadcastsRoomStateToBothSeats(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	service, credentials, roomID, session := readyRoom(t)
+	go func() { _ = session.Run(ctx) }()
+	for _, command := range []engine.Command{
+		{ID: "mulligan-a", Kind: engine.CommandMulligan, Seat: engine.SeatA, ExpectedRevision: 2},
+		{ID: "mulligan-b", Kind: engine.CommandMulligan, Seat: engine.SeatB, ExpectedRevision: 3},
+		{ID: "surrender-a", Kind: engine.CommandSurrender, Seat: engine.SeatA, ExpectedRevision: 4},
+	} {
+		if err := session.Submit(ctx, command); err != nil {
+			t.Fatalf("finish match with %s: %v", command.ID, err)
+		}
+	}
+
+	handler, err := NewHandlerWithConfig(Config{
+		Context: ctx, Service: service, AllowedOrigins: []string{testOrigin},
+		CSRFKey: bytes.Repeat([]byte{1}, 32), ReferenceKey: bytes.Repeat([]byte{2}, 32),
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	listener := newPipeListener()
+	server := &http.Server{Handler: handler}
+	go func() { _ = server.Serve(listener) }()
+	defer server.Close()
+	dialer := websocket.Dialer{NetDialContext: listener.dialContext}
+	header := http.Header{"Origin": []string{testOrigin}}
+	connections := make([]*websocket.Conn, 2)
+	initial := make([]wsEvent, 2)
+	for index := range connections {
+		ticket, issueErr := service.IssueConnectionTicket(credentials[index], roomID)
+		if issueErr != nil {
+			t.Fatal(issueErr)
+		}
+		connection, _, dialErr := dialer.Dial("ws://pipe/api/v1/ws", header)
+		if dialErr != nil {
+			t.Fatal(dialErr)
+		}
+		defer connection.Close()
+		connections[index] = connection
+		if err := connection.WriteJSON(wsAuth{
+			ProtocolVersion: ProtocolVersion, Type: "authenticate", CorrelationID: fmt.Sprintf("rematch-auth-%d", index),
+			Ticket: ticket.Token, ConnectionID: fmt.Sprintf("rematch-connection-%d", index),
+		}); err != nil {
+			t.Fatal(err)
+		}
+		for eventIndex := 0; eventIndex < 3; eventIndex++ {
+			var event wsEvent
+			if err := connection.ReadJSON(&event); err != nil {
+				t.Fatal(err)
+			}
+			if event.Type == "matchSnapshot" {
+				initial[index] = event
+			}
+		}
+	}
+
+	command := wsCommand{
+		ProtocolVersion: ProtocolVersion, Type: "command", CommandID: "rematch-ready-a",
+		MatchID: initial[0].MatchID, ExpectedRevision: initial[0].Revision, Name: "requestRematch",
+		Payload: json.RawMessage(`{"ready":true}`),
+	}
+	if err := connections[0].WriteJSON(command); err != nil {
+		t.Fatal(err)
+	}
+	var result wsEvent
+	if err := connections[0].ReadJSON(&result); err != nil {
+		t.Fatal(err)
+	}
+	if result.Type != "commandResult" || result.Accepted == nil || !*result.Accepted {
+		t.Fatalf("rematch command result = %+v", result)
+	}
+	for index, connection := range connections {
+		_ = connection.SetReadDeadline(time.Now().Add(2 * time.Second))
+		var event wsEvent
+		if err := connection.ReadJSON(&event); err != nil {
+			t.Fatalf("seat %d room broadcast: %v", index, err)
+		}
+		if event.Type != "roomSnapshot" {
+			t.Fatalf("seat %d first rematch broadcast = %+v", index, event)
+		}
+		encoded, _ := json.Marshal(event.Payload)
+		var room application.RoomSnapshot
+		if err := json.Unmarshal(encoded, &room); err != nil {
+			t.Fatal(err)
+		}
+		if !room.Seats[0].RematchReady || room.Seats[1].RematchReady {
+			t.Fatalf("seat %d rematch room = %+v", index, room.Seats)
+		}
+	}
+}
+
 func TestPlayerViewRedactsHiddenStateAndUsesOpaqueReferences(t *testing.T) {
 	match := newProjectionMatch(t)
 	state := match.State()
@@ -365,6 +458,67 @@ func TestPlayerViewRedactsHiddenStateAndUsesOpaqueReferences(t *testing.T) {
 	}
 	if _, err := codec.decode(state, objectRefPayload{ZoneObjectID: state.Players[0].Objects[0].ZoneObjectID, Generation: 1}); err == nil {
 		t.Fatal("internal object reference was accepted at the transport boundary")
+	}
+}
+
+func TestQueueAndJournalExposeOnlyPublicAllowlistedFacts(t *testing.T) {
+	match := newProjectionMatch(t)
+	state := match.State()
+	state.Players[0].Objects[0].Zone = engine.ZoneBoard
+	state.Players[0].Objects[0].Lane = 0
+	state.Players[0].Objects[0].Slot = engine.SlotUnit
+	publicRef := state.Players[0].Objects[0].Ref()
+	hiddenRef := state.Players[1].Objects[0].Ref()
+	state.EffectQueue = []engine.EffectQueueEntry{
+		{EntryID: "public-entry", Effect: engine.ResolvedEffect{Kind: engine.EffectModifyPower, SourceRef: &publicRef}},
+		{EntryID: "hidden-entry", Effect: engine.ResolvedEffect{Kind: engine.EffectRequestChoice, SourceRef: &hiddenRef}},
+	}
+	seat := engine.SeatA
+	state.Events = append(state.Events,
+		engine.Event{Sequence: uint64(len(state.Events) + 1), Kind: "card_played", Seat: &seat, Detail: "secret-card-instance"},
+		engine.Event{Sequence: uint64(len(state.Events) + 2), Kind: "private_trap_armed", Detail: "secret-trap"},
+		engine.Event{Sequence: uint64(len(state.Events) + 3), Kind: "choice_requested", Seat: &seat, Detail: "secret-choice-kind"},
+		engine.Event{Sequence: uint64(len(state.Events) + 4), Kind: "choice_submitted", Seat: &seat, Detail: "secret-choice-answer"},
+	)
+
+	view := projectPlayerView(state, engine.SeatA, newReferenceCodec(bytes.Repeat([]byte{17}, 32)))
+	if len(view.Queue) != 1 || view.Queue[0].Kind != "Изменение силы" {
+		t.Fatalf("public queue projection = %+v", view.Queue)
+	}
+	if len(view.Journal) == 0 || view.Journal[len(view.Journal)-1].Message != "Карта разыграна" {
+		t.Fatalf("public journal projection = %+v", view.Journal)
+	}
+	encoded, err := json.Marshal(view)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, forbidden := range []string{
+		"public-entry", "hidden-entry", "secret-card-instance", "secret-trap", "private_trap_armed",
+		"secret-choice-kind", "secret-choice-answer", "Сервер ожидает решение", "Решение принято", hiddenRef.ZoneObjectID,
+	} {
+		if strings.Contains(string(encoded), forbidden) {
+			t.Fatalf("queue or journal leaked %q: %s", forbidden, encoded)
+		}
+	}
+}
+
+func TestLegalActionProjectionUsesSchemaArraysInsteadOfNull(t *testing.T) {
+	state := newProjectionMatch(t).State()
+	view := projectPlayerView(
+		state,
+		engine.SeatA,
+		newReferenceCodec(bytes.Repeat([]byte{19}, 32)),
+		[]engine.LegalAction{{Name: "passAction"}},
+	)
+	encoded, err := json.Marshal(view)
+	if err != nil {
+		t.Fatal(err)
+	}
+	text := string(encoded)
+	for _, field := range []string{"modeIds", "targetRefs", "paymentRefs", "influenceCosts", "placements", "shieldTargets"} {
+		if strings.Contains(text, `"`+field+`":null`) || !strings.Contains(text, `"`+field+`":[]`) {
+			t.Fatalf("legal action field %s is not a schema array: %s", field, text)
+		}
 	}
 }
 

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://response-online.local/contracts/ws/envelope.schema.json",
-  "title": "Response Online WebSocket protocol 1.1",
+  "title": "Response Online WebSocket protocol 1.2",
   "description": "The one-time ticket is allowed only in Authenticate, never in the URL or later frames.",
   "oneOf": [
     {"$ref": "#/$defs/authenticate"},
@@ -29,7 +29,7 @@
         "deckManifests": {"type": "string", "minLength": 1},
         "effectSpec": {"type": "string", "minLength": 1},
         "rules": {"type": "string", "minLength": 1},
-        "protocol": {"const": "1.1"},
+        "protocol": {"const": "1.2"},
         "engine": {"type": "string", "minLength": 1}
       }
     },
@@ -38,7 +38,7 @@
       "additionalProperties": false,
       "required": ["protocolVersion", "type", "correlationId", "ticket", "connectionId"],
       "properties": {
-        "protocolVersion": {"const": "1.1"},
+        "protocolVersion": {"const": "1.2"},
         "type": {"const": "authenticate"},
         "correlationId": {"$ref": "#/$defs/identifier"},
         "ticket": {"type": "string", "minLength": 32, "maxLength": 256, "writeOnly": true},
@@ -50,7 +50,7 @@
       "additionalProperties": false,
       "required": ["protocolVersion", "type", "correlationId"],
       "properties": {
-        "protocolVersion": {"const": "1.1"},
+        "protocolVersion": {"const": "1.2"},
         "type": {"const": "heartbeat"},
         "correlationId": {"$ref": "#/$defs/identifier"}
       }
@@ -60,7 +60,7 @@
       "additionalProperties": false,
       "required": ["protocolVersion", "type", "commandId", "matchId", "expectedRevision", "name", "payload"],
       "properties": {
-        "protocolVersion": {"const": "1.1"},
+        "protocolVersion": {"const": "1.2"},
         "type": {"const": "command"},
         "commandId": {"$ref": "#/$defs/identifier"},
         "matchId": {"$ref": "#/$defs/identifier"},
@@ -221,7 +221,7 @@
       "additionalProperties": false,
       "required": ["protocolVersion", "type", "revision", "eventSeq"],
       "properties": {
-        "protocolVersion": {"const": "1.1"},
+        "protocolVersion": {"const": "1.2"},
         "type": {
           "enum": ["authenticated", "roomSnapshot", "matchSnapshot", "stateUpdate", "choiceRequested", "commandResult", "error", "connectionStatus", "lifecycleNotice", "matchFinished", "serverDraining", "heartbeat"]
         },
@@ -267,7 +267,10 @@
           "if": {"properties": {"type": {"const": "commandResult"}}},
           "then": {
             "required": ["commandId", "matchId", "accepted"],
-            "properties": {"accepted": {"const": true}}
+            "properties": {
+              "accepted": {"const": true},
+              "payload": {"$ref": "#/$defs/roomSnapshot"}
+            }
           }
         },
         {
@@ -505,10 +508,29 @@
         "shieldTargets": {"type": "array", "maxItems": 64, "items": {"$ref": "#/$defs/objectRef"}}
       }
     },
+    "playerViewQueueItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["position", "kind"],
+      "properties": {
+        "position": {"type": "integer", "minimum": 1},
+        "kind": {"type": "string", "minLength": 1}
+      }
+    },
+    "playerViewJournalEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sequence", "message"],
+      "properties": {
+        "sequence": {"type": "integer", "minimum": 1},
+        "seat": {"enum": ["seat-1", "seat-2"]},
+        "message": {"type": "string", "minLength": 1}
+      }
+    },
     "playerView": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["matchId", "versions", "revision", "status", "phase", "turnNumber", "ownSeat", "initiativeSeat", "actingSeat", "players", "board", "choices", "legalActions"],
+      "required": ["matchId", "versions", "revision", "status", "phase", "turnNumber", "ownSeat", "initiativeSeat", "actingSeat", "players", "board", "choices", "legalActions", "queue", "journal"],
       "properties": {
         "matchId": {"type": "string"},
         "versions": {"$ref": "#/$defs/versions"},
@@ -525,6 +547,8 @@
         "board": {"type": "array", "items": {"$ref": "#/$defs/visibleCard"}},
         "choices": {"type": "array", "items": {"$ref": "#/$defs/playerViewChoice"}},
         "legalActions": {"type": "array", "items": {"$ref": "#/$defs/playerViewAction"}},
+        "queue": {"type": "array", "items": {"$ref": "#/$defs/playerViewQueueItem"}},
+        "journal": {"type": "array", "items": {"$ref": "#/$defs/playerViewJournalEntry"}},
         "result": {
           "type": "object",
           "additionalProperties": false,

@@ -27,7 +27,7 @@ const room: RoomSnapshot = {
       deckManifests: "decks",
       effectSpec: "effects",
       rules: "rules",
-      protocol: "1.1",
+      protocol: "1.2",
       engine: "engine",
     },
     ownDeckManifestId: "own-manifest",
@@ -88,6 +88,8 @@ const view: PlayerView = {
   board: [],
   choices: [],
   legalActions: [],
+  queue: [],
+  journal: [],
 };
 
 describe("интерфейс комнаты", () => {
@@ -259,6 +261,140 @@ describe("интерфейс комнаты", () => {
         onCommand={vi.fn()}
       />,
     );
-    expect(optional).toContain("Отказаться");
+    expect(optional).toContain("Не активировать");
+  });
+
+  it("не раскрывает закрытое решение соперника", () => {
+    const active: PlayerView = {
+      ...view,
+      status: "active",
+      phase: "action",
+      choices: [
+        {
+          waitingSeat: "seat-2",
+          revision: 5,
+          private: true,
+          redacted: true,
+        },
+      ],
+    };
+    const html = renderToStaticMarkup(
+      <MatchScreen
+        connection="подключено"
+        error=""
+        mulliganSubmitted
+        room={room}
+        view={active}
+        onMulligan={vi.fn()}
+        onCommand={vi.fn()}
+      />,
+    );
+    expect(html).toContain("Ожидаем решение соперника");
+    expect(html).toContain(
+      "Закрытые варианты и причина ожидания не раскрываются",
+    );
+    expect(html).not.toContain("секрет-соперника");
+  });
+
+  it("показывает публичную очередь и журнал независимо от анимаций", () => {
+    const active: PlayerView = {
+      ...view,
+      status: "active",
+      phase: "combat",
+      queue: [{ position: 1, kind: "Изменение силы" }],
+      journal: [{ sequence: 6, seat: "seat-1", message: "Карта разыграна" }],
+    };
+    const html = renderToStaticMarkup(
+      <MatchScreen
+        connection="подключено"
+        error=""
+        mulliganSubmitted
+        room={room}
+        view={active}
+        onMulligan={vi.fn()}
+        onCommand={vi.fn()}
+      />,
+    );
+    expect(html).toContain("Очередь эффектов");
+    expect(html).toContain("Изменение силы");
+    expect(html).toContain("Публичный журнал");
+    expect(html).toContain("Карта разыграна");
+    expect(html).toContain("Выключены");
+  });
+
+  it("показывает протокольную ошибку и блокирует команды при рассинхронизации", () => {
+    const active: PlayerView = {
+      ...view,
+      status: "active",
+      phase: "action",
+      legalActions: [
+        {
+          name: "passAction",
+          modeIds: [],
+          minModes: 0,
+          maxModes: 0,
+          targetRefs: [],
+          minTargets: 0,
+          maxTargets: 0,
+          paymentRefs: [],
+          paymentCount: 0,
+          influenceCosts: [],
+          placements: [],
+          shieldTargets: [],
+        },
+      ],
+    };
+    const html = renderToStaticMarkup(
+      <MatchScreen
+        connection="подключено"
+        desynced
+        error="Состояние игры изменилось. Действия заблокированы до завершения синхронизации."
+        lifecycleNotice=""
+        mulliganSubmitted
+        room={room}
+        view={active}
+        onMulligan={vi.fn()}
+        onCommand={vi.fn()}
+      />,
+    );
+    expect(html).toContain("Состояние синхронизируется");
+    expect(html).toContain("Состояние игры изменилось");
+    expect(html).toMatch(/disabled=""[^>]*>Спасовать/);
+  });
+
+  it("блокирует игровое поле результатом и отражает состояние реванша", () => {
+    const finishedRoom: RoomSnapshot = {
+      ...room,
+      seats: [
+        { ...room.seats[0], rematchReady: true },
+        { ...room.seats[1], rematchReady: false },
+      ],
+    };
+    const finished: PlayerView = {
+      ...view,
+      status: "finished",
+      phase: "finished",
+      result: {
+        reason: "surrender",
+        winnerSeat: "seat-1",
+        loserSeat: "seat-2",
+      },
+    };
+    const html = renderToStaticMarkup(
+      <MatchScreen
+        connection="подключено"
+        error=""
+        mulliganSubmitted
+        room={finishedRoom}
+        view={finished}
+        onMulligan={vi.fn()}
+        onCommand={vi.fn()}
+      />,
+    );
+    expect(html).toContain("Вы победили");
+    expect(html).toContain("Один из игроков сдался");
+    expect(html).toContain("Отменить предложение");
+    expect(html).toContain("Ожидаем согласия соперника");
+    expect(html).not.toContain("surrender");
   });
 });

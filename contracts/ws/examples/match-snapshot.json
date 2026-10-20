@@ -1,5 +1,5 @@
 {
-  "protocolVersion": "1.1",
+  "protocolVersion": "1.2",
   "type": "matchSnapshot",
   "correlationId": "example-auth-1",
   "matchId": "example-match-1",
@@ -12,7 +12,7 @@
       "deckManifests": "base-decks-v1",
       "effectSpec": "effect-spec-v1",
       "rules": "response-rules-2026-10-17",
-      "protocol": "1.1",
+      "protocol": "1.2",
       "engine": "base-abilities-v2"
     },
     "revision": 42,
@@ -47,6 +47,10 @@
     ],
     "board": [],
     "choices": [],
+    "queue": [],
+    "journal": [
+      {"sequence": 1, "message": "Матч создан"}
+    ],
     "legalActions": [
       {
         "name": "passAction",

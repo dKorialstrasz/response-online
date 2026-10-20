@@ -160,6 +160,6 @@ Rules/content review принят владельцем при явном раз�
 
 - Rules/content review и merge PR #34 явно приняты владельцем.
 - Полные 72 end-to-end smoke-прогона относятся к #20, не подменяются 36 engine interaction rows.
-- Gameplay protocol `1.1` добавляет generation-safe `playCard`, server-authored
+- Gameplay protocol `1.2` добавляет generation-safe `playCard`, server-authored
   legalActions и устойчивую choice projection; `make m1-release-check` проходит.
 - Публичное развёртывание, GamePix и права на публикацию остаются вне M1.

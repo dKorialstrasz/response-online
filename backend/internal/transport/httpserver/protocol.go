@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	ProtocolVersion = "1.1"
+	ProtocolVersion = "1.2"
 	maxHTTPBody     = 64 << 10
 	maxWSFrame      = 32 << 10
 	maxJSONDepth    = 16

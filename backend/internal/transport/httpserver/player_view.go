@@ -14,22 +14,24 @@ import (
 // engine.Random, commands, audit events, effect bodies, diagnostic traces, or
 // CardObject.InstanceID.
 type PlayerView struct {
-	MatchID        string              `json:"matchId"`
-	Versions       engine.Versions     `json:"versions"`
-	Revision       uint64              `json:"revision"`
-	Status         engine.MatchStatus  `json:"status"`
-	Phase          engine.Phase        `json:"phase"`
-	CombatStep     engine.CombatStep   `json:"combatStep,omitempty"`
-	CombatLane     int                 `json:"combatLane"`
-	TurnNumber     int                 `json:"turnNumber"`
-	OwnSeat        string              `json:"ownSeat"`
-	InitiativeSeat string              `json:"initiativeSeat"`
-	ActingSeat     string              `json:"actingSeat"`
-	Players        [2]PlayerViewPlayer `json:"players"`
-	Board          []PlayerViewCard    `json:"board"`
-	Choices        []PlayerViewChoice  `json:"choices"`
-	LegalActions   []PlayerViewAction  `json:"legalActions"`
-	Result         *PlayerViewResult   `json:"result,omitempty"`
+	MatchID        string                   `json:"matchId"`
+	Versions       engine.Versions          `json:"versions"`
+	Revision       uint64                   `json:"revision"`
+	Status         engine.MatchStatus       `json:"status"`
+	Phase          engine.Phase             `json:"phase"`
+	CombatStep     engine.CombatStep        `json:"combatStep,omitempty"`
+	CombatLane     int                      `json:"combatLane"`
+	TurnNumber     int                      `json:"turnNumber"`
+	OwnSeat        string                   `json:"ownSeat"`
+	InitiativeSeat string                   `json:"initiativeSeat"`
+	ActingSeat     string                   `json:"actingSeat"`
+	Players        [2]PlayerViewPlayer      `json:"players"`
+	Board          []PlayerViewCard         `json:"board"`
+	Choices        []PlayerViewChoice       `json:"choices"`
+	LegalActions   []PlayerViewAction       `json:"legalActions"`
+	Queue          []PlayerViewQueueItem    `json:"queue"`
+	Journal        []PlayerViewJournalEntry `json:"journal"`
+	Result         *PlayerViewResult        `json:"result,omitempty"`
 }
 
 type PlayerViewPlayer struct {
@@ -106,6 +108,17 @@ type PlayerViewChoiceOption struct {
 	Objects []objectRefPayload `json:"objects,omitempty"`
 }
 
+type PlayerViewQueueItem struct {
+	Position int    `json:"position"`
+	Kind     string `json:"kind"`
+}
+
+type PlayerViewJournalEntry struct {
+	Sequence uint64 `json:"sequence"`
+	Seat     string `json:"seat,omitempty"`
+	Message  string `json:"message"`
+}
+
 type PlayerViewResult struct {
 	Reason     engine.ResultReason `json:"reason"`
 	WinnerSeat string              `json:"winnerSeat,omitempty"`
@@ -156,6 +169,7 @@ func projectPlayerView(state engine.State, viewer engine.Seat, codec referenceCo
 		OwnSeat: seatName(viewer), InitiativeSeat: seatName(state.InitiativeSeat),
 		ActingSeat: seatName(state.ActingSeat), Board: make([]PlayerViewCard, 0),
 		Choices: make([]PlayerViewChoice, 0), LegalActions: make([]PlayerViewAction, 0),
+		Queue: make([]PlayerViewQueueItem, 0), Journal: make([]PlayerViewJournalEntry, 0),
 	}
 	for playerIndex, player := range state.Players {
 		projected := PlayerViewPlayer{
@@ -207,10 +221,10 @@ func projectPlayerView(state engine.State, viewer engine.Seat, codec referenceCo
 		for _, action := range legal[0] {
 			projected := PlayerViewAction{
 				Name: action.Name, DefinitionID: action.DefinitionID, DeclaredType: action.DeclaredType,
-				AbilityID: action.AbilityID, ModeIDs: append([]string(nil), action.ModeIDs...),
+				AbilityID: action.AbilityID, ModeIDs: append(make([]string, 0, len(action.ModeIDs)), action.ModeIDs...),
 				MinModes: action.MinModes, MaxModes: action.MaxModes, MinTargets: action.MinTargets,
 				MaxTargets: action.MaxTargets, PaymentCount: action.PaymentCount,
-				InfluenceCosts: append([]int(nil), action.InfluenceCosts...),
+				InfluenceCosts: append(make([]int, 0, len(action.InfluenceCosts)), action.InfluenceCosts...),
 				TargetRefs:     make([]objectRefPayload, 0, len(action.TargetRefs)),
 				PaymentRefs:    make([]objectRefPayload, 0, len(action.PaymentRefs)),
 				Placements:     make([]PlayerViewPlacement, 0, len(action.Placements)),
@@ -235,6 +249,25 @@ func projectPlayerView(state engine.State, viewer engine.Seat, codec referenceCo
 			view.LegalActions = append(view.LegalActions, projected)
 		}
 	}
+	for _, entry := range state.EffectQueue {
+		if entry.Effect.SourceRef == nil || !publicObjectRef(state, *entry.Effect.SourceRef) {
+			continue
+		}
+		if name := publicEffectName(entry.Effect.Kind); name != "" {
+			view.Queue = append(view.Queue, PlayerViewQueueItem{Position: len(view.Queue) + 1, Kind: name})
+		}
+	}
+	for _, event := range state.Events {
+		message := publicEventMessage(event.Kind)
+		if message == "" {
+			continue
+		}
+		item := PlayerViewJournalEntry{Sequence: event.Sequence, Message: message}
+		if event.Seat != nil {
+			item.Seat = seatName(*event.Seat)
+		}
+		view.Journal = append(view.Journal, item)
+	}
 	if state.Result != nil {
 		result := &PlayerViewResult{Reason: state.Result.Reason}
 		if state.Result.WinnerSeat != nil {
@@ -246,6 +279,93 @@ func projectPlayerView(state engine.State, viewer engine.Seat, codec referenceCo
 		view.Result = result
 	}
 	return view
+}
+
+func publicObjectRef(state engine.State, ref engine.ObjectRef) bool {
+	for _, player := range state.Players {
+		for _, object := range player.Objects {
+			if object.Ref() == ref {
+				return object.Zone == engine.ZoneBoard || object.Zone == engine.ZoneGraveyard
+			}
+		}
+	}
+	return false
+}
+
+func publicEffectName(kind engine.EffectKind) string {
+	switch kind {
+	case engine.EffectModifyPower:
+		return "Изменение силы"
+	case engine.EffectMoveZone:
+		return "Перемещение карты"
+	case engine.EffectEnqueue:
+		return "Добавление эффекта"
+	case engine.EffectRequestChoice:
+		return "Ожидание решения"
+	case engine.EffectScheduleDelayed:
+		return "Отложенный эффект"
+	case engine.EffectInstallReplacement:
+		return "Замещающий эффект"
+	default:
+		return ""
+	}
+}
+
+func publicEventMessage(kind string) string {
+	switch kind {
+	case "match_created":
+		return "Матч создан"
+	case "setup_completed":
+		return "Подготовка матча началась"
+	case "starting_hands_dealt":
+		return "Начальные руки розданы"
+	case "orders_arranged":
+		return "Порядок Приказов подтверждён"
+	case "mulligan_submitted":
+		return "Начальная рука подтверждена"
+	case "phase_started":
+		return "Началась новая фаза"
+	case "draw_skipped":
+		return "Добор пропущен"
+	case "card_drawn":
+		return "Игрок получил карту"
+	case "action_passed":
+		return "Игрок спасовал"
+	case "action_auto_passed":
+		return "Действия игрока закончились"
+	case "action_committed":
+		return "Игровое действие принято"
+	case "card_played":
+		return "Карта разыграна"
+	case "ability_activated":
+		return "Способность активирована"
+	case "combat_started":
+		return "Начался бой"
+	case "combat_lane_started":
+		return "Разыграна линия боя"
+	case "units_collided":
+		return "Юниты столкнулись"
+	case "unit_died":
+		return "Юнит отправлен на кладбище"
+	case "location_hit":
+		return "Локация получила урон"
+	case "location_destroyed":
+		return "Локация уничтожена"
+	case "hero_attack_skipped":
+		return "Атака героя пропущена"
+	case "hero_hit":
+		return "Герой получил урон"
+	case "combat_ended":
+		return "Бой завершён"
+	case "recovery_completed":
+		return "Восстановление завершено"
+	case "order_revealed":
+		return "Приказ раскрыт"
+	case "match_finished", "match_rules_loss", "match_card_effect", "match_surrender", "match_disconnect_forfeit", "match_aborted_technical":
+		return "Матч завершён"
+	default:
+		return ""
+	}
 }
 
 func projectKnownCard(object engine.CardObject, codec referenceCodec, public bool) PlayerViewCard {

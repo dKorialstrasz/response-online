@@ -207,6 +207,9 @@ func (gateway *Gateway) serveWebSocket(writer http.ResponseWriter, request *http
 			event := gateway.executeWSCommand(request.Context(), claim.Lease, command)
 			gateway.writeWSEvent(client, event)
 			if event.Accepted != nil && *event.Accepted && command.Name != "resync" {
+				if command.Name == "requestRematch" {
+					gateway.broadcastRoomSnapshot(claim.Lease.RoomID, command.CommandID)
+				}
 				gateway.broadcastMatchSnapshot(request.Context(), claim.Lease.RoomID, command.CommandID)
 			}
 		default:
@@ -739,6 +742,22 @@ func (gateway *Gateway) broadcastMatchSnapshot(ctx context.Context, roomID, corr
 		}(client, event)
 	}
 	writes.Wait()
+}
+
+func (gateway *Gateway) broadcastRoomSnapshot(roomID, correlationID string) {
+	for _, client := range gateway.clientsForRoom(roomID) {
+		room, err := gateway.service.SnapshotForConnection(client.lease)
+		if err != nil {
+			continue
+		}
+		gateway.writeWSEvent(client, wsEvent{
+			ProtocolVersion: ProtocolVersion,
+			Type:            "roomSnapshot",
+			CorrelationID:   correlationID,
+			Revision:        room.Revision,
+			Payload:         room,
+		})
+	}
 }
 
 func (gateway *Gateway) writeWSEvent(client *wsClient, event wsEvent) {

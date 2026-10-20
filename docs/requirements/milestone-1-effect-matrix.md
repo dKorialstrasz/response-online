@@ -33,7 +33,7 @@
 | Соперник, public choice | choiceId, kind, mandatory, revision, option count; без вариантов и effect bodies |
 | Соперник, owner-only choice | только waiting/waitingSeat/revision/redacted; без причины, optional/mandatory, IDs и вариантов |
 
-В protocol 1.1 `mandatory`, `minSelections`, `maxSelections` и `orderMatters`
+В protocol 1.2 `mandatory`, `minSelections`, `maxSelections` и `orderMatters`
 являются nullable-by-absence: владелец и public observer получают явные значения
 включая `false`/`0`, redacted observer не получает сами поля.
 
