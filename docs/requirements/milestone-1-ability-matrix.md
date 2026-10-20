@@ -2,7 +2,7 @@
 
 Связанная задача: [#12](https://github.com/dKorialstrasz/response-online/issues/12).
 Требования: DATA-05–06, RULE-10–11, AC-02, AC-04–05.
-Версии: `rulesVersion: response-rules-2026-10-17`, `effectSpecVersion: effect-spec-v1`, `engineVersion: base-abilities-v1`.
+Версии: `rulesVersion: response-rules-2026-10-17`, `effectSpecVersion: effect-spec-v1`, `engineVersion: base-abilities-v2`.
 
 ## Решение и граница
 
@@ -21,6 +21,9 @@ Rules/content review принят владельцем при явном раз�
 - `TestClosedHandlerFailureRollsBackAbilityTransaction`: invalid move не меняет hash.
 - `validate_card_definitions.py`: exact-text hash, handler, scenario и matchup closure.
 - `validate_content_release.py`: runtime artifacts и SHA-256 закреплены release descriptor.
+- Issue #37: все 126 handlers повторно проверены по exact text; полный список
+  многошаговых решений, actors, visibility и conformance evidence находится в
+  [аудите playCard/PendingChoice](../reports/issue-37-play-card-choice-audit.md).
 
 ## Card/ability → implementation → tests → result
 
@@ -157,5 +160,6 @@ Rules/content review принят владельцем при явном раз�
 
 - Rules/content review и merge PR #34 явно приняты владельцем.
 - Полные 72 end-to-end smoke-прогона относятся к #20, не подменяются 36 engine interaction rows.
-- Gameplay protocol `1.0` реализован в #14; `make m1-release-check` проходит.
+- Gameplay protocol `1.1` добавляет generation-safe `playCard`, server-authored
+  legalActions и устойчивую choice projection; `make m1-release-check` проходит.
 - Публичное развёртывание, GamePix и права на публикацию остаются вне M1.

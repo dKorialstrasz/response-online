@@ -91,6 +91,21 @@ func (session *MatchSession) Snapshot(ctx context.Context) (engine.State, error)
 	return snapshot, err
 }
 
+// GameplaySnapshot returns state and legal actions from one serialized owner
+// operation, so a projection can never combine different revisions.
+func (session *MatchSession) GameplaySnapshot(ctx context.Context, seat engine.Seat) (engine.State, []engine.LegalAction, error) {
+	var snapshot engine.State
+	var actions []engine.LegalAction
+	err := session.owner.Submit(ctx, func(context.Context) error {
+		session.processDue(session.clock.Now())
+		snapshot = session.match.State()
+		actions = session.match.LegalActions(seat)
+		session.scheduleNextDeadline()
+		return nil
+	})
+	return snapshot, actions, err
+}
+
 // CheckDeadlines is the deterministic virtual-clock seam used by tests and by
 // operational diagnostics. Production also arms the nearest monotonic timer.
 func (session *MatchSession) CheckDeadlines(ctx context.Context) error {

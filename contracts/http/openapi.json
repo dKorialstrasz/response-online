@@ -2,7 +2,7 @@
   "openapi": "3.1.1",
   "info": {
     "title": "Response Online local M1 API",
-    "version": "1.0",
+    "version": "1.1",
     "description": "Versioned anonymous-session, lobby and WebSocket-ticket boundary for local M1."
   },
   "servers": [
@@ -279,7 +279,7 @@
         "properties": {
           "commit": {"type": "string"},
           "builtAt": {"type": "string"},
-          "protocolVersion": {"const": "1.0"},
+          "protocolVersion": {"const": "1.1"},
           "contentVersion": {"type": "string"},
           "rulesVersion": {"type": "string"},
           "engineVersion": {"type": "string"}
@@ -359,7 +359,7 @@
           "deckManifests": {"type": "string", "minLength": 1},
           "effectSpec": {"type": "string", "minLength": 1},
           "rules": {"type": "string", "minLength": 1},
-          "protocol": {"const": "1.0"},
+          "protocol": {"const": "1.1"},
           "engine": {"type": "string", "minLength": 1}
         }
       },

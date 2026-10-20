@@ -7,10 +7,10 @@ var (
 )
 
 const (
-	ProtocolVersion = "1.0"
+	ProtocolVersion = "1.1"
 	ContentVersion  = "base-cards-v1"
 	RulesVersion    = "response-rules-2026-10-17"
-	EngineVersion   = "base-abilities-v1"
+	EngineVersion   = "base-abilities-v2"
 )
 
 type Info struct {

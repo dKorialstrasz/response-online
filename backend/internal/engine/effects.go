@@ -83,8 +83,16 @@ func (state State) PendingChoiceProjections(viewer Seat) []PendingChoiceProjecti
 		}
 		projection.ChoiceID = choice.ChoiceID
 		projection.Kind = choice.Kind
-		projection.Mandatory = choice.Mandatory
-		projection.OptionCount = len(choice.Options)
+		mandatory := choice.Mandatory
+		optionCount := len(choice.Options)
+		minimum := choice.MinSelections
+		maximum := choice.MaxSelections
+		orderMatters := choice.OrderMatters
+		projection.Mandatory = &mandatory
+		projection.OptionCount = &optionCount
+		projection.MinSelections = &minimum
+		projection.MaxSelections = &maximum
+		projection.OrderMatters = &orderMatters
 		if viewer == choice.Seat {
 			projection.Private = true
 			projection.Options = make([]ChoiceOption, len(choice.Options))
@@ -377,6 +385,12 @@ func applyActivateAbility(state *State, command Command, catalog map[string]Abil
 	}
 	if definition.Status == AbilityBlocked {
 		return fmt.Errorf("%w: %s", ErrAbilityBlocked, definition.BlockingDecisionRef)
+	}
+	if definition.BuiltinHandler != "" && !builtinIsAction(definition.BuiltinHandler) {
+		return fmt.Errorf("%w: ability is not activated in the action window", ErrInvalidCommand)
+	}
+	if number, ok := builtinCardNumber(definition.BuiltinHandler); (!ok || number != 76) && command.Value != 0 {
+		return fmt.Errorf("%w: ability does not accept a variable influence payment", ErrInvalidCommand)
 	}
 	source, err := validateAbilitySource(state, command, definition)
 	if err != nil {
@@ -829,11 +843,17 @@ func applySubmitChoice(state *State, command Command, budget *eventBudget) error
 		sort.Slice(selected, func(left, right int) bool { return selected[left].ID < selected[right].ID })
 	}
 	state.PendingChoices = append(state.PendingChoices[:choiceIndex], state.PendingChoices[choiceIndex+1:]...)
-	selectedEffects := make([]ResolvedEffect, 0)
-	for _, option := range selected {
-		selectedEffects = append(selectedEffects, cloneResolvedEffects(option.Effects)...)
+	if choice.Continuation != nil {
+		if err := resumeBuiltinChoice(state, choice, selected, budget); err != nil {
+			return err
+		}
+	} else {
+		selectedEffects := make([]ResolvedEffect, 0)
+		for _, option := range selected {
+			selectedEffects = append(selectedEffects, cloneResolvedEffects(option.Effects)...)
+		}
+		enqueueResolvedEffects(state, choice.ChoiceID+":selection", selectedEffects, choice.QueuePosition)
 	}
-	enqueueResolvedEffects(state, choice.ChoiceID+":selection", selectedEffects, choice.QueuePosition)
 	seat := command.Seat
 	if err := emitEffectEvent(state, budget, "choice_submitted", &seat, choice.Kind); err != nil {
 		return err

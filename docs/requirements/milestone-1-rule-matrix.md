@@ -33,7 +33,7 @@
   для исторического pin `deterministic-core-v1`; после добавления сериализуемого
   effect state в #11 pin `effect-pipeline-v1` имел hash
   `3a390ad4affd4ae802ba39cd1ace26996d29cfbdfc1f3927ae969de64526995c`.
-  Текущий pin #12 — `base-abilities-v1`; replay hash
+  Текущий pin #37 — `base-abilities-v2`; replay hash
   `00bf30b4dfa8dd9d4506a82279ed10d216957b4dff96decfc2a31e0a6dfc41b5`
   фиксируется матрицей карточных способностей.
 - Replay проверяет тот же RNG cursor и canonical state hash.

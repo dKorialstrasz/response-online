@@ -7,7 +7,7 @@
   "required": ["schemaVersion", "releaseId", "buildMode", "versions", "artifacts", "matchPinning", "publicRelease"],
   "properties": {
     "schemaVersion": { "const": 1 },
-    "releaseId": { "const": "m1-local-base-v1" },
+    "releaseId": { "const": "m1-local-base-v2" },
     "buildMode": { "const": "local-test-only" },
     "versions": {
       "type": "object",

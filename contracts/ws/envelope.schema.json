@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://response-online.local/contracts/ws/envelope.schema.json",
-  "title": "Response Online WebSocket protocol 1.0",
+  "title": "Response Online WebSocket protocol 1.1",
   "description": "The one-time ticket is allowed only in Authenticate, never in the URL or later frames.",
   "oneOf": [
     {"$ref": "#/$defs/authenticate"},
@@ -29,7 +29,7 @@
         "deckManifests": {"type": "string", "minLength": 1},
         "effectSpec": {"type": "string", "minLength": 1},
         "rules": {"type": "string", "minLength": 1},
-        "protocol": {"const": "1.0"},
+        "protocol": {"const": "1.1"},
         "engine": {"type": "string", "minLength": 1}
       }
     },
@@ -38,7 +38,7 @@
       "additionalProperties": false,
       "required": ["protocolVersion", "type", "correlationId", "ticket", "connectionId"],
       "properties": {
-        "protocolVersion": {"const": "1.0"},
+        "protocolVersion": {"const": "1.1"},
         "type": {"const": "authenticate"},
         "correlationId": {"$ref": "#/$defs/identifier"},
         "ticket": {"type": "string", "minLength": 32, "maxLength": 256, "writeOnly": true},
@@ -50,7 +50,7 @@
       "additionalProperties": false,
       "required": ["protocolVersion", "type", "correlationId"],
       "properties": {
-        "protocolVersion": {"const": "1.0"},
+        "protocolVersion": {"const": "1.1"},
         "type": {"const": "heartbeat"},
         "correlationId": {"$ref": "#/$defs/identifier"}
       }
@@ -60,7 +60,7 @@
       "additionalProperties": false,
       "required": ["protocolVersion", "type", "commandId", "matchId", "expectedRevision", "name", "payload"],
       "properties": {
-        "protocolVersion": {"const": "1.0"},
+        "protocolVersion": {"const": "1.1"},
         "type": {"const": "command"},
         "commandId": {"$ref": "#/$defs/identifier"},
         "matchId": {"$ref": "#/$defs/identifier"},
@@ -150,25 +150,27 @@
     "playCardPayload": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["sourceObjectId", "declaredType"],
+      "required": ["sourceRef", "declaredType"],
       "properties": {
-        "sourceObjectId": {"type": "string", "pattern": "^obj_[A-Za-z0-9_-]{24}$"},
-        "declaredType": {"type": "string", "minLength": 1, "maxLength": 64},
+        "sourceRef": {"$ref": "#/$defs/objectRef"},
+        "declaredType": {"enum": ["unit", "spell", "enhancement"]},
         "modeIds": {"type": "array", "maxItems": 8, "items": {"$ref": "#/$defs/identifier"}},
         "targetRefs": {"type": "array", "maxItems": 16, "items": {"$ref": "#/$defs/objectRef"}},
         "placement": {
           "type": ["object", "null"],
           "additionalProperties": false,
+          "required": ["lane", "slot"],
           "properties": {
             "lane": {"type": "integer", "minimum": 0, "maximum": 4},
-            "slot": {"enum": ["unit", "support", "location"]}
+            "slot": {"enum": ["unit", "support"]}
           }
         },
         "paymentChoice": {
           "type": "object",
           "additionalProperties": false,
-          "properties": {"objectRefs": {"type": "array", "maxItems": 16, "items": {"$ref": "#/$defs/objectRef"}}}
-        }
+          "properties": {"objectRefs": {"type": "array", "maxItems": 16, "uniqueItems": true, "items": {"$ref": "#/$defs/objectRef"}}}
+        },
+        "shieldPaymentRefs": {"type": "array", "maxItems": 16, "uniqueItems": true, "items": {"$ref": "#/$defs/objectRef"}}
       }
     },
     "abilityPayload": {
@@ -180,7 +182,9 @@
         "sourceRef": {"$ref": "#/$defs/objectRef"},
         "modeIds": {"type": "array", "maxItems": 8, "items": {"$ref": "#/$defs/identifier"}},
         "targetRefs": {"type": "array", "maxItems": 16, "items": {"$ref": "#/$defs/objectRef"}},
-        "paymentRefs": {"type": "array", "maxItems": 16, "items": {"$ref": "#/$defs/objectRef"}}
+        "paymentRefs": {"type": "array", "maxItems": 16, "items": {"$ref": "#/$defs/objectRef"}},
+		"influencePayment": {"type": "integer", "minimum": 0},
+        "shieldPaymentRefs": {"type": "array", "maxItems": 16, "uniqueItems": true, "items": {"$ref": "#/$defs/objectRef"}}
       }
     },
     "choicePayload": {
@@ -217,7 +221,7 @@
       "additionalProperties": false,
       "required": ["protocolVersion", "type", "revision", "eventSeq"],
       "properties": {
-        "protocolVersion": {"const": "1.0"},
+        "protocolVersion": {"const": "1.1"},
         "type": {
           "enum": ["authenticated", "roomSnapshot", "matchSnapshot", "stateUpdate", "choiceRequested", "commandResult", "error", "connectionStatus", "lifecycleNotice", "matchFinished", "serverDraining", "heartbeat"]
         },
@@ -447,6 +451,9 @@
         "mandatory": {"type": "boolean"},
         "revision": {"type": "integer", "minimum": 0},
         "optionCount": {"type": "integer", "minimum": 0},
+        "minSelections": {"type": "integer", "minimum": 0},
+        "maxSelections": {"type": "integer", "minimum": 0},
+        "orderMatters": {"type": "boolean"},
         "options": {
           "type": "array",
           "items": {
@@ -463,10 +470,45 @@
         "redacted": {"type": "boolean"}
       }
     },
+    "playerViewAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "modeIds", "minModes", "maxModes", "targetRefs", "minTargets", "maxTargets", "paymentRefs", "paymentCount", "influenceCosts", "placements", "shieldTargets"],
+      "properties": {
+        "name": {"enum": ["playCard", "activateAbility", "passAction", "surrender"]},
+        "sourceRef": {"$ref": "#/$defs/objectRef"},
+        "definitionId": {"type": "string", "minLength": 1},
+        "declaredType": {"enum": ["unit", "spell", "enhancement"]},
+        "abilityId": {"type": "string", "minLength": 1},
+        "modeIds": {"type": "array", "maxItems": 8, "items": {"$ref": "#/$defs/identifier"}},
+        "minModes": {"type": "integer", "minimum": 0},
+        "maxModes": {"type": "integer", "minimum": 0},
+        "targetRefs": {"type": "array", "maxItems": 64, "items": {"$ref": "#/$defs/objectRef"}},
+        "minTargets": {"type": "integer", "minimum": 0},
+        "maxTargets": {"type": "integer", "minimum": 0},
+        "paymentRefs": {"type": "array", "maxItems": 64, "items": {"$ref": "#/$defs/objectRef"}},
+        "paymentCount": {"type": "integer", "minimum": 0},
+        "influenceCosts": {"type": "array", "minItems": 0, "maxItems": 16, "items": {"type": "integer", "minimum": 0}},
+        "placements": {
+          "type": "array",
+          "maxItems": 10,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["lane", "slot"],
+            "properties": {
+              "lane": {"type": "integer", "minimum": 0, "maximum": 4},
+              "slot": {"enum": ["unit", "support"]}
+            }
+          }
+        },
+        "shieldTargets": {"type": "array", "maxItems": 64, "items": {"$ref": "#/$defs/objectRef"}}
+      }
+    },
     "playerView": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["matchId", "versions", "revision", "status", "phase", "turnNumber", "ownSeat", "initiativeSeat", "actingSeat", "players", "board", "choices"],
+      "required": ["matchId", "versions", "revision", "status", "phase", "turnNumber", "ownSeat", "initiativeSeat", "actingSeat", "players", "board", "choices", "legalActions"],
       "properties": {
         "matchId": {"type": "string"},
         "versions": {"$ref": "#/$defs/versions"},
@@ -482,6 +524,7 @@
         "players": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"$ref": "#/$defs/playerViewPlayer"}},
         "board": {"type": "array", "items": {"$ref": "#/$defs/visibleCard"}},
         "choices": {"type": "array", "items": {"$ref": "#/$defs/playerViewChoice"}},
+        "legalActions": {"type": "array", "items": {"$ref": "#/$defs/playerViewAction"}},
         "result": {
           "type": "object",
           "additionalProperties": false,

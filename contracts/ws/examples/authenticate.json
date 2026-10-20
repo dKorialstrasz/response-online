@@ -1,5 +1,5 @@
 {
-  "protocolVersion": "1.0",
+  "protocolVersion": "1.1",
   "type": "authenticate",
   "correlationId": "example-auth-1",
   "ticket": "example_one_time_ticket_not_a_real_secret_0001",

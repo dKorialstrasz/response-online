@@ -72,3 +72,13 @@ fizzle-ится событием и никогда не находит новы�
 - Queue, modifiers, delayed triggers, replacements и choices входят в canonical
   state hash и replay.
 
+## Расширение issue #37
+
+Protocol 1.1 применяет эту модель к реальному `playCard`. Команда не передаёт
+интерпретированный effect: сервер сам строит `legalActions` из закреплённых
+CardDefinition/AbilityDefinition, проверяет generation, стоимость, оплату и
+placement, затем открывает persisted PendingChoice только в точном окне текста.
+Continuation является внутренней частью authoritative state и никогда не
+попадает в PlayerView. Полный аудит 126 handlers и OQ-02 границы зафиксированы в
+[отчёте issue #37](../reports/issue-37-play-card-choice-audit.md).
+

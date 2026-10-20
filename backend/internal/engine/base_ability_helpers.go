@@ -385,6 +385,18 @@ func (context *builtinAbilityContext) modifyEnhancedUnit(amount int, duration Du
 	return context.addModifier(target.Ref(), duration, func(modifier *ModifierState) { modifier.PowerDelta = amount })
 }
 
+func (context *builtinAbilityContext) addEnhancedTraitModifier(configure func(*ModifierState), duration DurationKind) error {
+	target, err := context.enhancedUnit()
+	if err != nil {
+		return err
+	}
+	return context.addModifier(target.Ref(), duration, configure)
+}
+
+func (context *builtinAbilityContext) grantEnhancedKeyword(keyword Keyword) error {
+	return context.addEnhancedTraitModifier(func(modifier *ModifierState) { modifier.Keyword = keyword }, DurationWhileSourceValid)
+}
+
 func (context *builtinAbilityContext) modifyAllEnhancedUnits(amount int) error {
 	source, err := context.sourceObject()
 	if err != nil || source.Zone != ZoneBoard || source.Slot != SlotSupport {

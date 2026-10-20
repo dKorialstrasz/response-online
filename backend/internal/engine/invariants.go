@@ -146,6 +146,16 @@ func ValidateState(state State) error {
 			}
 			optionIDs[option.ID] = struct{}{}
 		}
+		if choice.Continuation != nil {
+			if choice.Continuation.Handler == "" || !choice.Continuation.Controller.Valid() {
+				return fmt.Errorf("pending choice %s has an invalid continuation", choice.ChoiceID)
+			}
+			if choice.Continuation.SourceRef != nil {
+				if _, err := state.findObject(*choice.Continuation.SourceRef); err != nil {
+					return fmt.Errorf("pending choice %s has a stale continuation source", choice.ChoiceID)
+				}
+			}
+		}
 	}
 
 	entryIDs := make(map[string]struct{}, len(state.EffectQueue))

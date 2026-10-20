@@ -240,7 +240,7 @@ func TestClosedHandlerFailureRollsBackAbilityTransaction(t *testing.T) {
 }
 
 func TestMagicShieldPaymentCanProtectOnlyTheShieldedEffectPart(t *testing.T) {
-	newMatch := func(t *testing.T) (*Match, Seat, ObjectRef) {
+	newMatch := func(t *testing.T) (*Match, Seat, ObjectRef, ObjectRef) {
 		t.Helper()
 		config := testConfig()
 		config.Abilities = []AbilityDefinition{{
@@ -248,6 +248,13 @@ func TestMagicShieldPaymentCanProtectOnlyTheShieldedEffectPart(t *testing.T) {
 			BuiltinHandler:         "baz-058.front.ability",
 			ConformanceScenarioIDs: []string{"baz-058.front.ability.conformance"},
 		}}
+		cost := 0
+		config.Cards = []CardDefinition{{CardID: "baz-058", Name: "Агрессивный взгляд", Types: []CardType{CardSpell}, Cost: &cost, AbilityIDs: []string{"baz-058.front.ability"}}}
+		for seat := range config.Players {
+			for index := range config.Players[seat].DeckCardIDs {
+				config.Players[seat].DeckCardIDs[index] = "baz-058"
+			}
+		}
 		match := preparedMatch(t, config)
 		state := match.State()
 		actor := state.ActingSeat
@@ -258,15 +265,15 @@ func TestMagicShieldPaymentCanProtectOnlyTheShieldedEffectPart(t *testing.T) {
 			TargetRef: target.Ref(), MagicShieldCost: 2, Duration: DurationPermanent,
 		})
 		match.state = state
-		return match, actor, target.Ref()
+		return match, actor, state.objectsInZone(actor, ZoneHand)[0].Ref(), target.Ref()
 	}
 
 	t.Run("decline", func(t *testing.T) {
-		match, actor, target := newMatch(t)
+		match, actor, source, target := newMatch(t)
 		state := match.State()
 		if err := match.Handle(Command{
-			ID: "decline-shield", Kind: CommandActivateAbility, Seat: actor,
-			ExpectedRevision: state.Revision, AbilityID: "baz-058.front.ability",
+			ID: "decline-shield", Kind: CommandPlayCard, Seat: actor,
+			ExpectedRevision: state.Revision, SourceRef: &source, DeclaredType: CardSpell,
 			TargetRefs: []ObjectRef{target},
 		}); err != nil {
 			t.Fatal(err)
@@ -279,11 +286,11 @@ func TestMagicShieldPaymentCanProtectOnlyTheShieldedEffectPart(t *testing.T) {
 	})
 
 	t.Run("pay", func(t *testing.T) {
-		match, actor, target := newMatch(t)
+		match, actor, source, target := newMatch(t)
 		state := match.State()
 		if err := match.Handle(Command{
-			ID: "pay-shield", Kind: CommandActivateAbility, Seat: actor,
-			ExpectedRevision: state.Revision, AbilityID: "baz-058.front.ability",
+			ID: "pay-shield", Kind: CommandPlayCard, Seat: actor,
+			ExpectedRevision: state.Revision, SourceRef: &source, DeclaredType: CardSpell,
 			TargetRefs: []ObjectRef{target}, ShieldPaymentRefs: []ObjectRef{target},
 		}); err != nil {
 			t.Fatal(err)

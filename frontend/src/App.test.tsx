@@ -27,7 +27,7 @@ const room: RoomSnapshot = {
       deckManifests: "decks",
       effectSpec: "effects",
       rules: "rules",
-      protocol: "1.0",
+      protocol: "1.1",
       engine: "engine",
     },
     ownDeckManifestId: "own-manifest",
@@ -87,6 +87,7 @@ const view: PlayerView = {
   ],
   board: [],
   choices: [],
+  legalActions: [],
 };
 
 describe("интерфейс комнаты", () => {
@@ -138,6 +139,7 @@ describe("интерфейс комнаты", () => {
         room={room}
         view={view}
         onMulligan={vi.fn()}
+        onCommand={vi.fn()}
       />,
     );
     expect(html).toContain("Рука соперника скрыта");
@@ -155,9 +157,108 @@ describe("интерфейс комнаты", () => {
         room={room}
         view={null}
         onMulligan={vi.fn()}
+        onCommand={vi.fn()}
       />,
     );
     expect(waiting).toContain("Восстанавливаем соединение");
     expect(waiting).toContain("Соединение потеряно");
+  });
+
+  it("рендерит playCard только из серверного legalActions", () => {
+    const active: PlayerView = {
+      ...view,
+      status: "active",
+      phase: "action",
+      actingSeat: "seat-1",
+      legalActions: [
+        {
+          name: "playCard",
+          sourceRef: view.players[0].hand![0].objectRef,
+          definitionId: "baz-121",
+          declaredType: "spell",
+          modeIds: [],
+          minModes: 0,
+          maxModes: 0,
+          targetRefs: [],
+          minTargets: 0,
+          maxTargets: 0,
+          paymentRefs: [],
+          paymentCount: 0,
+          influenceCosts: [1],
+          placements: [],
+          shieldTargets: [],
+        },
+      ],
+    };
+    const html = renderToStaticMarkup(
+      <MatchScreen
+        connection="подключено"
+        error=""
+        mulliganSubmitted
+        room={room}
+        view={active}
+        onMulligan={vi.fn()}
+        onCommand={vi.fn()}
+      />,
+    );
+    expect(html).toContain("Разыграть Разумный выбор");
+  });
+
+  it("показывает decline только для optional PendingChoice", () => {
+    const active: PlayerView = {
+      ...view,
+      status: "active",
+      phase: "action",
+      actingSeat: "seat-1",
+      choices: [
+        {
+          choiceId: "choice-1",
+          waitingSeat: "seat-1",
+          kind: "put_hand_card_on_top",
+          mandatory: true,
+          revision: 4,
+          optionCount: 1,
+          minSelections: 1,
+          maxSelections: 1,
+          orderMatters: false,
+          options: [
+            { id: "option-1", objects: [view.players[0].hand![0].objectRef] },
+          ],
+          private: true,
+          redacted: false,
+        },
+      ],
+    };
+    const mandatory = renderToStaticMarkup(
+      <MatchScreen
+        connection="подключено"
+        error=""
+        mulliganSubmitted
+        room={room}
+        view={active}
+        onMulligan={vi.fn()}
+        onCommand={vi.fn()}
+      />,
+    );
+    expect(mandatory).toContain("Выберите обязательный вариант");
+    expect(mandatory).not.toContain("Отказаться");
+
+    active.choices[0] = {
+      ...active.choices[0],
+      mandatory: false,
+      minSelections: 0,
+    };
+    const optional = renderToStaticMarkup(
+      <MatchScreen
+        connection="подключено"
+        error=""
+        mulliganSubmitted
+        room={room}
+        view={active}
+        onMulligan={vi.fn()}
+        onCommand={vi.fn()}
+      />,
+    );
+    expect(optional).toContain("Отказаться");
   });
 });

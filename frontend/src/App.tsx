@@ -748,6 +748,7 @@ export function MatchScreen({
   error,
   mulliganSubmitted,
   onMulligan,
+  onCommand,
   room,
   view,
 }: {
@@ -757,6 +758,7 @@ export function MatchScreen({
   onMulligan: (
     refs: NonNullable<PlayerView["players"][number]["hand"]>,
   ) => void;
+  onCommand: (command: MatchCommand) => void;
   room: RoomSnapshot;
   view: PlayerView | null;
 }) {
@@ -764,6 +766,19 @@ export function MatchScreen({
   const own = view?.players.find((player) => player.seat === view.ownSeat);
   const opponent = view?.players.find((player) => player.seat !== view.ownSeat);
   const ownInitiative = view?.initiativeSeat === view?.ownSeat;
+
+  const choiceLabel = (
+    objects: { zoneObjectId: string; generation: number }[] = [],
+  ) => {
+    const ref = objects[0];
+    if (!ref) return "Подтвердить";
+    const visible = own?.hand?.find(
+      (card) =>
+        card.objectRef.zoneObjectId === ref.zoneObjectId &&
+        card.objectRef.generation === ref.generation,
+    );
+    return visible ? cardName(visible.definitionId) : "Выбрать вариант";
+  };
 
   if (!view) {
     return (
@@ -912,14 +927,114 @@ export function MatchScreen({
         </section>
       )}
       {view.status === "active" && (
-        <section className="preparation-card complete">
-          <div aria-hidden="true">✓</div>
+        <section
+          className="preparation-card complete"
+          aria-label="Доступные действия"
+        >
+          <div aria-hidden="true">✦</div>
           <div>
-            <h2>Подготовка завершена</h2>
-            <p>
-              Оба игрока выбрали начальную руку. Игровой экран будет реализован
-              в следующей задаче.
-            </p>
+            <h2>
+              {view.actingSeat === view.ownSeat
+                ? "Ваше действие"
+                : "Ход соперника"}
+            </h2>
+            {view.choices.map((choice) =>
+              choice.redacted ? (
+                <p key={`${choice.waitingSeat}-${choice.revision}`}>
+                  Ожидаем скрытое решение соперника.
+                </p>
+              ) : choice.waitingSeat === view.ownSeat && choice.choiceId ? (
+                <div key={choice.choiceId}>
+                  <p>
+                    {choice.mandatory
+                      ? "Выберите обязательный вариант"
+                      : "Можно выбрать вариант или отказаться"}
+                  </p>
+                  {(choice.options ?? []).map((option) => (
+                    <button
+                      className="secondary"
+                      key={option.id}
+                      onClick={() =>
+                        onCommand({
+                          name: "submitChoice",
+                          payload: {
+                            choiceId: choice.choiceId!,
+                            optionIds: [option.id],
+                          },
+                        })
+                      }
+                    >
+                      {choiceLabel(option.objects)}
+                    </button>
+                  ))}
+                  {choice.minSelections === 0 && (
+                    <button
+                      className="secondary"
+                      onClick={() =>
+                        onCommand({
+                          name: "submitChoice",
+                          payload: {
+                            choiceId: choice.choiceId!,
+                            optionIds: [],
+                          },
+                        })
+                      }
+                    >
+                      Отказаться
+                    </button>
+                  )}
+                </div>
+              ) : null,
+            )}
+            {view.choices.length === 0 && view.actingSeat === view.ownSeat && (
+              <div>
+                {view.legalActions.flatMap((action, actionIndex) => {
+                  if (action.name === "passAction") {
+                    return (
+                      <button
+                        className="secondary"
+                        key={`pass-${actionIndex}`}
+                        onClick={() =>
+                          onCommand({ name: "passAction", payload: {} })
+                        }
+                      >
+                        Пас
+                      </button>
+                    );
+                  }
+                  if (
+                    action.name !== "playCard" ||
+                    !action.sourceRef ||
+                    !action.declaredType ||
+                    action.minTargets !== 0 ||
+                    action.paymentCount !== 0 ||
+                    action.minModes !== 0
+                  )
+                    return [];
+                  const placements =
+                    action.placements.length > 0 ? action.placements : [null];
+                  return placements.map((placement, placementIndex) => (
+                    <button
+                      className="primary"
+                      key={`play-${actionIndex}-${placementIndex}`}
+                      onClick={() =>
+                        onCommand({
+                          name: "playCard",
+                          payload: {
+                            sourceRef: action.sourceRef!,
+                            declaredType: action.declaredType!,
+                            ...(placement ? { placement } : {}),
+                          },
+                        })
+                      }
+                    >
+                      Разыграть {cardName(action.definitionId ?? "")}
+                      {placement ? ` · линия ${placement.lane + 1}` : ""}
+                    </button>
+                  ));
+                })}
+              </div>
+            )}
           </div>
         </section>
       )}
@@ -1028,6 +1143,10 @@ export function App() {
             name: "submitMulligan",
             payload: { objectRefs: cards.map((card) => card.objectRef) },
           });
+        }}
+        onCommand={(command) => {
+          match.setError("");
+          match.send(command);
         }}
       />
     );

@@ -2,7 +2,7 @@
 
 - Roadmap issue: [#14](https://github.com/dKorialstrasz/response-online/issues/14)
 - Requirements: NET-01–11, SEC-01–07, SEC-09–10, AC-06–07
-- Protocol: `1.0`
+- Protocol: `1.1`
 - Scope: локальный standalone M1; публичный deployment отсутствует
 
 ## Network audit

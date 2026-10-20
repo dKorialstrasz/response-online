@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "releaseId": "m1-local-base-v1",
+  "releaseId": "m1-local-base-v2",
   "buildMode": "local-test-only",
   "versions": {
     "content": "base-cards-v1",
     "deckManifests": "base-decks-v1",
     "effectSpec": "effect-spec-v1",
     "rules": "response-rules-2026-10-17",
-    "protocol": "1.0",
-    "engine": "base-abilities-v1"
+    "protocol": "1.1",
+    "engine": "base-abilities-v2"
   },
   "artifacts": [
     {
@@ -24,7 +24,7 @@
     {
       "path": "content/conformance/base-ability-scenarios.json",
       "schema": "content/schemas/conformance-scenarios.schema.json",
-      "canonicalSha256": "e0f405324ca1da3afc5f3375f3c024e855b06f08a46e9feb937b73eb73b6cb2b"
+      "canonicalSha256": "daeaa3c8c4d1a2dcfbf94c98d1c7ed7f5bc40ba629fe6519bfbc7a3de249bf21"
     },
     {
       "path": "content/decks/base/chaos-enitokl.json",

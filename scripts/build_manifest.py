@@ -71,7 +71,7 @@ def main() -> int:
         },
         "verification": {
             "content": "schema and semantic release gate passed by Issue #9",
-            "rules": "deterministic core implemented by Issue #10; card effects remain #11-#12",
+            "rules": "deterministic core #10, effect pipeline #11, closed catalog #12, server-authoritative playCard #37",
             "publicDeployment": "out of scope",
             "gamePix": "out of scope",
         },

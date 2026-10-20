@@ -28,6 +28,12 @@ func (state State) Clone() State {
 			clone.PendingChoices[index].Options[optionIndex].Objects = append([]ObjectRef(nil), option.Objects...)
 			clone.PendingChoices[index].Options[optionIndex].Effects = cloneResolvedEffects(option.Effects)
 		}
+		if choice.Continuation != nil {
+			continuation := *choice.Continuation
+			continuation.SourceRef = cloneObjectRef(choice.Continuation.SourceRef)
+			continuation.TargetRefs = append([]ObjectRef(nil), choice.Continuation.TargetRefs...)
+			clone.PendingChoices[index].Continuation = &continuation
+		}
 	}
 	clone.EffectQueue = make([]EffectQueueEntry, len(state.EffectQueue))
 	for index, entry := range state.EffectQueue {
