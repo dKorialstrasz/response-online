@@ -18,8 +18,16 @@ import (
 )
 
 func main() {
-	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
-	defer stop()
+	slog.SetDefault(slog.New(slog.NewJSONHandler(os.Stdout, nil)))
+	if err := run(); err != nil {
+		slog.Error("local server failed", "error", err)
+		os.Exit(1)
+	}
+}
+
+func run() error {
+	ctx, cancelRuntime := context.WithCancel(context.Background())
+	defer cancelRuntime()
 
 	address := os.Getenv("RESPONSE_HTTP_ADDR")
 	if address == "" {
@@ -31,13 +39,11 @@ func main() {
 	}
 	pins, err := application.NewFileMatchPinProvider(repositoryRoot, "content/releases/m1-local.json")
 	if err != nil {
-		slog.Error("content pins unavailable", "error", err)
-		os.Exit(1)
+		return fmt.Errorf("content pins unavailable: %w", err)
 	}
 	rooms, err := application.NewRoomService(application.RoomServiceConfig{Pins: pins})
 	if err != nil {
-		slog.Error("room service unavailable", "error", err)
-		os.Exit(1)
+		return fmt.Errorf("room service unavailable: %w", err)
 	}
 	go func() { _ = rooms.RunCleanup(ctx, time.Minute) }()
 
@@ -47,21 +53,18 @@ func main() {
 	}
 	secureCookies, err := strconv.ParseBool(defaultString(os.Getenv("RESPONSE_SECURE_COOKIES"), "false"))
 	if err != nil {
-		slog.Error("invalid RESPONSE_SECURE_COOKIES", "error", err)
-		os.Exit(1)
+		return fmt.Errorf("invalid RESPONSE_SECURE_COOKIES: %w", err)
 	}
 	limits, err := securityLimitsFromEnvironment()
 	if err != nil {
-		slog.Error("invalid security limits", "error", err)
-		os.Exit(1)
+		return fmt.Errorf("invalid security limits: %w", err)
 	}
 	handler, err := httpserver.NewHandlerWithConfig(httpserver.Config{
 		Context: ctx, Service: rooms, AllowedOrigins: origins, SecureCookies: secureCookies,
 		Limits: limits,
 	})
 	if err != nil {
-		slog.Error("transport configuration unavailable", "error", err)
-		os.Exit(1)
+		return fmt.Errorf("transport configuration unavailable: %w", err)
 	}
 
 	server := &http.Server{
@@ -74,6 +77,9 @@ func main() {
 	}
 
 	errCh := make(chan error, 1)
+	signals := make(chan os.Signal, 1)
+	signal.Notify(signals, syscall.SIGINT, syscall.SIGTERM)
+	defer signal.Stop(signals)
 	go func() {
 		slog.Info("local server started", "address", address)
 		errCh <- server.ListenAndServe()
@@ -82,18 +88,29 @@ func main() {
 	select {
 	case err := <-errCh:
 		if !errors.Is(err, http.ErrServerClosed) {
-			slog.Error("server stopped unexpectedly", "error", err)
-			os.Exit(1)
+			return fmt.Errorf("server stopped unexpectedly: %w", err)
 		}
-	case <-ctx.Done():
+	case received := <-signals:
 		shutdownCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
+		report := rooms.BeginShutdown(shutdownCtx)
+		slog.Info("controlled shutdown initiated",
+			"signal", received.String(),
+			"active_matches", report.ActiveMatches,
+			"technical_aborts", report.TechnicalAborts,
+			"already_finished", report.AlreadyFinished,
+			"failed_operations", report.FailedOperations,
+		)
+		cancelRuntime()
 		if err := server.Shutdown(shutdownCtx); err != nil {
-			slog.Error("server shutdown failed", "error", err)
-			os.Exit(1)
+			return fmt.Errorf("server shutdown failed: %w", err)
+		}
+		if report.FailedOperations != 0 {
+			return fmt.Errorf("controlled shutdown failed for %d matches", report.FailedOperations)
 		}
 		slog.Info("local server stopped")
 	}
+	return nil
 }
 
 func defaultString(value, fallback string) string {

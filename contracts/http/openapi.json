@@ -21,7 +21,10 @@
     "/readyz": {
       "get": {
         "operationId": "getLegacyReadiness",
-        "responses": {"200": {"$ref": "#/components/responses/StatusOK"}}
+        "responses": {
+          "200": {"$ref": "#/components/responses/StatusOK"},
+          "503": {"description": "Process is draining.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Status"}}}}
+        }
       }
     },
     "/health/live": {
@@ -33,7 +36,22 @@
     "/health/ready": {
       "get": {
         "operationId": "getReadiness",
-        "responses": {"200": {"$ref": "#/components/responses/StatusOK"}}
+        "responses": {
+          "200": {"$ref": "#/components/responses/StatusOK"},
+          "503": {"description": "Process is draining.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Status"}}}}
+        }
+      }
+    },
+    "/metrics": {
+      "get": {
+        "operationId": "getLocalMetrics",
+        "description": "Process-local aggregate metrics. Contains no player, room, token, hand, seed or network identifiers.",
+        "responses": {
+          "200": {
+            "description": "Prometheus text exposition for local diagnosis.",
+            "content": {"text/plain": {"schema": {"type": "string"}}}
+          }
+        }
       }
     },
     "/api/v1/build": {

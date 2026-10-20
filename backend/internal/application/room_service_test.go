@@ -382,6 +382,53 @@ func TestActiveMatchIsNotDeletedByLobbyTTL(t *testing.T) {
 	}
 }
 
+func TestBeginShutdownStopsAdmissionAndTechnicallyAbortsActiveMatch(t *testing.T) {
+	service, _, _ := newRoomTestService(t)
+	first := mustCreateSession(t, service)
+	second := mustCreateSession(t, service)
+	room, err := service.CreateRoom(credentialsFor(first), "shutdown-create")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := service.JoinRoom(credentialsFor(second), room.Room.Code, "shutdown-join"); err != nil {
+		t.Fatal(err)
+	}
+	selection := testSelection("deck-one")
+	_, _ = service.SetSelection(credentialsFor(first), room.Room.RoomID, selection)
+	_, _ = service.SetSelection(credentialsFor(second), room.Room.RoomID, selection)
+	_, _, _ = service.SetReady(context.Background(), credentialsFor(first), room.Room.RoomID, true)
+	_, _, err = service.SetReady(context.Background(), credentialsFor(second), room.Room.RoomID, true)
+	if err != nil {
+		t.Fatal(err)
+	}
+	session, err := service.MatchSession(credentialsFor(first), room.Room.RoomID)
+	if err != nil {
+		t.Fatal(err)
+	}
+	runContext, cancelRun := context.WithCancel(context.Background())
+	defer cancelRun()
+	go func() { _ = session.Run(runContext) }()
+
+	report := service.BeginShutdown(context.Background())
+	if report.ActiveMatches != 1 || report.TechnicalAborts != 1 || report.FailedOperations != 0 {
+		t.Fatalf("shutdown report = %#v", report)
+	}
+	state, err := session.Snapshot(context.Background())
+	if err != nil {
+		t.Fatal(err)
+	}
+	if state.Result == nil || state.Result.Reason != engine.ResultAbortedTechnical || state.Result.WinnerSeat != nil {
+		t.Fatalf("shutdown result = %#v", state.Result)
+	}
+	if snapshot := service.OperationalSnapshot(); snapshot.AcceptingNewRooms || snapshot.Matches != 0 || snapshot.TechnicalAborts != 1 {
+		t.Fatalf("operational snapshot = %#v", snapshot)
+	}
+	third := mustCreateSession(t, service)
+	if _, err := service.CreateRoom(credentialsFor(third), "after-shutdown"); !errors.Is(err, ErrServiceStopping) {
+		t.Fatalf("create after shutdown error = %v", err)
+	}
+}
+
 func TestOneTimeTicketsAndConnectionReplacement(t *testing.T) {
 	service, clock, _ := newRoomTestService(t)
 	player := mustCreateSession(t, service)

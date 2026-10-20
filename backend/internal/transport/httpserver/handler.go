@@ -45,6 +45,7 @@ type Gateway struct {
 	commandCache   map[string]cachedCommandResult
 	clientsMu      sync.Mutex
 	clients        map[string]map[application.SeatID]*wsClient
+	metrics        operationalMetrics
 }
 
 // NewHandler preserves the diagnostic constructor used by tests and creates an
@@ -99,6 +100,7 @@ func NewHandlerWithConfig(config Config) (http.Handler, error) {
 		references: newReferenceCodec(referenceKey), httpLimits: newHTTPRateLimiter(), limits: limits,
 		startedMatches: make(map[string]struct{}), commandCache: make(map[string]cachedCommandResult),
 		clients: make(map[string]map[application.SeatID]*wsClient),
+		metrics: operationalMetrics{rejects: make(map[errorCode]uint64)},
 	}
 	for _, origin := range config.AllowedOrigins {
 		origin = strings.TrimSpace(origin)
@@ -113,9 +115,10 @@ func NewHandlerWithConfig(config Config) (http.Handler, error) {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /healthz", jsonHandler(http.StatusOK, map[string]string{"status": "ok"}))
-	mux.HandleFunc("GET /readyz", jsonHandler(http.StatusOK, map[string]string{"status": "ready"}))
+	mux.HandleFunc("GET /readyz", gateway.readiness)
 	mux.HandleFunc("GET /health/live", jsonHandler(http.StatusOK, map[string]string{"status": "ok"}))
-	mux.HandleFunc("GET /health/ready", jsonHandler(http.StatusOK, map[string]string{"status": "ready"}))
+	mux.HandleFunc("GET /health/ready", gateway.readiness)
+	mux.HandleFunc("GET /metrics", gateway.metricsHandler)
 	mux.HandleFunc("GET /api/v1/build", jsonHandler(http.StatusOK, buildinfo.Current()))
 	mux.HandleFunc("POST /api/v1/sessions", gateway.createSession)
 	mux.HandleFunc("POST /api/v1/rooms", gateway.createRoom)
@@ -126,7 +129,15 @@ func NewHandlerWithConfig(config Config) (http.Handler, error) {
 	mux.HandleFunc("POST /api/v1/rooms/{roomID}/leave", gateway.leaveRoom)
 	mux.HandleFunc("POST /api/v1/ws-tickets", gateway.issueTicket)
 	mux.HandleFunc("GET /api/v1/ws", gateway.serveWebSocket)
-	return gateway.originMiddleware(mux), nil
+	return gateway.operationalMiddleware(gateway.originMiddleware(mux)), nil
+}
+
+func (gateway *Gateway) readiness(writer http.ResponseWriter, _ *http.Request) {
+	if !gateway.service.OperationalSnapshot().AcceptingNewRooms {
+		gateway.writeJSON(writer, http.StatusServiceUnavailable, map[string]string{"status": "draining"})
+		return
+	}
+	gateway.writeJSON(writer, http.StatusOK, map[string]string{"status": "ready"})
 }
 
 func (gateway *Gateway) runCommandCacheCleanup(ctx context.Context) {
@@ -370,6 +381,8 @@ func (gateway *Gateway) writeApplicationError(writer http.ResponseWriter, reques
 		gateway.writeError(writer, request, http.StatusConflict, codeCommandIDReused, false, "error.idempotency.reused")
 	case errors.Is(err, application.ErrInvalidInput):
 		gateway.writeError(writer, request, http.StatusUnprocessableEntity, codeInvalidPayload, false, "error.payload.invalid")
+	case errors.Is(err, application.ErrServiceStopping):
+		gateway.writeError(writer, request, http.StatusServiceUnavailable, codeServer, true, "error.server.unavailable")
 	default:
 		gateway.writeError(writer, request, http.StatusServiceUnavailable, codeServer, true, "error.server.unavailable")
 	}
@@ -383,10 +396,8 @@ func (gateway *Gateway) writeError(
 	retryable bool,
 	messageKey string,
 ) {
-	correlationID := request.Header.Get("X-Correlation-Id")
-	if !validIdentifier(correlationID, 128) {
-		_, correlationID, _ = randomToken(12)
-	}
+	gateway.metrics.observeReject(code)
+	correlationID := correlationID(request)
 	gateway.writeJSON(writer, status, apiError{
 		Code: code, Retryable: retryable, CorrelationID: correlationID, MessageKey: messageKey,
 	})

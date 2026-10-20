@@ -14,8 +14,14 @@ production, TLS, GamePix или публичный доступ.
 
 ```bash
 make bootstrap
+cp .env.example .env
 make check
 ```
+
+`.env` загружается только целью `make dev-backend` и игнорируется Git. Все поля
+профиля документированы в `.env.example`; пустой `.env` оставляет встроенные
+локальные defaults. Не добавляйте в файл session cookies, WebSocket tickets или
+другие runtime credentials.
 
 Запустите backend и frontend в отдельных терминалах:
 
@@ -36,7 +42,30 @@ RESPONSE_HTTP_ADDR=127.0.0.1:18080 make dev-backend
 - `GET http://127.0.0.1:8080/healthz` — процесс жив.
 - `GET http://127.0.0.1:8080/readyz` — процесс принимает локальные запросы.
 - `GET http://127.0.0.1:8080/api/v1/build` — commit и закреплённые версии.
+- `GET http://127.0.0.1:8080/metrics` — только обезличенные process-local
+  counters: комнаты/матчи, reject codes, HTTP latency buckets, reconnect и
+  technical abort.
 - `bash tests/smoke/local_backend.sh` — чёрный ящик диагностического API.
+
+Backend пишет по одной JSON-записи на HTTP-запрос. Запись содержит только
+method, route pattern, status, duration и correlation ID. Query string, IP,
+Cookie/Authorization, request/response body, room/match ID, карты руки, seed и
+WebSocket ticket не журналируются. Не передавайте секреты в `X-Correlation-Id`.
+Локальные журналы следует удалять не позднее 7 дней; закрытые defect traces
+также хранятся максимум 7 дней и не публикуются. Обезличенные агрегаты допустимо
+хранить до 30 дней.
+
+Быстрая проверка:
+
+```bash
+curl --fail http://127.0.0.1:8080/healthz
+curl --fail http://127.0.0.1:8080/readyz
+curl --fail http://127.0.0.1:8080/metrics
+curl --fail http://127.0.0.1:8080/api/v1/build
+```
+
+`readyz` меняется на HTTP 503 со статусом `draining` после начала controlled
+shutdown, а `healthz` отвечает, пока жив HTTP-процесс.
 
 `rulesVersion: response-rules-2026-10-17` и
 `engineVersion: base-abilities-v2` относится к базовому автомату #10,
@@ -77,9 +106,14 @@ cookie без `Secure`; для любой TLS-среды обязательно 
 make manifest
 ```
 
-Команда создаёт игнорируемые Git артефакты в `build/artifacts/` и
-`build/build-manifest.json`. Manifest содержит commit, версии и SHA-256. CI загружает
-этот каталог как immutable artifact конкретного workflow run.
+Команда сначала выполняет `make check` и `make smoke`, затем создаёт игнорируемые
+Git артефакты в `build/artifacts/` и `build/build-manifest.json`. Manifest
+содержит commit, состояние source tree (`clean` либо `diffSha256` для честно
+помеченной локальной dirty-сборки), protocol/content/deck/effect/rules/engine versions, SHA-256,
+локальный QA status и идентификаторы GitHub Actions run (когда запущен в CI).
+Build job стартует только после backend/frontend/contracts/security/smoke jobs;
+их prerequisite status также фиксируется в manifest. CI загружает каталог как
+immutable artifact конкретного workflow run.
 
 ## Проверки перед PR
 
@@ -98,11 +132,39 @@ payload shape или клиентского вычисления legal actions.
 
 ## Контролируемое завершение
 
-`Ctrl+C` отправляет процессу SIGINT; backend прекращает приём запросов и ждёт до
-10 секунд. Controlled room/match shutdown остаётся #18. После его появления
-shutdown должен помечать незавершённые матчи
-`aborted_technical` по OPS-03; это не считается реализованным задачей #14.
+`Ctrl+C` отправляет процессу SIGINT. То же поведение даёт `kill -TERM <pid>`.
+Backend атомарно закрывает создание/присоединение к комнатам, переводит readiness
+в `draining`, через single-writer каждого незавершённого матча фиксирует
+`aborted_technical` без победителя, пишет агрегированный shutdown report и затем
+останавливает HTTP/runtime. Общий deadline — 10 секунд; ненулевой
+`failed_operations` завершает процесс с ошибкой.
+
+Это технический исход текущего процесса, а не игровой результат. Он виден в
+`response_technical_aborts_total` до остановки процесса и в JSON shutdown log.
+
+## Зависший матч и повторный запуск
+
+1. Сохраните `/api/v1/build`, `/metrics`, время и correlation ID проблемной
+   команды. Не сохраняйте cookies, tickets, руки или seed.
+2. Убедитесь, что процесс жив (`healthz`) и принимает комнаты (`readyz`). Если
+   HTTP не отвечает, зафиксируйте crash как потерю всех in-memory матчей.
+3. Для зависшего локального матча завершите весь standalone-процесс через
+   `Ctrl+C` или `SIGTERM`. В M1 нет публичного per-room administrative endpoint:
+   это исключает управление закрытым trace по угадываемому room ID.
+4. Проверьте JSON shutdown report: `technical_aborts` должен включать
+   незавершённый матч, `failed_operations` должен быть 0.
+5. Повторно выполните `make dev-backend`; затем проверьте health/readiness/build
+   и запустите frontend при необходимости.
 
 При crash/restart in-memory состояние теряется согласно ADR-0001. Не обещайте
 recovery и не приписывайте потерянной партии игровой результат.
+
+## Длительный прогон
+
+Длительность и точный профиль soak утверждаются владельцем в test plan #21 до
+запуска. Пока #21 открыт без утверждённого плана, нельзя выбирать длительность
+самостоятельно или отмечать этот evidence как пройденный. После утверждения
+запишите commit, manifest SHA-256, параметры стенда, команды, начало/окончание,
+crash/panic/leak и итог в `docs/reports/`; запускать нужно immutable артефакт из
+`make manifest`, а не смешивать backend/frontend разных commits.
 

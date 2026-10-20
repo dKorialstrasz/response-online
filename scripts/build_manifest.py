@@ -6,6 +6,8 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
+import subprocess
 from pathlib import Path
 
 
@@ -30,9 +32,36 @@ def sha256_tree(directory: Path) -> str:
     return digest.hexdigest()
 
 
+def source_tree_state() -> dict[str, object]:
+    diff = subprocess.run(
+        ["git", "diff", "--binary", "HEAD"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+    ).stdout
+    untracked_output = subprocess.run(
+        ["git", "ls-files", "--others", "--exclude-standard", "-z"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+    ).stdout
+    untracked = sorted(item.decode() for item in untracked_output.split(b"\0") if item)
+    if not diff and not untracked:
+        return {"clean": True}
+    digest = hashlib.sha256()
+    digest.update(diff)
+    for relative in untracked:
+        digest.update(relative.encode())
+        digest.update(b"\0")
+        digest.update((ROOT / relative).read_bytes())
+        digest.update(b"\0")
+    return {"clean": False, "diffSha256": digest.hexdigest()}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--commit", required=True)
+    parser.add_argument("--qa-status", choices=("passed", "not-run"), default="not-run")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
 
@@ -51,6 +80,7 @@ def main() -> int:
     manifest = {
         "schemaVersion": 1,
         "commit": args.commit,
+        "sourceTree": source_tree_state(),
         "versions": {
             "protocol": release_versions["protocol"],
             "content": release_versions["content"],
@@ -70,6 +100,18 @@ def main() -> int:
             },
         },
         "verification": {
+            "qa": {
+                "status": args.qa_status,
+                "commands": ["make check", "make smoke"],
+            },
+            "ci": {
+                "provider": "github-actions" if os.environ.get("GITHUB_ACTIONS") == "true" else "local",
+                "workflow": os.environ.get("GITHUB_WORKFLOW", "not-applicable"),
+                "runId": os.environ.get("GITHUB_RUN_ID", "not-applicable"),
+                "runAttempt": os.environ.get("GITHUB_RUN_ATTEMPT", "not-applicable"),
+                "prerequisiteStatus": "passed" if os.environ.get("GITHUB_ACTIONS") == "true" else "not-run",
+                "prerequisiteJobs": ["backend", "frontend", "contracts-content", "security", "smoke"],
+            },
             "content": "schema and semantic release gate passed by Issue #9",
             "rules": "deterministic core #10, effect pipeline #11, closed catalog #12, server-authoritative playCard #37",
             "publicDeployment": "out of scope",
