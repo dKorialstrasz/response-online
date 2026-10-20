@@ -12,7 +12,7 @@ bootstrap:
 	$(PNPM) --dir frontend install --frozen-lockfile
 
 dev-backend:
-	cd backend && $(GO) run ./cmd/server
+	@set -a; if [[ -f .env ]]; then source .env; fi; set +a; cd backend && $(GO) run ./cmd/server
 
 dev-frontend:
 	$(PNPM) --dir frontend dev
@@ -91,8 +91,8 @@ build: contracts content
 	$(PNPM) --dir frontend build
 	tar --sort=name --mtime='UTC 1970-01-01' --owner=0 --group=0 --numeric-owner -C frontend/dist -czf build/artifacts/frontend.tar.gz .
 
-manifest: build
-	$(PYTHON) scripts/build_manifest.py --commit "$(COMMIT_SHA)" --output build/build-manifest.json
+manifest: check smoke build
+	$(PYTHON) scripts/build_manifest.py --commit "$(COMMIT_SHA)" --qa-status passed --output build/build-manifest.json
 
 clean:
 	rm -rf build/artifacts build/build-manifest.json frontend/dist

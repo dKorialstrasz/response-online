@@ -8,10 +8,12 @@ import (
 	"encoding/base32"
 	"encoding/base64"
 	"encoding/binary"
+	"errors"
 	"fmt"
 	"io"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"github.com/dKorialstrasz/response-online/backend/internal/engine"
@@ -87,7 +89,8 @@ type ticketRecord struct {
 // the transaction boundary for admission, ready/start, cleanup, and connection
 // replacement; engine matches retain their own single-writer mailbox.
 type RoomService struct {
-	mu sync.Mutex
+	mu                sync.Mutex
+	acceptingNewRooms bool
 
 	clock            Clock
 	entropy          io.Reader
@@ -100,6 +103,8 @@ type RoomService struct {
 	roomCodeLength   int
 	mailboxCapacity  int
 	matchPolicy      MatchRuntimePolicy
+	activeMatches    atomic.Int64
+	technicalAborts  atomic.Uint64
 
 	sessions       map[string]*sessionRecord
 	rooms          map[string]*roomRecord
@@ -147,24 +152,25 @@ func NewRoomService(config RoomServiceConfig) (*RoomService, error) {
 		return nil, fmt.Errorf("%w: positive TTLs and room code length >= 10 are required", ErrInvalidInput)
 	}
 	return &RoomService{
-		clock:            config.Clock,
-		entropy:          config.Entropy,
-		pins:             config.Pins,
-		sessionTTL:       config.SessionTTL,
-		emptyRoomTTL:     config.EmptyRoomTTL,
-		lobbyTTL:         config.LobbyTTL,
-		roomTombstoneTTL: config.RoomTombstoneTTL,
-		ticketTTL:        config.TicketTTL,
-		roomCodeLength:   config.RoomCodeLength,
-		mailboxCapacity:  config.MailboxCapacity,
-		matchPolicy:      matchPolicy,
-		sessions:         make(map[string]*sessionRecord),
-		rooms:            make(map[string]*roomRecord),
-		roomByCode:       make(map[string]string),
-		expiredRoomIDs:   make(map[string]roomTombstone),
-		expiredCodes:     make(map[string]roomTombstone),
-		idempotency:      make(map[string]map[string]idempotencyRecord),
-		tickets:          make(map[[sha256.Size]byte]ticketRecord),
+		acceptingNewRooms: true,
+		clock:             config.Clock,
+		entropy:           config.Entropy,
+		pins:              config.Pins,
+		sessionTTL:        config.SessionTTL,
+		emptyRoomTTL:      config.EmptyRoomTTL,
+		lobbyTTL:          config.LobbyTTL,
+		roomTombstoneTTL:  config.RoomTombstoneTTL,
+		ticketTTL:         config.TicketTTL,
+		roomCodeLength:    config.RoomCodeLength,
+		mailboxCapacity:   config.MailboxCapacity,
+		matchPolicy:       matchPolicy,
+		sessions:          make(map[string]*sessionRecord),
+		rooms:             make(map[string]*roomRecord),
+		roomByCode:        make(map[string]string),
+		expiredRoomIDs:    make(map[string]roomTombstone),
+		expiredCodes:      make(map[string]roomTombstone),
+		idempotency:       make(map[string]map[string]idempotencyRecord),
+		tickets:           make(map[[sha256.Size]byte]ticketRecord),
 	}, nil
 }
 
@@ -212,6 +218,9 @@ func (service *RoomService) CreateRoom(
 ) (RoomAdmission, error) {
 	service.mu.Lock()
 	defer service.mu.Unlock()
+	if !service.acceptingNewRooms {
+		return RoomAdmission{}, ErrServiceStopping
+	}
 
 	now := service.clock.Now().UTC()
 	if _, err := service.authenticateLocked(credentials, now); err != nil {
@@ -256,6 +265,9 @@ func (service *RoomService) JoinRoom(
 ) (RoomAdmission, error) {
 	service.mu.Lock()
 	defer service.mu.Unlock()
+	if !service.acceptingNewRooms {
+		return RoomAdmission{}, ErrServiceStopping
+	}
 
 	now := service.clock.Now().UTC()
 	if _, err := service.authenticateLocked(credentials, now); err != nil {
@@ -378,6 +390,9 @@ func (service *RoomService) SetReady(
 ) (RoomSnapshot, *StartedMatch, error) {
 	service.mu.Lock()
 	defer service.mu.Unlock()
+	if !service.acceptingNewRooms {
+		return RoomSnapshot{}, nil, ErrServiceStopping
+	}
 	now := service.clock.Now().UTC()
 	if _, err := service.authenticateLocked(credentials, now); err != nil {
 		return RoomSnapshot{}, nil, err
@@ -666,6 +681,9 @@ func (service *RoomService) RequestRematchForConnection(
 ) (RoomSnapshot, *StartedMatch, error) {
 	service.mu.Lock()
 	defer service.mu.Unlock()
+	if !service.acceptingNewRooms {
+		return RoomSnapshot{}, nil, ErrServiceStopping
+	}
 	now := service.clock.Now().UTC()
 	room, seat, err := service.authorizedConnectionLocked(lease, now)
 	if err != nil {
@@ -697,6 +715,7 @@ func (service *RoomService) RequestRematchForConnection(
 		return RoomSnapshot{}, nil, err
 	}
 	if err := currentSession.ReplaceMatch(ctx, newMatch.session.match); err != nil {
+		service.activeMatches.Add(-1)
 		return RoomSnapshot{}, nil, err
 	}
 	newMatch.session = currentSession
@@ -863,6 +882,68 @@ func (service *RoomService) RunCleanup(ctx context.Context, interval time.Durati
 	}
 }
 
+// OperationalSnapshot returns aggregate in-memory counts for local operations.
+func (service *RoomService) OperationalSnapshot() OperationalSnapshot {
+	service.mu.Lock()
+	defer service.mu.Unlock()
+	snapshot := OperationalSnapshot{
+		AcceptingNewRooms: service.acceptingNewRooms,
+		Sessions:          len(service.sessions),
+		Rooms:             len(service.rooms),
+		Matches:           int(service.activeMatches.Load()),
+		TechnicalAborts:   service.technicalAborts.Load(),
+	}
+	for _, room := range service.rooms {
+		switch room.status {
+		case RoomWaiting:
+			snapshot.WaitingRooms++
+		case RoomActive:
+			snapshot.ActiveRooms++
+		}
+	}
+	return snapshot
+}
+
+// BeginShutdown closes admission before committing a technical outcome for
+// every unfinished in-memory match. Match owners must still be running while
+// this method executes; the caller cancels their process context afterwards.
+func (service *RoomService) BeginShutdown(ctx context.Context) ShutdownReport {
+	type activeMatch struct {
+		roomID  string
+		session *MatchSession
+	}
+	service.mu.Lock()
+	service.acceptingNewRooms = false
+	matches := make([]activeMatch, 0, len(service.rooms))
+	for roomID, room := range service.rooms {
+		if room.match != nil {
+			matches = append(matches, activeMatch{roomID: roomID, session: room.match.session})
+		}
+	}
+	service.mu.Unlock()
+
+	report := ShutdownReport{}
+	for _, match := range matches {
+		err := match.session.AbortTechnical(ctx, "controlled local shutdown")
+		switch {
+		case err == nil:
+			report.ActiveMatches++
+			report.TechnicalAborts++
+			service.mu.Lock()
+			if room := service.rooms[match.roomID]; room != nil {
+				room.revision++
+				service.signalRoomLocked(room)
+			}
+			service.mu.Unlock()
+		case errors.Is(err, engine.ErrMatchFinished):
+			report.AlreadyFinished++
+		default:
+			report.FailedOperations++
+		}
+	}
+	return report
+}
+
 func (service *RoomService) prepareMatchLocked(
 	ctx context.Context,
 	room *roomRecord,
@@ -929,10 +1010,17 @@ func (service *RoomService) prepareMatchLocked(
 	}
 	matchSession, err := NewMatchSessionWithConfig(match, MatchSessionConfig{
 		MailboxCapacity: service.mailboxCapacity, Clock: service.clock, Policy: service.matchPolicy,
+		OnFinish: func(reason engine.ResultReason) {
+			service.activeMatches.Add(-1)
+			if reason == engine.ResultAbortedTechnical {
+				service.technicalAborts.Add(1)
+			}
+		},
 	})
 	if err != nil {
 		return nil, fmt.Errorf("%w: %v", ErrMatchSetupUnavailable, err)
 	}
+	service.activeMatches.Add(1)
 	state := match.State()
 	for index := range room.seats {
 		service.sessions[room.seats[index].sessionID].expiresAt = now.Add(service.sessionTTL)

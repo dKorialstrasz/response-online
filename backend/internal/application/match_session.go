@@ -14,16 +14,18 @@ import (
 // match. Transport handlers submit commands here instead of mutating engine
 // state directly.
 type MatchSession struct {
-	owner       *MatchOwner
-	match       *engine.Match
-	clock       Clock
-	policy      MatchRuntimePolicy
-	players     [2]matchPlayerRuntime
-	idle        [2]idleRuntime
-	subscribers map[uint64]lifecycleSubscriber
-	nextSubID   uint64
-	runContext  context.Context
-	timer       *time.Timer
+	owner          *MatchOwner
+	match          *engine.Match
+	clock          Clock
+	policy         MatchRuntimePolicy
+	players        [2]matchPlayerRuntime
+	idle           [2]idleRuntime
+	subscribers    map[uint64]lifecycleSubscriber
+	nextSubID      uint64
+	runContext     context.Context
+	timer          *time.Timer
+	onFinish       func(engine.ResultReason)
+	finishObserved bool
 }
 
 func NewMatchSession(match *engine.Match, mailboxCapacity int) (*MatchSession, error) {
@@ -34,6 +36,7 @@ type MatchSessionConfig struct {
 	MailboxCapacity int
 	Clock           Clock
 	Policy          MatchRuntimePolicy
+	OnFinish        func(engine.ResultReason)
 }
 
 func NewMatchSessionWithConfig(match *engine.Match, config MatchSessionConfig) (*MatchSession, error) {
@@ -49,7 +52,7 @@ func NewMatchSessionWithConfig(match *engine.Match, config MatchSessionConfig) (
 	}
 	session := &MatchSession{
 		owner: NewMatchOwner(config.MailboxCapacity), match: match, clock: config.Clock,
-		policy: policy, subscribers: make(map[uint64]lifecycleSubscriber),
+		policy: policy, subscribers: make(map[uint64]lifecycleSubscriber), onFinish: config.OnFinish,
 	}
 	session.updateIdleWaiters(match.State(), config.Clock.Now(), nil)
 	return session, nil
@@ -74,6 +77,7 @@ func (session *MatchSession) Submit(ctx context.Context, command engine.Command)
 			return err
 		}
 		after := session.match.State()
+		session.observeFinish(after)
 		session.updateIdleWaiters(after, now, &command.Seat)
 		session.scheduleNextDeadline()
 		return nil
@@ -114,6 +118,30 @@ func (session *MatchSession) CheckDeadlines(ctx context.Context) error {
 		session.scheduleNextDeadline()
 		return nil
 	})
+}
+
+// AbortTechnical serializes an operator-owned abort with player commands so a
+// controlled process stop cannot overwrite an already committed result.
+func (session *MatchSession) AbortTechnical(ctx context.Context, detail string) error {
+	return session.owner.Submit(ctx, func(context.Context) error {
+		if err := session.match.FinishTechnical(engine.ResultAbortedTechnical, nil, nil, detail); err != nil {
+			return err
+		}
+		session.observeFinish(session.match.State())
+		session.publish(LifecycleEvent{MatchFinished: true, SnapshotRequired: true})
+		session.scheduleNextDeadline()
+		return nil
+	})
+}
+
+func (session *MatchSession) observeFinish(state engine.State) {
+	if session.finishObserved || state.Status != engine.StatusFinished || state.Result == nil {
+		return
+	}
+	session.finishObserved = true
+	if session.onFinish != nil {
+		session.onFinish(state.Result.Reason)
+	}
 }
 
 func (session *MatchSession) Connected(ctx context.Context, seat engine.Seat) error {
@@ -216,6 +244,7 @@ func (session *MatchSession) ReplaceMatch(ctx context.Context, next *engine.Matc
 	return session.owner.Submit(ctx, func(context.Context) error {
 		now := session.clock.Now()
 		session.match = next
+		session.finishObserved = false
 		for index := range session.players {
 			connected := session.players[index].connected
 			everConnected := session.players[index].everConnected

@@ -23,6 +23,7 @@ EXPECTED_PATHS = {
     "/readyz",
     "/health/live",
     "/health/ready",
+    "/metrics",
     "/api/v1/build",
     "/api/v1/sessions",
     "/api/v1/rooms",

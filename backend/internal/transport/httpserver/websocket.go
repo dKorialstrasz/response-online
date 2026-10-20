@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"strings"
 	"sync"
@@ -94,6 +95,11 @@ func (gateway *Gateway) serveWebSocket(writer http.ResponseWriter, request *http
 		})
 		client.close(websocket.ClosePolicyViolation, "authentication failed")
 		return
+	}
+	if claim.Lease.Generation > 1 {
+		gateway.metrics.mu.Lock()
+		gateway.metrics.reconnects++
+		gateway.metrics.mu.Unlock()
 	}
 	defer gateway.service.ReleaseConnection(claim.Lease)
 	client.lease = claim.Lease
@@ -204,7 +210,21 @@ func (gateway *Gateway) serveWebSocket(writer http.ResponseWriter, request *http
 				})
 				continue
 			}
+			started := time.Now()
 			event := gateway.executeWSCommand(request.Context(), claim.Lease, command)
+			duration := time.Since(started)
+			gateway.metrics.observeWSCommand(duration)
+			accepted := event.Accepted != nil && *event.Accepted
+			attributes := []any{
+				"command", command.Name,
+				"accepted", accepted,
+				"duration_ms", duration.Milliseconds(),
+				"correlation_id", command.CommandID,
+			}
+			if event.Error != nil {
+				attributes = append(attributes, "reject_code", event.Error.Code)
+			}
+			slog.Info("websocket command", attributes...)
 			gateway.writeWSEvent(client, event)
 			if event.Accepted != nil && *event.Accepted && command.Name != "resync" {
 				if command.Name == "requestRematch" {
@@ -598,6 +618,8 @@ func engineError(err error) (errorCode, string) {
 		return codeForbidden, "error.access.forbidden"
 	case errors.Is(err, application.ErrRoomUnavailable), errors.Is(err, application.ErrRoomExpired):
 		return codeRoomUnavailable, "error.room.unavailable"
+	case errors.Is(err, application.ErrServiceStopping):
+		return codeServer, "error.server.unavailable"
 	case errors.Is(err, engine.ErrStaleRevision):
 		return codeStaleRevision, "error.revision.stale"
 	case errors.Is(err, engine.ErrMatchFinished):
@@ -761,6 +783,9 @@ func (gateway *Gateway) broadcastRoomSnapshot(roomID, correlationID string) {
 }
 
 func (gateway *Gateway) writeWSEvent(client *wsClient, event wsEvent) {
+	if event.Error != nil {
+		gateway.metrics.observeReject(event.Error.Code)
+	}
 	if err := client.write(event); err != nil {
 		client.close(websocket.CloseGoingAway, "write failed")
 	}
@@ -779,6 +804,7 @@ func (gateway *Gateway) writeWSError(
 			_, err.CorrelationID, _ = randomToken(12)
 		}
 	}
+	slog.Info("websocket rejected", "reject_code", err.Code, "correlation_id", err.CorrelationID)
 	accepted := false
 	gateway.writeWSEvent(client, wsEvent{
 		ProtocolVersion: ProtocolVersion, Type: "error", CommandID: commandID,

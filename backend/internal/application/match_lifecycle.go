@@ -101,6 +101,7 @@ type MatchRuntimeSnapshot struct {
 }
 
 func (session *MatchSession) processDue(now time.Time) {
+	defer func() { session.observeFinish(session.match.State()) }()
 	state := session.match.State()
 	if state.Status == engine.StatusFinished {
 		return

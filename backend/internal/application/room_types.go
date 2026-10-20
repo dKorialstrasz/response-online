@@ -29,6 +29,7 @@ var (
 	ErrConnectionReplaced    = errors.New("controlling connection was replaced")
 	ErrConnectionTicket      = errors.New("connection ticket is invalid or expired")
 	ErrMatchSetupUnavailable = errors.New("match setup is unavailable")
+	ErrServiceStopping       = errors.New("service is stopping")
 )
 
 type Clock interface {
@@ -174,4 +175,24 @@ type CleanupReport struct {
 	Sessions int
 	Rooms    int
 	Tickets  int
+}
+
+// OperationalSnapshot contains aggregate process-local counters only. It is
+// safe to expose through local diagnostics because it contains no room IDs,
+// session credentials, card zones, random seed, or player network data.
+type OperationalSnapshot struct {
+	AcceptingNewRooms bool   `json:"acceptingNewRooms"`
+	Sessions          int    `json:"sessions"`
+	Rooms             int    `json:"rooms"`
+	WaitingRooms      int    `json:"waitingRooms"`
+	ActiveRooms       int    `json:"activeRooms"`
+	Matches           int    `json:"matches"`
+	TechnicalAborts   uint64 `json:"technicalAborts"`
+}
+
+type ShutdownReport struct {
+	ActiveMatches    int `json:"activeMatches"`
+	TechnicalAborts  int `json:"technicalAborts"`
+	AlreadyFinished  int `json:"alreadyFinished"`
+	FailedOperations int `json:"failedOperations"`
 }
