@@ -11,12 +11,15 @@ import {
   issueTicket,
   joinRoom,
   normalizeRoomCode,
+  russianProtocolError,
   russianError,
   setReady,
   setSelection,
   type MatchCommand,
   type Session,
 } from "./api";
+import { GameplayScreen } from "./GameplayScreen";
+import { acceptProjection, type ProjectionClock } from "./gameplay";
 import {
   cardName,
   confirmedCard,
@@ -67,13 +70,18 @@ function opponentSeat(room: RoomSnapshot) {
 function useMatchConnection(
   session: Session | null,
   room: RoomSnapshot | null,
+  onRoomSnapshot: (snapshot: RoomSnapshot) => void,
 ) {
   const [connection, setConnection] = useState<ConnectionState>("нет");
   const [view, setView] = useState<PlayerView | null>(null);
   const [error, setError] = useState("");
   const [mulliganSubmitted, setMulliganSubmitted] = useState(false);
+  const [desynced, setDesynced] = useState(false);
+  const [lifecycleNotice, setLifecycleNotice] = useState("");
   const socketRef = useRef<WebSocket | null>(null);
   const latestViewRef = useRef<PlayerView | null>(null);
+  const projectionClockRef = useRef<ProjectionClock | null>(null);
+  const recoveringRef = useRef(false);
   const mulliganCommandRef = useRef("");
 
   useEffect(() => {
@@ -86,7 +94,10 @@ function useMatchConnection(
       socketRef.current = null;
       setConnection("нет");
       setView(null);
+      projectionClockRef.current = null;
       setMulliganSubmitted(false);
+      setDesynced(false);
+      setLifecycleNotice("");
       return;
     }
 
@@ -94,10 +105,17 @@ function useMatchConnection(
     let retryTimer: number | undefined;
     let heartbeatTimer: number | undefined;
     let firstConnection = true;
+    let reconnectAllowed = true;
 
     const connect = async () => {
       setConnection(firstConnection ? "подключение" : "восстановление");
-      setError("");
+      if (!firstConnection) {
+        recoveringRef.current = true;
+        setDesynced(true);
+        setLifecycleNotice(
+          "Связь с сервером потеряна. Пытаемся восстановить соединение. На восстановление отведено до 20 секунд",
+        );
+      }
       try {
         let { ticket } = await issueTicket(session.csrfToken, room.roomId);
         if (disposed) return;
@@ -127,40 +145,146 @@ function useMatchConnection(
                 }),
               );
             }
-          }, 5000);
+          }, 1000);
         });
         socket.addEventListener("message", (message) => {
-          const event = JSON.parse(String(message.data)) as ServerEvent;
+          let event: ServerEvent;
+          try {
+            event = JSON.parse(String(message.data)) as ServerEvent;
+          } catch {
+            recoveringRef.current = true;
+            setDesynced(true);
+            setError(
+              "Сервер прислал сообщение неизвестного формата. Получаем актуальное состояние.",
+            );
+            socket.close();
+            return;
+          }
+          if (event.protocolVersion !== protocolVersion) {
+            reconnectAllowed = false;
+            setDesynced(true);
+            setError(
+              "Версия клиента устарела. Обновите страницу, чтобы продолжить.",
+            );
+            socket.close();
+            return;
+          }
           if (event.type === "authenticated") {
             firstConnection = false;
             setConnection("подключено");
+            setError("");
+          } else if (event.type === "roomSnapshot") {
+            onRoomSnapshot(event.payload);
           } else if (
             event.type === "matchSnapshot" ||
             event.type === "stateUpdate" ||
             event.type === "choiceRequested" ||
             event.type === "matchFinished"
           ) {
+            const previous = projectionClockRef.current;
+            const decision = acceptProjection(
+              previous,
+              event.payload,
+              event.eventSeq,
+            );
+            if (!decision.accepted) return;
+            projectionClockRef.current = decision.clock;
             setView(event.payload);
+            setDesynced(false);
+            if (event.type === "matchSnapshot" && recoveringRef.current) {
+              setError("");
+              setLifecycleNotice(
+                "Соединение восстановлено. Состояние игры обновлено",
+              );
+              recoveringRef.current = false;
+            }
           } else if (event.type === "lifecycleNotice") {
-            if (event.payload.view) setView(event.payload.view);
+            if (event.payload.view) {
+              const decision = acceptProjection(
+                projectionClockRef.current,
+                event.payload.view,
+                event.eventSeq,
+              );
+              if (decision.accepted) {
+                projectionClockRef.current = decision.clock;
+                setView(event.payload.view);
+                setDesynced(false);
+              }
+            }
+            setLifecycleNotice(event.payload.message);
           } else if (event.type === "commandResult") {
             if (event.commandId === mulliganCommandRef.current)
               setMulliganSubmitted(true);
           } else if (event.type === "error") {
-            if (event.error.view) setView(event.error.view);
-            setError("Сервер отклонил действие. Состояние игры обновлено.");
+            if (event.error.view) {
+              const decision = acceptProjection(
+                projectionClockRef.current,
+                event.error.view,
+                event.eventSeq,
+              );
+              if (decision.accepted) {
+                projectionClockRef.current = decision.clock;
+                setView(event.error.view);
+              }
+            }
+            setError(russianProtocolError(event.error));
+            if (
+              event.error.resyncRequired ||
+              event.error.code === "CHOICE_EXPIRED"
+            ) {
+              recoveringRef.current = true;
+              setDesynced(true);
+              const current = latestViewRef.current;
+              if (current && socket.readyState === WebSocket.OPEN) {
+                socket.send(
+                  JSON.stringify({
+                    protocolVersion,
+                    type: "command",
+                    commandId: `resync-${crypto.randomUUID()}`,
+                    matchId: current.matchId,
+                    expectedRevision: current.revision,
+                    name: "resync",
+                    payload: { lastEventSeq: event.eventSeq },
+                  }),
+                );
+              }
+            }
+          } else if (event.type === "connectionStatus") {
+            setLifecycleNotice(
+              event.payload.status === "connected"
+                ? "Соединение восстановлено. Состояние игры обновлено"
+                : event.payload.seatId === latestViewRef.current?.ownSeat
+                  ? "Связь с сервером потеряна. Пытаемся восстановить соединение. На восстановление отведено до 20 секунд"
+                  : "Связь с соперником потеряна. Ожидаем восстановление до 20 секунд",
+            );
+          } else if (event.type === "serverDraining") {
+            setDesynced(true);
+            setError(
+              "Сервер временно недоступен. Попробуйте восстановить соединение позже.",
+            );
           }
         });
         socket.addEventListener("close", () => {
           if (heartbeatTimer !== undefined)
             window.clearInterval(heartbeatTimer);
           if (!disposed) {
-            setConnection("восстановление");
-            retryTimer = window.setTimeout(() => void connect(), 1200);
+            if (reconnectAllowed) {
+              setConnection("восстановление");
+              recoveringRef.current = true;
+              setDesynced(true);
+              setLifecycleNotice(
+                "Связь с сервером потеряна. Пытаемся восстановить соединение. На восстановление отведено до 20 секунд",
+              );
+              retryTimer = window.setTimeout(() => void connect(), 1200);
+            } else {
+              setConnection("нет");
+            }
           }
         });
         socket.addEventListener("error", () => {
-          setError("Соединение с матчем потеряно. Пытаемся восстановить его.");
+          setError(
+            "Связь с сервером потеряна. Пытаемся восстановить соединение. На восстановление отведено до 20 секунд",
+          );
         });
       } catch (caught) {
         if (!disposed) {
@@ -178,31 +302,74 @@ function useMatchConnection(
       socketRef.current?.close();
       socketRef.current = null;
     };
-  }, [room?.match?.matchId, room?.roomId, session]);
+  }, [onRoomSnapshot, room?.match?.matchId, room?.roomId, session]);
 
-  const send = useCallback((command: MatchCommand) => {
-    const socket = socketRef.current;
-    const current = latestViewRef.current;
-    if (!socket || socket.readyState !== WebSocket.OPEN || !current)
-      return false;
-    const commandId = `${command.name}-${crypto.randomUUID()}`;
-    if (command.name === "submitMulligan")
-      mulliganCommandRef.current = commandId;
-    socket.send(
-      JSON.stringify({
-        protocolVersion,
-        type: "command",
-        commandId,
-        matchId: current.matchId,
-        expectedRevision: current.revision,
-        name: command.name,
-        payload: command.payload,
-      }),
-    );
-    return true;
+  useEffect(() => {
+    const resyncOnReturn = () => {
+      if (document.visibilityState !== "visible") return;
+      const socket = socketRef.current;
+      const current = latestViewRef.current;
+      if (!socket || socket.readyState !== WebSocket.OPEN || !current) return;
+      recoveringRef.current = true;
+      setDesynced(true);
+      socket.send(
+        JSON.stringify({
+          protocolVersion,
+          type: "command",
+          commandId: `resync-${crypto.randomUUID()}`,
+          matchId: current.matchId,
+          expectedRevision: current.revision,
+          name: "resync",
+          payload: {},
+        }),
+      );
+    };
+    document.addEventListener("visibilitychange", resyncOnReturn);
+    return () =>
+      document.removeEventListener("visibilitychange", resyncOnReturn);
   }, []);
 
-  return { connection, error, mulliganSubmitted, send, setError, view };
+  const send = useCallback(
+    (command: MatchCommand) => {
+      const socket = socketRef.current;
+      const current = latestViewRef.current;
+      if (
+        !socket ||
+        socket.readyState !== WebSocket.OPEN ||
+        !current ||
+        desynced ||
+        (current.status === "finished" && command.name !== "requestRematch")
+      )
+        return false;
+      const commandId = `${command.name}-${crypto.randomUUID()}`;
+      if (command.name === "submitMulligan")
+        mulliganCommandRef.current = commandId;
+      socket.send(
+        JSON.stringify({
+          protocolVersion,
+          type: "command",
+          commandId,
+          matchId: current.matchId,
+          expectedRevision: current.revision,
+          name: command.name,
+          payload: command.payload,
+        }),
+      );
+      return true;
+    },
+    [desynced],
+  );
+
+  return {
+    connection,
+    desynced,
+    error,
+    lifecycleNotice,
+    mulliganSubmitted,
+    send,
+    setError,
+    view,
+  };
 }
 
 export function EntryScreen({
@@ -745,7 +912,9 @@ export function LobbyScreen({
 
 export function MatchScreen({
   connection,
+  desynced = false,
   error,
+  lifecycleNotice = "",
   mulliganSubmitted,
   onMulligan,
   onCommand,
@@ -753,7 +922,9 @@ export function MatchScreen({
   view,
 }: {
   connection: ConnectionState;
+  desynced?: boolean;
   error: string;
+  lifecycleNotice?: string;
   mulliganSubmitted: boolean;
   onMulligan: (
     refs: NonNullable<PlayerView["players"][number]["hand"]>,
@@ -767,19 +938,6 @@ export function MatchScreen({
   const opponent = view?.players.find((player) => player.seat !== view.ownSeat);
   const ownInitiative = view?.initiativeSeat === view?.ownSeat;
 
-  const choiceLabel = (
-    objects: { zoneObjectId: string; generation: number }[] = [],
-  ) => {
-    const ref = objects[0];
-    if (!ref) return "Подтвердить";
-    const visible = own?.hand?.find(
-      (card) =>
-        card.objectRef.zoneObjectId === ref.zoneObjectId &&
-        card.objectRef.generation === ref.generation,
-    );
-    return visible ? cardName(visible.definitionId) : "Выбрать вариант";
-  };
-
   if (!view) {
     return (
       <main className="match-shell center-state">
@@ -792,6 +950,29 @@ export function MatchScreen({
         </p>
         {error && <Notice kind="error">{error}</Notice>}
       </main>
+    );
+  }
+
+  if (view.status === "active" || view.status === "finished") {
+    return (
+      <GameplayScreen
+        actionsBlocked={connection !== "подключено" || desynced}
+        connectionLabel={
+          connection === "подключено"
+            ? "Связь установлена"
+            : connection === "подключение"
+              ? "Подключаемся"
+              : connection === "восстановление"
+                ? "Восстанавливаем связь"
+                : "Связь недоступна"
+        }
+        desynced={desynced}
+        error={error}
+        lifecycleNotice={lifecycleNotice}
+        onCommand={onCommand}
+        room={room}
+        view={view}
+      />
     );
   }
 
@@ -926,118 +1107,6 @@ export function MatchScreen({
           </aside>
         </section>
       )}
-      {view.status === "active" && (
-        <section
-          className="preparation-card complete"
-          aria-label="Доступные действия"
-        >
-          <div aria-hidden="true">✦</div>
-          <div>
-            <h2>
-              {view.actingSeat === view.ownSeat
-                ? "Ваше действие"
-                : "Ход соперника"}
-            </h2>
-            {view.choices.map((choice) =>
-              choice.redacted ? (
-                <p key={`${choice.waitingSeat}-${choice.revision}`}>
-                  Ожидаем скрытое решение соперника.
-                </p>
-              ) : choice.waitingSeat === view.ownSeat && choice.choiceId ? (
-                <div key={choice.choiceId}>
-                  <p>
-                    {choice.mandatory
-                      ? "Выберите обязательный вариант"
-                      : "Можно выбрать вариант или отказаться"}
-                  </p>
-                  {(choice.options ?? []).map((option) => (
-                    <button
-                      className="secondary"
-                      key={option.id}
-                      onClick={() =>
-                        onCommand({
-                          name: "submitChoice",
-                          payload: {
-                            choiceId: choice.choiceId!,
-                            optionIds: [option.id],
-                          },
-                        })
-                      }
-                    >
-                      {choiceLabel(option.objects)}
-                    </button>
-                  ))}
-                  {choice.minSelections === 0 && (
-                    <button
-                      className="secondary"
-                      onClick={() =>
-                        onCommand({
-                          name: "submitChoice",
-                          payload: {
-                            choiceId: choice.choiceId!,
-                            optionIds: [],
-                          },
-                        })
-                      }
-                    >
-                      Отказаться
-                    </button>
-                  )}
-                </div>
-              ) : null,
-            )}
-            {view.choices.length === 0 && view.actingSeat === view.ownSeat && (
-              <div>
-                {view.legalActions.flatMap((action, actionIndex) => {
-                  if (action.name === "passAction") {
-                    return (
-                      <button
-                        className="secondary"
-                        key={`pass-${actionIndex}`}
-                        onClick={() =>
-                          onCommand({ name: "passAction", payload: {} })
-                        }
-                      >
-                        Пас
-                      </button>
-                    );
-                  }
-                  if (
-                    action.name !== "playCard" ||
-                    !action.sourceRef ||
-                    !action.declaredType ||
-                    action.minTargets !== 0 ||
-                    action.paymentCount !== 0 ||
-                    action.minModes !== 0
-                  )
-                    return [];
-                  const placements =
-                    action.placements.length > 0 ? action.placements : [null];
-                  return placements.map((placement, placementIndex) => (
-                    <button
-                      className="primary"
-                      key={`play-${actionIndex}-${placementIndex}`}
-                      onClick={() =>
-                        onCommand({
-                          name: "playCard",
-                          payload: {
-                            sourceRef: action.sourceRef!,
-                            declaredType: action.declaredType!,
-                            ...(placement ? { placement } : {}),
-                          },
-                        })
-                      }
-                    >
-                      Разыграть {cardName(action.definitionId ?? "")}
-                      {placement ? ` · линия ${placement.lane + 1}` : ""}
-                    </button>
-                  ));
-                })}
-              </div>
-            )}
-          </div>
-        </section>
-      )}
       <footer className="match-footer">
         Комната {room.code} · Скрытые данные соперника не передаются интерфейсу
       </footer>
@@ -1053,7 +1122,7 @@ export function App() {
   );
   const [busy, setBusy] = useState(true);
   const [error, setError] = useState("");
-  const match = useMatchConnection(session, room);
+  const match = useMatchConnection(session, room, setRoom);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -1133,7 +1202,9 @@ export function App() {
     return (
       <MatchScreen
         connection={match.connection}
+        desynced={match.desynced}
         error={match.error}
+        lifecycleNotice={match.lifecycleNotice}
         mulliganSubmitted={match.mulliganSubmitted}
         room={room}
         view={match.view}

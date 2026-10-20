@@ -1,4 +1,9 @@
-import type { CommandPayloadByName, ObjectRef, RoomSnapshot } from "./protocol";
+import type {
+  ClientCommandName,
+  CommandPayloadByName,
+  ProtocolError,
+  RoomSnapshot,
+} from "./protocol";
 
 export type Session = {
   sessionId: string;
@@ -171,17 +176,54 @@ export async function issueTicket(
   );
 }
 
-export type MatchCommand =
-  | { name: "setOrderArrangement"; payload: { orderIds: string[] } }
-  | { name: "submitMulligan"; payload: { objectRefs: ObjectRef[] } }
-  | { name: "playCard"; payload: CommandPayloadByName["playCard"] }
-  | {
-      name: "activateAbility";
-      payload: CommandPayloadByName["activateAbility"];
-    }
-  | { name: "passAction"; payload: CommandPayloadByName["passAction"] }
-  | { name: "submitChoice"; payload: CommandPayloadByName["submitChoice"] }
-  | { name: "surrender"; payload: CommandPayloadByName["surrender"] };
+type MatchCommandName = Exclude<
+  ClientCommandName,
+  "selectDeck" | "setReady" | "leaveRoom"
+>;
+
+export type MatchCommand = {
+  [TName in MatchCommandName]: {
+    name: TName;
+    payload: CommandPayloadByName[TName];
+  };
+}[MatchCommandName];
+
+export function russianProtocolError(error: ProtocolError): string {
+  switch (error.code) {
+    case "STALE_REVISION":
+      return "Состояние игры изменилось. Действия заблокированы до завершения синхронизации.";
+    case "CHOICE_EXPIRED":
+      return "Срок этого решения истёк. Получаем актуальное состояние игры.";
+    case "MATCH_FINISHED":
+      return "Матч уже завершён. Игровые действия недоступны.";
+    case "NOT_YOUR_DECISION":
+      return "Сейчас решение принимает соперник.";
+    case "INVALID_TARGET":
+      return "Выбранная цель больше недоступна. Проверьте обновлённое поле.";
+    case "INSUFFICIENT_COST":
+      return "Не удалось оплатить действие выбранным способом.";
+    case "COMMAND_ID_REUSED":
+      return "Команда уже была отправлена с другими данными. Состояние обновляется.";
+    case "VERSION_UNSUPPORTED":
+      return "Версия клиента устарела. Обновите страницу, чтобы продолжить.";
+    case "SERVER_UNAVAILABLE":
+      return "Сервер временно недоступен. Попробуйте восстановить соединение.";
+    case "UNAUTHENTICATED":
+      return "Анонимная сессия утрачена. Обновите страницу и войдите в комнату снова.";
+    case "ROOM_FULL":
+      return "В комнате уже два игрока. Попросите создать новое приглашение.";
+    case "ROOM_UNAVAILABLE":
+      return "Комната не найдена или срок приглашения истёк.";
+    case "RATE_LIMITED":
+      return "Слишком много действий. Подождите немного и повторите попытку.";
+    case "FORBIDDEN":
+      return "Доступ к матчу утрачен. Обновите страницу и войдите снова.";
+    case "INVALID_PAYLOAD":
+      return "Сервер не смог прочитать команду. Состояние игры обновляется.";
+    case "ILLEGAL_ACTION":
+      return "Сервер отклонил действие как недопустимое в текущем состоянии.";
+  }
+}
 
 export function russianError(error: unknown): string {
   if (error instanceof ApiError) {
@@ -198,6 +240,10 @@ export function russianError(error: unknown): string {
         return "Слишком много запросов. Подождите немного и повторите действие.";
       case "INVALID_PAYLOAD":
         return "Сервер отклонил данные. Проверьте выбор и повторите действие.";
+      case "VERSION_UNSUPPORTED":
+        return "Версия клиента устарела. Обновите страницу, чтобы продолжить.";
+      case "SERVER_UNAVAILABLE":
+        return "Сервер временно недоступен. Повторите действие позже.";
       default:
         return "Сервер временно недоступен. Повторите действие позже.";
     }
