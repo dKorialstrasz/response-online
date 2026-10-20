@@ -1,0 +1,72 @@
+{
+  "browser": "151.0.7922.34",
+  "completedAt": "2026-10-20T18:09:40.321Z",
+  "baseURL": "http://127.0.0.1:5173",
+  "checks": [
+    {
+      "check": "full-room",
+      "details": "Третья независимая сессия получила отдельное русское состояние ROOM_FULL",
+      "passed": true
+    },
+    {
+      "check": "independent-sessions",
+      "details": "Два изолированных browser context, комната H2B5BRKIXQB7Q, попытка 1",
+      "passed": true
+    },
+    {
+      "check": "viewports",
+      "details": "1366×768, 640×480, 360×640 и 640×360; поле и действия доступны",
+      "passed": true
+    },
+    {
+      "check": "keyboard-zoom",
+      "details": "Карточный zoom открыт Enter и закрыт Escape без hover/drag-and-drop",
+      "passed": true
+    },
+    {
+      "check": "touch-help",
+      "details": "Справка открыта touch-событием; интерактивная цель доступна без hover",
+      "passed": true
+    },
+    {
+      "check": "mandatory-choice",
+      "details": "Owner видит 1..1 без отказа; соперник видит только redacted ожидание",
+      "passed": true
+    },
+    {
+      "check": "choice-cancel-submit",
+      "details": "Локальный выбор сброшен до отправки, затем подтверждён один раз",
+      "passed": true
+    },
+    {
+      "check": "background-resync",
+      "details": "Возврат вкладки отправил resync и завершился свежим matchSnapshot",
+      "passed": true
+    },
+    {
+      "check": "reconnect",
+      "details": "Реальный offline/online восстановил socket и персональную проекцию",
+      "passed": true
+    },
+    {
+      "check": "surrender-rematch",
+      "details": "Единственный surrender-result у обоих; rematch требует два согласия и создаёт новый матч",
+      "passed": true
+    },
+    {
+      "check": "full-room",
+      "details": "Третья независимая сессия получила отдельное русское состояние ROOM_FULL",
+      "passed": true
+    },
+    {
+      "check": "independent-sessions",
+      "details": "Два изолированных browser context, комната 63JICTPTG6NLA, попытка 1",
+      "passed": true
+    },
+    {
+      "check": "optional-choice",
+      "details": "Реальный optional PendingChoice показывает явное «Не активировать» и продолжает серверную очередь",
+      "passed": true
+    }
+  ]
+}
