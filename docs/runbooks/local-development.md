@@ -39,11 +39,13 @@ RESPONSE_HTTP_ADDR=127.0.0.1:18080 make dev-backend
 - `bash tests/smoke/local_backend.sh` — чёрный ящик диагностического API.
 
 `rulesVersion: response-rules-2026-10-17` и
-`engineVersion: base-abilities-v1` относится к базовому автомату #10,
-типизированному pipeline #11 и закрытому каталогу 126 способностей #12.
+`engineVersion: base-abilities-v2` относится к базовому автомату #10,
+типизированному pipeline #11, закрытому каталогу 126 способностей #12 и
+server-authoritative playCard/PendingChoice #37.
 Русский card text не исполняется; матч получает только version-pinned handlers.
-`protocolVersion: 1.0` относится к HTTP/WSS contracts, security boundary и
-PlayerView из #14. Lobby работает по HTTP JSON; активный матч — по WebSocket.
+`protocolVersion: 1.1` относится к HTTP/WSS contracts, security boundary,
+generation-safe refs, legalActions и PlayerView. Lobby работает по HTTP JSON;
+активный матч — по WebSocket.
 Reconnect outcomes/rematch остаются #15.
 
 Локальный allowlist по умолчанию разрешает origins `127.0.0.1:5173`,
@@ -86,6 +88,10 @@ make check
 make dependencies
 bash tests/smoke/local_backend.sh
 ```
+
+Для #37 backend tests дополнительно поднимают настоящий HTTP/WebSocket handler и
+проверяют `playCard`, mandatory/optional PendingChoice и resync без test-only
+payload shape или клиентского вычисления legal actions.
 
 `make dependencies` обращается к registry для `pnpm audit`. Secret scan работает
 локально и не отправляет исходники внешнему сервису.

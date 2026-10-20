@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	ProtocolVersion = "1.0"
+	ProtocolVersion = "1.1"
 	maxHTTPBody     = 64 << 10
 	maxWSFrame      = 32 << 10
 	maxJSONDepth    = 16
@@ -192,11 +192,13 @@ type mulliganPayload struct {
 }
 
 type abilityPayload struct {
-	AbilityID   string             `json:"abilityId"`
-	SourceRef   *objectRefPayload  `json:"sourceRef,omitempty"`
-	ModeIDs     []string           `json:"modeIds,omitempty"`
-	TargetRefs  []objectRefPayload `json:"targetRefs,omitempty"`
-	PaymentRefs []objectRefPayload `json:"paymentRefs,omitempty"`
+	AbilityID         string             `json:"abilityId"`
+	SourceRef         *objectRefPayload  `json:"sourceRef,omitempty"`
+	ModeIDs           []string           `json:"modeIds,omitempty"`
+	TargetRefs        []objectRefPayload `json:"targetRefs,omitempty"`
+	PaymentRefs       []objectRefPayload `json:"paymentRefs,omitempty"`
+	InfluencePayment  *int               `json:"influencePayment,omitempty"`
+	ShieldPaymentRefs []objectRefPayload `json:"shieldPaymentRefs,omitempty"`
 }
 
 type choicePayload struct {
@@ -205,12 +207,22 @@ type choicePayload struct {
 }
 
 type playCardPayload struct {
-	SourceObjectID string             `json:"sourceObjectId"`
-	DeclaredType   string             `json:"declaredType"`
-	ModeIDs        []string           `json:"modeIds,omitempty"`
-	TargetRefs     []objectRefPayload `json:"targetRefs,omitempty"`
-	Placement      json.RawMessage    `json:"placement,omitempty"`
-	PaymentChoice  json.RawMessage    `json:"paymentChoice,omitempty"`
+	SourceRef         objectRefPayload   `json:"sourceRef"`
+	DeclaredType      engine.CardType    `json:"declaredType"`
+	ModeIDs           []string           `json:"modeIds,omitempty"`
+	TargetRefs        []objectRefPayload `json:"targetRefs,omitempty"`
+	Placement         *playCardPlacement `json:"placement,omitempty"`
+	PaymentChoice     *playCardPayment   `json:"paymentChoice,omitempty"`
+	ShieldPaymentRefs []objectRefPayload `json:"shieldPaymentRefs,omitempty"`
+}
+
+type playCardPlacement struct {
+	Lane *int             `json:"lane,omitempty"`
+	Slot engine.BoardSlot `json:"slot,omitempty"`
+}
+
+type playCardPayment struct {
+	ObjectRefs []objectRefPayload `json:"objectRefs,omitempty"`
 }
 
 type resyncPayload struct {

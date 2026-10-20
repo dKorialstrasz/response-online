@@ -26,9 +26,11 @@ rules, protocol и engine. Новый матч в #10 обязан копиро�
 
 `make m1-release-check` — строгий финальный gate локального M1. После #10
 базовые rules/engine закреплены как `response-rules-2026-10-17` и
-`base-abilities-v1` (базовый автомат #10, pipeline #11 и закрытый каталог #12).
+`base-abilities-v2` (базовый автомат #10, pipeline #11, закрытый каталог #12 и
+server-authoritative playCard/PendingChoice #37).
 Все 126 EffectSpec имеют статус `implemented` и проходят conformance gate.
-Protocol `1.0` закрывает transport gate #14. После объединения #12 и #14 строгий
+Protocol `1.1` закрывает transport gate #14 и generation-safe gameplay #37.
+После объединения #12, #14 и #37 строгий
 gameplay-ready gate зелёный; полная локальная приёмка остаётся задачей #22.
 
 ## Права и публикация

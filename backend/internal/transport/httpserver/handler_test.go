@@ -39,7 +39,7 @@ func TestBuildInfoPinsCoreRulesAndEngine(t *testing.T) {
 	if info.ContentVersion != "base-cards-v1" {
 		t.Fatalf("contentVersion = %q", info.ContentVersion)
 	}
-	if info.EngineVersion != "base-abilities-v1" {
+	if info.EngineVersion != "base-abilities-v2" {
 		t.Fatalf("engineVersion = %q", info.EngineVersion)
 	}
 }

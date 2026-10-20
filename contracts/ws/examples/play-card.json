@@ -1,0 +1,21 @@
+{
+  "protocolVersion": "1.1",
+  "type": "command",
+  "commandId": "example-play-card-1",
+  "matchId": "example-match-1",
+  "expectedRevision": 42,
+  "name": "playCard",
+  "payload": {
+    "sourceRef": {
+      "zoneObjectId": "obj_abcdefghijklmnopqrstuvwx",
+      "generation": 3
+    },
+    "declaredType": "spell",
+    "modeIds": [],
+    "targetRefs": [],
+    "paymentChoice": {
+      "objectRefs": []
+    },
+    "shieldPaymentRefs": []
+  }
+}

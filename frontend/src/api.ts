@@ -1,4 +1,4 @@
-import type { ObjectRef, RoomSnapshot } from "./protocol";
+import type { CommandPayloadByName, ObjectRef, RoomSnapshot } from "./protocol";
 
 export type Session = {
   sessionId: string;
@@ -173,7 +173,15 @@ export async function issueTicket(
 
 export type MatchCommand =
   | { name: "setOrderArrangement"; payload: { orderIds: string[] } }
-  | { name: "submitMulligan"; payload: { objectRefs: ObjectRef[] } };
+  | { name: "submitMulligan"; payload: { objectRefs: ObjectRef[] } }
+  | { name: "playCard"; payload: CommandPayloadByName["playCard"] }
+  | {
+      name: "activateAbility";
+      payload: CommandPayloadByName["activateAbility"];
+    }
+  | { name: "passAction"; payload: CommandPayloadByName["passAction"] }
+  | { name: "submitChoice"; payload: CommandPayloadByName["submitChoice"] }
+  | { name: "surrender"; payload: CommandPayloadByName["surrender"] };
 
 export function russianError(error: unknown): string {
   if (error instanceof ApiError) {

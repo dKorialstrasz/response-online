@@ -304,7 +304,8 @@ func (gateway *Gateway) executeWSCommand(
 	if err != nil {
 		return rejectedEvent(command, 0, 0, codeRoomUnavailable, "error.room.unavailable", false, nil)
 	}
-	state, err := session.Snapshot(ctx)
+	viewer := seatForLease(lease)
+	state, legal, err := session.GameplaySnapshot(ctx, viewer)
 	if err != nil {
 		return rejectedEvent(command, 0, 0, codeServer, "error.server.unavailable", true, nil)
 	}
@@ -320,7 +321,7 @@ func (gateway *Gateway) executeWSCommand(
 		event := wsEvent{
 			ProtocolVersion: ProtocolVersion, Type: "matchSnapshot", CommandID: command.CommandID,
 			MatchID: state.MatchID, Revision: state.Revision, EventSeq: eventSequence(state),
-			Accepted: &accepted, Payload: projectPlayerView(state, seatForLease(lease), gateway.references),
+			Accepted: &accepted, Payload: projectPlayerView(state, viewer, gateway.references, legal),
 		}
 		gateway.commandCache[cacheKey] = cachedCommandResult{fingerprint: fingerprint, event: event, matchID: state.MatchID}
 		return event
@@ -331,7 +332,7 @@ func (gateway *Gateway) executeWSCommand(
 			return rejectedEvent(command, state.Revision, eventSequence(state), codeInvalidPayload, "error.payload.invalid", false, nil)
 		}
 		if command.ExpectedRevision != state.Revision {
-			view := projectPlayerView(state, seatForLease(lease), gateway.references)
+			view := projectPlayerView(state, viewer, gateway.references, legal)
 			return rejectedEvent(command, state.Revision, eventSequence(state), codeStaleRevision, "error.revision.stale", false, &view)
 		}
 		room, started, err := gateway.service.RequestRematchForConnection(ctx, lease, command.MatchID, payload.Ready)
@@ -358,15 +359,16 @@ func (gateway *Gateway) executeWSCommand(
 		return event
 	}
 	if err := gateway.service.SubmitForConnection(ctx, lease, engineCommand); err != nil {
-		fresh, snapshotErr := session.Snapshot(ctx)
+		fresh, freshLegal, snapshotErr := session.GameplaySnapshot(ctx, viewer)
 		if snapshotErr == nil {
 			state = fresh
+			legal = freshLegal
 		}
 		code, key := engineError(err)
 		var view *PlayerView
 		resync := false
 		if code == codeStaleRevision {
-			projected := projectPlayerView(state, seatForLease(lease), gateway.references)
+			projected := projectPlayerView(state, viewer, gateway.references, legal)
 			view = &projected
 			resync = true
 		}
@@ -433,12 +435,18 @@ func (gateway *Gateway) engineCommand(
 	case "activateAbility":
 		var payload abilityPayload
 		if err := gateway.decodeWSJSON(command.Payload, &payload); err != nil || !validIdentifier(payload.AbilityID, 128) ||
-			!validIdentifierList(payload.ModeIDs, 8, 128) || len(payload.TargetRefs) > 16 || len(payload.PaymentRefs) > 16 {
+			!validIdentifierList(payload.ModeIDs, 8, 128) || len(payload.TargetRefs) > 16 || len(payload.PaymentRefs) > 16 || len(payload.ShieldPaymentRefs) > 16 {
 			return invalid(codeInvalidPayload, "error.payload.invalid")
 		}
 		result.Kind = engine.CommandActivateAbility
 		result.AbilityID = payload.AbilityID
 		result.ModeIDs = append([]string(nil), payload.ModeIDs...)
+		if payload.InfluencePayment != nil {
+			if *payload.InfluencePayment < 0 {
+				return invalid(codeInvalidPayload, "error.payment.invalid")
+			}
+			result.Value = *payload.InfluencePayment
+		}
 		if payload.SourceRef != nil {
 			decoded, err := gateway.references.decode(state, *payload.SourceRef)
 			if err != nil {
@@ -459,6 +467,13 @@ func (gateway *Gateway) engineCommand(
 				return invalid(codeInvalidTarget, "error.payment.invalid")
 			}
 			result.PaymentRefs = append(result.PaymentRefs, decoded)
+		}
+		for _, ref := range payload.ShieldPaymentRefs {
+			decoded, err := gateway.references.decode(state, ref)
+			if err != nil {
+				return invalid(codeInvalidTarget, "error.payment.invalid")
+			}
+			result.ShieldPaymentRefs = append(result.ShieldPaymentRefs, decoded)
 		}
 	case "passAction":
 		var payload struct{}
@@ -483,10 +498,51 @@ func (gateway *Gateway) engineCommand(
 		result.Kind = engine.CommandSurrender
 	case "playCard":
 		var payload playCardPayload
-		if err := gateway.decodeWSJSON(command.Payload, &payload); err != nil || !validIdentifier(payload.SourceObjectID, 128) || !validIdentifier(payload.DeclaredType, 64) {
+		if err := gateway.decodeWSJSON(command.Payload, &payload); err != nil ||
+			(payload.DeclaredType != engine.CardUnit && payload.DeclaredType != engine.CardSpell && payload.DeclaredType != engine.CardEnhancement) ||
+			!validIdentifierList(payload.ModeIDs, 8, 128) || len(payload.TargetRefs) > 16 ||
+			(payload.PaymentChoice != nil && len(payload.PaymentChoice.ObjectRefs) > 16) || len(payload.ShieldPaymentRefs) > 16 {
 			return invalid(codeInvalidPayload, "error.payload.invalid")
 		}
-		return invalid(codeIllegalAction, "error.action.not_available")
+		source, err := gateway.references.decode(state, payload.SourceRef)
+		if err != nil {
+			return invalid(codeInvalidTarget, "error.target.invalid")
+		}
+		result.Kind = engine.CommandPlayCard
+		result.SourceRef = &source
+		result.DeclaredType = payload.DeclaredType
+		result.ModeIDs = append([]string(nil), payload.ModeIDs...)
+		for _, ref := range payload.TargetRefs {
+			decoded, err := gateway.references.decode(state, ref)
+			if err != nil {
+				return invalid(codeInvalidTarget, "error.target.invalid")
+			}
+			result.TargetRefs = append(result.TargetRefs, decoded)
+		}
+		if payload.PaymentChoice != nil {
+			for _, ref := range payload.PaymentChoice.ObjectRefs {
+				decoded, err := gateway.references.decode(state, ref)
+				if err != nil {
+					return invalid(codeInvalidTarget, "error.payment.invalid")
+				}
+				result.PaymentRefs = append(result.PaymentRefs, decoded)
+			}
+		}
+		for _, ref := range payload.ShieldPaymentRefs {
+			decoded, err := gateway.references.decode(state, ref)
+			if err != nil {
+				return invalid(codeInvalidTarget, "error.payment.invalid")
+			}
+			result.ShieldPaymentRefs = append(result.ShieldPaymentRefs, decoded)
+		}
+		if payload.Placement != nil {
+			if payload.Placement.Lane == nil {
+				return invalid(codeInvalidPayload, "error.payload.invalid")
+			}
+			result.DestinationLane = *payload.Placement.Lane
+			result.DestinationLaneSet = true
+			result.DestinationSlot = payload.Placement.Slot
+		}
 	case "selectDeck", "setOrderArrangement", "setReady", "leaveRoom":
 		return invalid(codeIllegalAction, "error.command.transport")
 	default:
@@ -505,14 +561,15 @@ func (gateway *Gateway) matchSnapshotEvent(
 	if err != nil {
 		return wsEvent{}, err
 	}
-	state, err := session.Snapshot(ctx)
+	viewer := seatForLease(lease)
+	state, legal, err := session.GameplaySnapshot(ctx, viewer)
 	if err != nil {
 		return wsEvent{}, err
 	}
 	return wsEvent{
 		ProtocolVersion: ProtocolVersion, Type: typeName, CorrelationID: correlationID,
 		MatchID: state.MatchID, Revision: state.Revision, EventSeq: eventSequence(state),
-		Payload: projectPlayerView(state, seatForLease(lease), gateway.references),
+		Payload: projectPlayerView(state, viewer, gateway.references, legal),
 	}, nil
 }
 
@@ -657,13 +714,14 @@ func (gateway *Gateway) broadcastMatchSnapshot(ctx context.Context, roomID, corr
 	if err != nil {
 		return
 	}
-	state, err := session.Snapshot(ctx)
-	if err != nil {
-		return
-	}
 	var writes sync.WaitGroup
 	for _, client := range clients {
-		view := projectPlayerView(state, seatForLease(client.lease), gateway.references)
+		viewer := seatForLease(client.lease)
+		state, legal, err := session.GameplaySnapshot(ctx, viewer)
+		if err != nil {
+			continue
+		}
+		view := projectPlayerView(state, viewer, gateway.references, legal)
 		typeName := "stateUpdate"
 		if state.Status == engine.StatusFinished {
 			typeName = "matchFinished"

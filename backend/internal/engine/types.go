@@ -197,20 +197,35 @@ type ChoiceOption struct {
 	ID      string           `json:"id"`
 	Objects []ObjectRef      `json:"objects,omitempty"`
 	Effects []ResolvedEffect `json:"effects,omitempty"`
+	Lane    int              `json:"lane,omitempty"`
+	LaneSet bool             `json:"laneSet,omitempty"`
+	Slot    BoardSlot        `json:"slot,omitempty"`
 }
 
 type PendingChoice struct {
-	ChoiceID      string           `json:"choiceId"`
-	Seat          Seat             `json:"seat"`
-	Kind          string           `json:"kind"`
-	Mandatory     bool             `json:"mandatory"`
-	Visibility    ChoiceVisibility `json:"visibility"`
-	MinSelections int              `json:"minSelections"`
-	MaxSelections int              `json:"maxSelections"`
-	OrderMatters  bool             `json:"orderMatters"`
-	QueuePosition QueuePosition    `json:"queuePosition"`
-	Options       []ChoiceOption   `json:"options"`
-	Revision      uint64           `json:"revision"`
+	ChoiceID      string              `json:"choiceId"`
+	Seat          Seat                `json:"seat"`
+	Kind          string              `json:"kind"`
+	Mandatory     bool                `json:"mandatory"`
+	Visibility    ChoiceVisibility    `json:"visibility"`
+	MinSelections int                 `json:"minSelections"`
+	MaxSelections int                 `json:"maxSelections"`
+	OrderMatters  bool                `json:"orderMatters"`
+	QueuePosition QueuePosition       `json:"queuePosition"`
+	Options       []ChoiceOption      `json:"options"`
+	Revision      uint64              `json:"revision"`
+	Continuation  *ChoiceContinuation `json:"continuation,omitempty"`
+}
+
+// ChoiceContinuation is authoritative resume state. It is part of the
+// deterministic match state and replay hash, but transport projections never
+// serialize it. Handler names belong to the closed Base registry.
+type ChoiceContinuation struct {
+	Handler    string      `json:"handler"`
+	Controller Seat        `json:"controller"`
+	SourceRef  *ObjectRef  `json:"sourceRef,omitempty"`
+	TargetRefs []ObjectRef `json:"targetRefs,omitempty"`
+	Step       int         `json:"step,omitempty"`
 }
 
 type ChoiceVisibility string
@@ -440,16 +455,19 @@ type ActionResolutionState struct {
 }
 
 type PendingChoiceProjection struct {
-	ChoiceID    string         `json:"choiceId,omitempty"`
-	WaitingSeat Seat           `json:"waitingSeat"`
-	Waiting     bool           `json:"waiting"`
-	Kind        string         `json:"kind,omitempty"`
-	Mandatory   bool           `json:"mandatory,omitempty"`
-	Revision    uint64         `json:"revision"`
-	OptionCount int            `json:"optionCount,omitempty"`
-	Options     []ChoiceOption `json:"options,omitempty"`
-	Private     bool           `json:"private"`
-	Redacted    bool           `json:"redacted"`
+	ChoiceID      string         `json:"choiceId,omitempty"`
+	WaitingSeat   Seat           `json:"waitingSeat"`
+	Waiting       bool           `json:"waiting"`
+	Kind          string         `json:"kind,omitempty"`
+	Mandatory     *bool          `json:"mandatory,omitempty"`
+	Revision      uint64         `json:"revision"`
+	OptionCount   *int           `json:"optionCount,omitempty"`
+	MinSelections *int           `json:"minSelections,omitempty"`
+	MaxSelections *int           `json:"maxSelections,omitempty"`
+	OrderMatters  *bool          `json:"orderMatters,omitempty"`
+	Options       []ChoiceOption `json:"options,omitempty"`
+	Private       bool           `json:"private"`
+	Redacted      bool           `json:"redacted"`
 }
 
 type ResultReason string
@@ -481,6 +499,7 @@ type CommandKind string
 const (
 	CommandArrangeOrders   CommandKind = "arrange_orders"
 	CommandMulligan        CommandKind = "submit_mulligan"
+	CommandPlayCard        CommandKind = "play_card"
 	CommandCommitAction    CommandKind = "commit_action"
 	CommandPass            CommandKind = "pass_action"
 	CommandSurrender       CommandKind = "surrender"
@@ -507,6 +526,35 @@ type Command struct {
 	Value              int         `json:"value,omitempty"`
 	DestinationLane    int         `json:"destinationLane,omitempty"`
 	DestinationLaneSet bool        `json:"destinationLaneSet,omitempty"`
+	DestinationSlot    BoardSlot   `json:"destinationSlot,omitempty"`
+	DeclaredType       CardType    `json:"declaredType,omitempty"`
+}
+
+// LegalAction is an exact server-authored command template. A projection
+// client may only submit combinations present in these allowlists; Handle
+// repeats every check transactionally.
+type LegalAction struct {
+	Name           string           `json:"name"`
+	SourceRef      *ObjectRef       `json:"sourceRef,omitempty"`
+	DefinitionID   string           `json:"definitionId,omitempty"`
+	DeclaredType   CardType         `json:"declaredType,omitempty"`
+	AbilityID      string           `json:"abilityId,omitempty"`
+	ModeIDs        []string         `json:"modeIds,omitempty"`
+	MinModes       int              `json:"minModes"`
+	MaxModes       int              `json:"maxModes"`
+	TargetRefs     []ObjectRef      `json:"targetRefs,omitempty"`
+	MinTargets     int              `json:"minTargets"`
+	MaxTargets     int              `json:"maxTargets"`
+	PaymentRefs    []ObjectRef      `json:"paymentRefs,omitempty"`
+	PaymentCount   int              `json:"paymentCount"`
+	InfluenceCosts []int            `json:"influenceCosts,omitempty"`
+	Placements     []LegalPlacement `json:"placements,omitempty"`
+	ShieldTargets  []ObjectRef      `json:"shieldTargets,omitempty"`
+}
+
+type LegalPlacement struct {
+	Lane int       `json:"lane"`
+	Slot BoardSlot `json:"slot"`
 }
 
 type CommandRecord struct {

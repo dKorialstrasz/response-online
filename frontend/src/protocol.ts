@@ -1,6 +1,6 @@
 // Schema-aligned parity surface for contracts/ws/envelope.schema.json.
 // Contract validation checks the discriminants; TypeScript checks consumers.
-export const protocolVersion = "1.0" as const;
+export const protocolVersion = "1.1" as const;
 
 export const clientCommandNames = [
   "selectDeck",
@@ -56,8 +56,8 @@ export interface CommandPayloadByName {
   setReady: { ready: boolean };
   submitMulligan: { objectRefs: ObjectRef[] };
   playCard: {
-    sourceObjectId: string;
-    declaredType: string;
+    sourceRef: ObjectRef;
+    declaredType: "unit" | "spell" | "enhancement";
     modeIds?: string[];
     targetRefs?: ObjectRef[];
     placement?: {
@@ -65,6 +65,7 @@ export interface CommandPayloadByName {
       slot?: "unit" | "support" | "location";
     } | null;
     paymentChoice?: { objectRefs?: ObjectRef[] };
+    shieldPaymentRefs?: ObjectRef[];
   };
   activateAbility: {
     abilityId: string;
@@ -72,6 +73,8 @@ export interface CommandPayloadByName {
     modeIds?: string[];
     targetRefs?: ObjectRef[];
     paymentRefs?: ObjectRef[];
+    influencePayment?: number;
+    shieldPaymentRefs?: ObjectRef[];
   };
   passAction: Record<string, never>;
   submitChoice: { choiceId: string; optionIds: string[] };
@@ -114,9 +117,31 @@ export interface PlayerViewChoice {
   mandatory?: boolean;
   revision: number;
   optionCount?: number;
+  minSelections?: number;
+  maxSelections?: number;
+  orderMatters?: boolean;
   options?: Array<{ id: string; objects?: ObjectRef[] }>;
   private: boolean;
   redacted: boolean;
+}
+
+export interface PlayerViewAction {
+  name: "playCard" | "activateAbility" | "passAction" | "surrender";
+  sourceRef?: ObjectRef;
+  definitionId?: string;
+  declaredType?: "unit" | "spell" | "enhancement";
+  abilityId?: string;
+  modeIds: string[];
+  minModes: number;
+  maxModes: number;
+  targetRefs: ObjectRef[];
+  minTargets: number;
+  maxTargets: number;
+  paymentRefs: ObjectRef[];
+  paymentCount: number;
+  influenceCosts: number[];
+  placements: Array<{ lane: number; slot: "unit" | "support" | "location" }>;
+  shieldTargets: ObjectRef[];
 }
 
 export interface PlayerView {
@@ -165,6 +190,7 @@ export interface PlayerView {
   ];
   board: VisibleCard[];
   choices: PlayerViewChoice[];
+  legalActions: PlayerViewAction[];
   result?: {
     reason:
       | "rules_loss"

@@ -57,7 +57,7 @@ if payload.get("rulesVersion") != "response-rules-2026-10-17":
     raise SystemExit("unexpected core rules version")
 if payload.get("contentVersion") != "base-cards-v1":
     raise SystemExit("unexpected content version")
-if payload.get("engineVersion") != "base-abilities-v1":
+if payload.get("engineVersion") != "base-abilities-v2":
     raise SystemExit("unexpected deterministic engine version")
 PY
 

@@ -120,6 +120,9 @@ func executeBuiltinAbility(
 func (context *builtinAbilityContext) execute(number int) error {
 	switch number {
 	case 1, 9, 11:
+		if number == 9 {
+			return context.requestBaz009Choice()
+		}
 		return context.moveBoardTarget(number == 1)
 	case 2:
 		return context.moveSourceAsRider()
@@ -131,9 +134,13 @@ func (context *builtinAbilityContext) execute(number int) error {
 		return context.modifySourcePower(context.sourcePower())
 	case 6, 94, 98:
 		return context.modifyTargets(1, DurationUntilEndOfTurn)
-	case 8, 41, 52, 95:
+	case 41:
+		return context.grantEnhancedKeyword(KeywordBypass)
+	case 8, 52, 95:
 		return context.grantKeyword(KeywordBypass, DurationWhileSourceValid)
-	case 10, 24, 39, 85:
+	case 39, 85:
+		return context.grantEnhancedKeyword(KeywordPoison)
+	case 10, 24:
 		return context.grantKeyword(KeywordPoison, DurationWhileSourceValid)
 	case 12, 22:
 		if err := context.moveTargetToDeck(false); err != nil {
@@ -154,9 +161,9 @@ func (context *builtinAbilityContext) execute(number int) error {
 		}
 		return context.grantKeyword(KeywordCharge, DurationUntilEndOfTurn)
 	case 15:
-		return context.moveTargetToSourceLane()
+		return context.requestBaz015Move()
 	case 16:
-		return context.potion(0, Keyword(""), true)
+		return context.requestPotionDeathChoice(16)
 	case 17:
 		target, err := context.target(0)
 		if err != nil {
@@ -165,81 +172,75 @@ func (context *builtinAbilityContext) execute(number int) error {
 		return context.modifyTargets(-len(context.state.objectsInZone(target.ControllerSeat, ZoneHand)), DurationUntilEndOfTurn)
 	case 18:
 		return context.interceptMemory()
-	case 19, 51, 101:
+	case 19, 101:
+		return context.grantEnhancedKeyword(KeywordRangedAttack)
+	case 51:
 		return context.grantKeyword(KeywordRangedAttack, DurationWhileSourceValid)
 	case 20:
-		return context.pickTopCards(context.command.Seat, 4, 2, ZoneHand, ZoneDeck, false)
+		return context.requestBaz020Choice()
 	case 21:
-		if err := context.suppressTargets(DurationUntilEndOfTurn); err != nil {
-			return err
-		}
-		return context.modifyTargets(-3, DurationUntilEndOfTurn)
+		return context.requestBaz021Choice()
 	case 23:
 		if len(context.state.objectsInZone(context.command.Seat, ZoneDeck)) == 0 {
 			return fmt.Errorf("%w: Cassius cannot act with an empty deck", ErrInvalidCommand)
 		}
-		if err := context.draw(context.command.Seat, 1); err != nil {
-			return err
-		}
-		return context.discardTarget(context.command.Seat)
+		return context.drawThenRequestDiscard(1)
 	case 25:
-		return context.moveSourceTo(ZoneHand)
+		return context.requestBaz025Choice()
 	case 27:
 		return context.gainInfluence(1)
 	case 28:
 		return context.playTargetForFree()
 	case 29:
-		if len(context.state.objectsInZone(context.command.Seat, ZoneHand)) == 0 {
-			return nil
-		}
-		return context.discardTarget(context.command.Seat)
-	case 30, 63, 68, 74:
+		return context.requestOwnDiscard(choiceHandlerBaz029Discard)
+	case 63:
+		return context.grantEnhancedKeyword(KeywordCharge)
+	case 30, 68, 74:
 		return context.grantKeyword(KeywordCharge, DurationWhileSourceValid)
 	case 31:
 		return context.modifyTargets(-1, DurationUntilEndOfTurn)
-	case 32, 129:
+	case 129:
+		return context.grantEnhancedKeyword(KeywordResilience)
+	case 32:
 		return context.grantKeyword(KeywordResilience, DurationWhileSourceValid)
 	case 33:
 		return context.modifyTargets(-context.unitCount(context.command.Seat, ZoneGraveyard), DurationUntilEndOfTurn)
 	case 34:
-		return context.potion(0, Keyword(""), true)
+		return context.requestPotionDeathChoice(34)
 	case 35:
 		if err := context.destroyTarget(); err != nil {
 			return err
 		}
 		return context.draw(context.command.Seat, 1)
 	case 36:
-		return context.opponentDiscardOrSacrifice()
+		return context.requestBaz036Choice()
 	case 37:
 		if err := context.modifyEnhancedUnit(1, DurationWhileSourceValid); err != nil {
 			return err
 		}
 		return context.addShieldToEnhancedUnit(1)
 	case 38:
-		return context.pickTopCards(context.command.Seat, 2, 1, ZoneHand, ZoneGraveyard, false)
+		return context.requestBaz038Choice()
 	case 40:
 		return context.destroyTarget()
 	case 42:
 		return context.putTargetOnBoard(context.command.Seat)
 	case 43:
-		if err := context.draw(context.command.Seat, 3); err != nil {
-			return err
-		}
-		return context.discardTarget(context.command.Seat)
+		return context.drawThenRequestDiscard(3)
 	case 44:
-		return context.opponentDiscardAndSacrifice()
+		return context.requestBaz044Choice()
 	case 45:
 		return context.modifyTargets(-3, DurationUntilEndOfTurn)
 	case 46:
 		return context.modifySourcePower(1)
 	case 47:
-		return context.shuffleTargetIntoDeck(context.command.Seat)
+		return context.requestBaz047Choice()
 	case 48:
 		return context.modifyTargets(-context.sourcePower(), DurationUntilEndOfTurn)
 	case 49:
 		return context.gainInfluence(2)
 	case 50, 55:
-		return context.sacrificeHighestCost()
+		return context.requestHighestCostSacrifice()
 	case 54:
 		context.state.shuffleDeck(context.command.Seat)
 		return context.draw(context.command.Seat, 1)
@@ -253,9 +254,9 @@ func (context *builtinAbilityContext) execute(number int) error {
 	case 58:
 		return context.modifyTargets(3, DurationUntilEndOfTurn)
 	case 59:
-		return context.chaoticExchange()
+		return context.requestBaz059Choice()
 	case 60:
-		return context.potion(1, KeywordCharge, true)
+		return context.requestPotionDeathChoice(60)
 	case 61:
 		return context.randomHandToDeck(context.command.Seat.Other())
 	case 62:
@@ -269,12 +270,9 @@ func (context *builtinAbilityContext) execute(number int) error {
 		}
 		return context.draw(context.command.Seat, 1)
 	case 65:
-		if err := context.shuffleTargetsIntoDeck(context.command.Seat); err != nil {
-			return err
-		}
-		return context.draw(context.command.Seat, 2)
+		return context.requestBaz065Choice()
 	case 66:
-		return context.chaoticSummon()
+		return context.requestBaz066Choice()
 	case 67:
 		return context.gainInfluence(2)
 	case 70:
@@ -286,7 +284,7 @@ func (context *builtinAbilityContext) execute(number int) error {
 		}
 		return nil
 	case 72:
-		return context.draw(context.command.Seat, 2)
+		return context.requestBaz072Choice()
 	case 73:
 		return context.recordContinuous("action-card-discount")
 	case 75:
@@ -296,7 +294,7 @@ func (context *builtinAbilityContext) execute(number int) error {
 	case 77:
 		return context.addShieldToEnhancedUnit(1)
 	case 78:
-		return context.potion(4, Keyword(""), true)
+		return context.requestPotionDeathChoice(78)
 	case 79:
 		return context.modifyTargets(-context.maxBoardUnitPower(context.command.Seat), DurationUntilEndOfTurn)
 	case 80:
@@ -326,13 +324,13 @@ func (context *builtinAbilityContext) execute(number int) error {
 	case 87:
 		return context.recordContinuous("next-turn-no-hero-attacks")
 	case 88:
-		return context.modifyTargets(-10, DurationUntilEndOfTurn)
+		return context.requestBaz088Choice()
 	case 89:
 		return context.grantKeyword(KeywordCharge, DurationUntilEndOfTurn)
 	case 90:
 		return context.addTraitModifier(func(modifier *ModifierState) { modifier.DamageReduction = 1 }, DurationWhileSourceValid)
 	case 91:
-		return context.moveTargetTo(ZoneVoid)
+		return context.requestOpponentHandMove(choiceHandlerBaz091Void, "opponent_sends_hand_card_to_void")
 	case 93:
 		target, err := context.target(0)
 		if err != nil {
@@ -346,11 +344,11 @@ func (context *builtinAbilityContext) execute(number int) error {
 	case 96, 97:
 		return context.modifyAllBoardUnits(context.command.Seat, 1, DurationUntilEndOfTurn)
 	case 99:
-		return context.potion(0, KeywordResilience, true)
+		return context.requestPotionDeathChoice(99)
 	case 100:
 		return context.modifyEnhancedUnit(3, DurationWhileSourceValid)
 	case 102:
-		return context.searchTopForUnit(4)
+		return context.requestBaz102Choice()
 	case 103:
 		if err := context.moveTargetTo(ZoneVoid); err != nil {
 			return err
@@ -360,20 +358,11 @@ func (context *builtinAbilityContext) execute(number int) error {
 		value := 1
 		return context.addTraitModifier(func(modifier *ModifierState) { modifier.BasePowerSet = &value }, DurationUntilEndOfTurn)
 	case 105:
-		if err := context.moveTargetTo(ZoneVoid); err != nil {
-			return err
-		}
-		if len(context.state.objectsInZone(context.command.Seat.Other(), ZoneHand)) == 0 {
-			return context.draw(context.command.Seat, 1)
-		}
-		return nil
+		return context.requestOpponentHandMove(choiceHandlerBaz105Void, "opponent_sends_hand_card_to_void")
 	case 106:
 		return context.modifyAllBoardUnits(context.command.Seat, 2, DurationUntilEndOfTurn)
 	case 107:
-		if len(context.targets) == 0 {
-			return nil
-		}
-		return context.moveTargetTo(ZoneVoid)
+		return context.requestBaz107Choice()
 	case 108:
 		return context.addShieldToEnhancedUnit(3)
 	case 109:
@@ -383,10 +372,7 @@ func (context *builtinAbilityContext) execute(number int) error {
 	case 111:
 		return context.bjornBoost()
 	case 112:
-		if len(context.targets) > 0 {
-			return context.moveTargetToDeck(true)
-		}
-		return context.draw(context.command.Seat, 1)
+		return context.requestBaz112Choice()
 	case 113:
 		return context.draw(context.command.Seat, 1)
 	case 114:
@@ -402,10 +388,7 @@ func (context *builtinAbilityContext) execute(number int) error {
 	case 120:
 		return nil
 	case 121:
-		if err := context.draw(context.command.Seat, 2); err != nil {
-			return err
-		}
-		return context.moveTargetToDeck(true)
+		return context.requestBaz121Choice()
 	case 122:
 		if err := context.moveTargetToDeck(true); err != nil {
 			return err
@@ -413,7 +396,7 @@ func (context *builtinAbilityContext) execute(number int) error {
 		return context.draw(context.command.Seat, 1)
 	case 123:
 		value := 1
-		return context.addTraitModifier(func(modifier *ModifierState) {
+		return context.addEnhancedTraitModifier(func(modifier *ModifierState) {
 			modifier.BasePowerSet = &value
 			modifier.CannotIncreasePower = true
 		}, DurationWhileSourceValid)
@@ -422,15 +405,9 @@ func (context *builtinAbilityContext) execute(number int) error {
 	case 125:
 		return context.modifyEnhancedUnit(1, DurationWhileSourceValid)
 	case 126:
-		return context.potion(0, Keyword(""), true)
+		return context.requestPotionDeathChoice(126)
 	case 127:
-		if err := context.modifyTargets(2, DurationUntilEndOfTurn); err != nil {
-			return err
-		}
-		if !context.command.DestinationLaneSet {
-			return nil
-		}
-		return context.moveBoardTarget(false)
+		return context.requestBaz127Move()
 	case 128:
 		return context.modifyAllBoardUnits(context.command.Seat.Other(), -2, DurationUntilEndOfTurn)
 	case 130:

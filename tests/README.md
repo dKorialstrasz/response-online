@@ -11,6 +11,12 @@ gameplay conformance, integration и E2E наборы добавляются з�
 реализуют соответствующую функциональность; scaffold не подменяет их пустыми
 тестами.
 
+Issue #37 добавляет engine/transport coverage реального `playCard`,
+mandatory/optional и opponent-owned choices, post-draw allowlists, stale,
+duplicate и foreign refs, replay/resync и adversarial privacy обеих seats.
+Таблица покрытия находится в
+[`docs/reports/issue-37-play-card-choice-audit.md`](../docs/reports/issue-37-play-card-choice-audit.md).
+
 Issue #15 добавляет virtual-clock и race-проверки lifecycle рядом с
 `backend/internal/application`: границы heartbeat/detection/reconnect/budget и
 idle 1/5/20/60/30/90 секунд, повторные disconnect, accepted-action/timeout,

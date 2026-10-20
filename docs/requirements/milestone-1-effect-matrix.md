@@ -4,7 +4,7 @@
 Архитектурное решение: [ADR-0007](../adr/0007-effect-resolution-and-pending-choices.md).  
 Исторические версии #11: `effectSpecVersion: effect-spec-v1`,
 `engineVersion: effect-pipeline-v1`. После #12 текущий engine pin —
-`base-abilities-v1`; карточное покрытие вынесено в
+`base-abilities-v2`; карточное покрытие вынесено в
 [`milestone-1-ability-matrix.md`](milestone-1-ability-matrix.md).
 
 Матрица закрывает общий engine pipeline в историческом результате #11. Все 126
@@ -22,6 +22,8 @@
 | RULE-15 | Инварианты queue IDs, modifiers, delayed triggers, replacements, choice bounds и action resolution проверяются после событий/команд | engine invariant tests + весь package под race detector | Незавершённый выбор/queue не теряется; finished state не сохраняет resolution |
 | OQ-02 | `AbilityBlocked` требует ruling reference и возвращает `ErrAbilityBlocked` | `TestBlockedAbilityAndCatalogEvidenceAreEnforced` | Неоднозначность не закрепляется кодом |
 | AC-04 | Queue state входит в canonical JSON/replay hash | `TestPendingChoiceCommandsReplayDeterministically`; текущий queue golden hash `155bf8f07f80c0d70d28ea88bc983b9112e610b1fc92cb267adb64fee1c2431c` | Commands с паузой выбора воспроизводятся; synthetic queue fixture детерминирован |
+| #37 playCard | `playCard` сверяется с server-authored allowlist и запускает только spell/Summon/continuous-enhancement окна | `TestPlayCardValidatesPinnedCostTypePlacementGenerationAndAction`, `TestPlayCardRunsOnlyExactPlayWindowsNotFirstAbility` | Неверная, stale или duplicate команда не меняет hash; стоимость, action и generation фиксируются атомарно |
+| #37 real choices | Закрытые continuation handlers строят варианты после draw/reveal/sacrifice и повторно валидируют текущие refs | `TestBaz121DrawThenMandatoryCurrentHandChoiceReplayAndPrivacy`, `TestBaz036ChoiceBelongsToOpponentAndNeverLeaksHandRefs`, `TestPotionDeathTargetIsChosenAfterDrawAndSacrifice` | Actor, mandatory/optional, min/max, order и visibility соответствуют exact text |
 
 ## Проекции pending choice
 
@@ -31,9 +33,14 @@
 | Соперник, public choice | choiceId, kind, mandatory, revision, option count; без вариантов и effect bodies |
 | Соперник, owner-only choice | только waiting/waitingSeat/revision/redacted; без причины, optional/mandatory, IDs и вариантов |
 
+В protocol 1.1 `mandatory`, `minSelections`, `maxSelections` и `orderMatters`
+являются nullable-by-absence: владелец и public observer получают явные значения
+включая `false`/`0`, redacted observer не получает сами поля.
+
 ## Открытые ворота
 
-- #12: выполнено в `base-abilities-v1`; owner acceptance остаётся review gate PR.
+- #12: выполнено в `base-abilities-v1`; #37 поднимает runtime pin до
+  `base-abilities-v2` без изменения закреплённого effectSpecVersion.
 - #14: transport schemas, authorisation и персональный PlayerView.
 - #17: UI многошагового выбора и анимация очереди.
 

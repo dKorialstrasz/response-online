@@ -1466,7 +1466,9 @@
         "legal timing and controller",
         "targets, choices, and payment",
         "state changes and emitted events",
-        "negative and boundary cases"
+        "negative and boundary cases",
+        "the target opponent owns the discard-or-sacrifice PendingChoice",
+        "the activator projection contains no opponent hand refs or private choice metadata"
       ],
       "cases": [
         {
@@ -1475,7 +1477,8 @@
           "testName": "TestBaseAbilityConformance/baz-036.front.ability/positive",
           "assertions": [
             "legal source, timing, targets, choices, and payment are accepted",
-            "the closed handler produces the card-specific state transition and public events"
+            "the closed handler produces the card-specific state transition and public events",
+            "the target opponent chooses one current card from their hand or board"
           ]
         },
         {
@@ -1484,7 +1487,8 @@
           "testName": "TestBaseAbilityConformance/baz-036.front.ability/negative",
           "assertions": [
             "an illegal timing, stale target, or unpaid cost is rejected",
-            "the failed command leaves revision, RNG cursor, zones, and resources unchanged"
+            "the failed command leaves revision, RNG cursor, zones, and resources unchanged",
+            "the activator cannot answer the opponent-owned choice or submit a foreign option"
           ]
         },
         {
@@ -1493,7 +1497,8 @@
           "testName": "TestBaseAbilityConformance/baz-036.front.ability/interaction",
           "assertions": [
             "the ability composes with a foreign-faction or mirror source through the typed queue",
-            "generation changes, protections, durations, and simultaneous ordering remain deterministic"
+            "generation changes, protections, durations, and simultaneous ordering remain deterministic",
+            "owner and non-owner projections preserve the closed-hand privacy boundary"
           ]
         }
       ]
@@ -5030,7 +5035,9 @@
         "legal timing and controller",
         "targets, choices, and payment",
         "state changes and emitted events",
-        "negative and boundary cases"
+        "negative and boundary cases",
+        "draw two commits before the mandatory current-hand topdeck choice is built",
+        "stale, duplicate, and foreign generation refs leave state unchanged"
       ],
       "cases": [
         {
@@ -5039,7 +5046,8 @@
           "testName": "TestBaseAbilityConformance/baz-121.front.ability/positive",
           "assertions": [
             "legal source, timing, targets, choices, and payment are accepted",
-            "the closed handler produces the card-specific state transition and public events"
+            "the closed handler produces the card-specific state transition and public events",
+            "the post-draw owner-only allowlist contains the complete current hand"
           ]
         },
         {
@@ -5048,7 +5056,8 @@
           "testName": "TestBaseAbilityConformance/baz-121.front.ability/negative",
           "assertions": [
             "an illegal timing, stale target, or unpaid cost is rejected",
-            "the failed command leaves revision, RNG cursor, zones, and resources unchanged"
+            "the failed command leaves revision, RNG cursor, zones, and resources unchanged",
+            "a stale, duplicate, or foreign option cannot resolve the mandatory choice"
           ]
         },
         {
@@ -5057,7 +5066,8 @@
           "testName": "TestBaseAbilityConformance/baz-121.front.ability/interaction",
           "assertions": [
             "the ability composes with a foreign-faction or mirror source through the typed queue",
-            "generation changes, protections, durations, and simultaneous ordering remain deterministic"
+            "generation changes, protections, durations, and simultaneous ordering remain deterministic",
+            "the PendingChoice survives snapshot and replay with the same choice id and option order"
           ]
         }
       ]

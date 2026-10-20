@@ -1,8 +1,8 @@
 # Контракты M1
 
-- `http/openapi.json` — protocol `1.0`: диагностика, анонимная сессия, lobby и
+- `http/openapi.json` — protocol `1.1`: диагностика, анонимная сессия, lobby и
   одноразовый WebSocket ticket.
-- `ws/envelope.schema.json` — protocol `1.0`: first-message authentication,
+- `ws/envelope.schema.json` — protocol `1.1`: first-message authentication,
   commands, server events, error codes и allowlisted PlayerView.
 - `ws/examples/` — синтетические примеры без реальных секретов/скрытых карт.
 

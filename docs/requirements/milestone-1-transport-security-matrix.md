@@ -1,6 +1,6 @@
 # M1: матрица HTTP/WSS и security boundary
 
-Версия протокола: `1.0`. Архитектурное решение:
+Версия протокола: `1.1`. Архитектурное решение:
 [ADR-0008](../adr/0008-http-ws-security-boundary.md). Roadmap issue:
 [#14](https://github.com/dKorialstrasz/response-online/issues/14).
 
@@ -20,11 +20,14 @@
 | SEC-09 | public API contains no audit endpoint; trace/token fields absent from serializers | PlayerView leak test, network audit |
 | SEC-10 | locked Go/Node dependencies, verify/audit CI | `make dependencies`, Application CI security job |
 | AC-06–07 | invalid/replay/stale operations do not mutate state; hidden state absent | [transport security report](../reports/m1-transport-security.md) |
+| #37 playCard | `sourceRef` включает generation; typed card kind, placement, sacrifice/Magic Shield refs и X-payment декодируются строго; `legalActions` содержит точные server allowlists | `TestPlayCardPayloadRequiresCurrentGenerationRef`, engine play-card tests, WS schema/examples |
+| #37 choice privacy | owner-only projection не содержит для другого seat choiceId, kind, mandatory/optional, bounds, options, refs или continuation; public projection не содержит raw options/effects | `TestOwnerOnlyChoiceAndLegalActionsDoNotLeakForeignHandOrContinuation`, baz-036/baz-121 engine tests |
 
 ## Граница соседних задач
 
 `requestRematch` использует отдельный ready каждого игрока и реализован в #15.
 Lobby-команды выполняются по HTTP; их WS-имена сохранены
 для полной клиентской taxonomy и не обходят cookie/CSRF boundary. Полный gameplay
-`playCard` включён в контракт, но до реализации ability/card semantics в #12
-авторитетно отклоняется без изменения state.
+`playCard` в protocol 1.1 исполняется авторитетно из закреплённых CardDefinition и
+AbilityDefinition. Клиент остаётся projection-only и отправляет только значение
+из текущего allowlist.

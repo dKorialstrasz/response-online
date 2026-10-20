@@ -368,6 +368,95 @@ func TestPlayerViewRedactsHiddenStateAndUsesOpaqueReferences(t *testing.T) {
 	}
 }
 
+func TestOwnerOnlyChoiceAndLegalActionsDoNotLeakForeignHandOrContinuation(t *testing.T) {
+	match := newProjectionMatch(t)
+	state := match.State()
+	owner := engine.SeatB
+	hidden := state.Players[1].Objects[0].Ref()
+	state.PendingChoices = []engine.PendingChoice{{
+		ChoiceID: "choice-secret", Seat: owner, Kind: "opponent_discard_or_sacrifice", Mandatory: true,
+		Visibility: engine.ChoiceOwnerOnly, MinSelections: 1, MaxSelections: 1,
+		QueuePosition: engine.QueueBeforeExisting, Revision: state.Revision,
+		Options:      []engine.ChoiceOption{{ID: "option-secret", Objects: []engine.ObjectRef{hidden}}},
+		Continuation: &engine.ChoiceContinuation{Handler: "baz-036.front.ability:discard-or-sacrifice", Controller: engine.SeatA},
+	}}
+	codec := newReferenceCodec(bytes.Repeat([]byte{11}, 32))
+	opponentView := projectPlayerView(state, engine.SeatA, codec, match.LegalActions(engine.SeatA))
+	ownerView := projectPlayerView(state, owner, codec, match.LegalActions(owner))
+	encoded, err := json.Marshal(opponentView)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, forbidden := range []string{"choice-secret", "option-secret", "opponent_discard_or_sacrifice", "baz-036.front.ability", hidden.ZoneObjectID} {
+		if strings.Contains(string(encoded), forbidden) {
+			t.Fatalf("opponent projection leaked %q: %s", forbidden, encoded)
+		}
+	}
+	if len(opponentView.Choices) != 1 || !opponentView.Choices[0].Redacted || opponentView.Choices[0].ChoiceID != "" || len(opponentView.Choices[0].Options) != 0 {
+		t.Fatalf("opponent choice projection = %+v", opponentView.Choices)
+	}
+	if len(ownerView.Choices) != 1 || ownerView.Choices[0].ChoiceID != "choice-secret" || len(ownerView.Choices[0].Options) != 1 {
+		t.Fatalf("owner choice projection = %+v", ownerView.Choices)
+	}
+	for _, action := range opponentView.LegalActions {
+		for _, ref := range append(append([]objectRefPayload(nil), action.TargetRefs...), action.PaymentRefs...) {
+			if ref == codec.encode(hidden) {
+				t.Fatal("foreign hand ref leaked through legal action allowlist")
+			}
+		}
+	}
+}
+
+func TestVisibleOptionalChoiceSerializesExplicitFalseAndZeroBounds(t *testing.T) {
+	match := newProjectionMatch(t)
+	state := match.State()
+	state.PendingChoices = []engine.PendingChoice{{
+		ChoiceID: "choice-optional", Seat: engine.SeatA, Kind: "optional_draw_two", Mandatory: false,
+		Visibility: engine.ChoicePublic, MinSelections: 0, MaxSelections: 1,
+		QueuePosition: engine.QueueBeforeExisting, Revision: state.Revision,
+		Options: []engine.ChoiceOption{{ID: "activate"}},
+	}}
+	codec := newReferenceCodec(bytes.Repeat([]byte{13}, 32))
+	owner := projectPlayerView(state, engine.SeatA, codec)
+	observer := projectPlayerView(state, engine.SeatB, codec)
+	for name, view := range map[string]PlayerView{"owner": owner, "observer": observer} {
+		encoded, err := json.Marshal(view)
+		if err != nil {
+			t.Fatal(err)
+		}
+		text := string(encoded)
+		for _, required := range []string{`"mandatory":false`, `"minSelections":0`, `"maxSelections":1`, `"orderMatters":false`} {
+			if !strings.Contains(text, required) {
+				t.Fatalf("%s optional projection omitted %s: %s", name, required, text)
+			}
+		}
+	}
+}
+
+func TestPlayCardPayloadRequiresCurrentGenerationRef(t *testing.T) {
+	state := engine.State{Players: [2]engine.PlayerState{{Seat: engine.SeatA}, {Seat: engine.SeatB}}}
+	state.Players[0].Objects = []engine.CardObject{{
+		InstanceID: "card", DefinitionID: "baz-121", OwnerSeat: engine.SeatA, ControllerSeat: engine.SeatA,
+		Zone: engine.ZoneHand, ZoneObjectID: "card:g2", Generation: 2, Lane: -1,
+	}}
+	codec := newReferenceCodec(bytes.Repeat([]byte{12}, 32))
+	limits, _ := normalizeSecurityLimits(SecurityLimits{})
+	gateway := &Gateway{references: codec, limits: limits}
+	encoded := codec.encode(state.Players[0].Objects[0].Ref())
+	lane := 2
+	payload, _ := json.Marshal(playCardPayload{SourceRef: encoded, DeclaredType: engine.CardSpell, Placement: nil})
+	command, parseErr := gateway.engineCommand(state, application.ConnectionLease{Seat: application.SeatOne}, wsCommand{Payload: payload, Name: "playCard", CommandID: "play"})
+	if parseErr != nil || command.Kind != engine.CommandPlayCard || command.SourceRef == nil || command.SourceRef.Generation != 2 || command.DeclaredType != engine.CardSpell {
+		t.Fatalf("decoded command=%+v err=%+v", command, parseErr)
+	}
+	stale := encoded
+	stale.Generation = 1
+	payload, _ = json.Marshal(playCardPayload{SourceRef: stale, DeclaredType: engine.CardUnit, Placement: &playCardPlacement{Lane: &lane, Slot: engine.SlotUnit}})
+	if _, parseErr := gateway.engineCommand(state, application.ConnectionLease{Seat: application.SeatOne}, wsCommand{Payload: payload, Name: "playCard", CommandID: "stale"}); parseErr == nil || parseErr.code != codeInvalidTarget {
+		t.Fatalf("stale generation parse error = %+v", parseErr)
+	}
+}
+
 func TestCommandReplayAndInvalidReferenceDoNotMutateState(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()

@@ -168,6 +168,8 @@ func (match *Match) Handle(command Command) error {
 		err = applyArrangeOrders(&next, command, &budget)
 	case CommandMulligan:
 		err = applyMulligan(&next, command, &budget)
+	case CommandPlayCard:
+		err = applyPlayCard(&next, command, match.abilities, match.cards, &budget)
 	case CommandCommitAction:
 		err = applyDecision(&next, command, false, &budget)
 	case CommandPass:

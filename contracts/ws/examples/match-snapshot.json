@@ -1,5 +1,5 @@
 {
-  "protocolVersion": "1.0",
+  "protocolVersion": "1.1",
   "type": "matchSnapshot",
   "correlationId": "example-auth-1",
   "matchId": "example-match-1",
@@ -12,8 +12,8 @@
       "deckManifests": "base-decks-v1",
       "effectSpec": "effect-spec-v1",
       "rules": "response-rules-2026-10-17",
-      "protocol": "1.0",
-      "engine": "effect-pipeline-v1"
+      "protocol": "1.1",
+      "engine": "base-abilities-v2"
     },
     "revision": 42,
     "status": "active",
@@ -46,6 +46,22 @@
       }
     ],
     "board": [],
-    "choices": []
+    "choices": [],
+    "legalActions": [
+      {
+        "name": "passAction",
+        "modeIds": [],
+        "minModes": 0,
+        "maxModes": 0,
+        "targetRefs": [],
+        "minTargets": 0,
+        "maxTargets": 0,
+        "paymentRefs": [],
+        "paymentCount": 0,
+        "influenceCosts": [],
+        "placements": [],
+        "shieldTargets": []
+      }
+    ]
   }
 }

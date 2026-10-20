@@ -28,6 +28,7 @@ type PlayerView struct {
 	Players        [2]PlayerViewPlayer `json:"players"`
 	Board          []PlayerViewCard    `json:"board"`
 	Choices        []PlayerViewChoice  `json:"choices"`
+	LegalActions   []PlayerViewAction  `json:"legalActions"`
 	Result         *PlayerViewResult   `json:"result,omitempty"`
 }
 
@@ -62,15 +63,42 @@ type PlayerViewOrder struct {
 }
 
 type PlayerViewChoice struct {
-	ChoiceID    string                   `json:"choiceId,omitempty"`
-	WaitingSeat string                   `json:"waitingSeat"`
-	Kind        string                   `json:"kind,omitempty"`
-	Mandatory   bool                     `json:"mandatory,omitempty"`
-	Revision    uint64                   `json:"revision"`
-	OptionCount int                      `json:"optionCount,omitempty"`
-	Options     []PlayerViewChoiceOption `json:"options,omitempty"`
-	Private     bool                     `json:"private"`
-	Redacted    bool                     `json:"redacted"`
+	ChoiceID      string                   `json:"choiceId,omitempty"`
+	WaitingSeat   string                   `json:"waitingSeat"`
+	Kind          string                   `json:"kind,omitempty"`
+	Mandatory     *bool                    `json:"mandatory,omitempty"`
+	Revision      uint64                   `json:"revision"`
+	OptionCount   *int                     `json:"optionCount,omitempty"`
+	MinSelections *int                     `json:"minSelections,omitempty"`
+	MaxSelections *int                     `json:"maxSelections,omitempty"`
+	OrderMatters  *bool                    `json:"orderMatters,omitempty"`
+	Options       []PlayerViewChoiceOption `json:"options,omitempty"`
+	Private       bool                     `json:"private"`
+	Redacted      bool                     `json:"redacted"`
+}
+
+type PlayerViewAction struct {
+	Name           string                `json:"name"`
+	SourceRef      *objectRefPayload     `json:"sourceRef,omitempty"`
+	DefinitionID   string                `json:"definitionId,omitempty"`
+	DeclaredType   engine.CardType       `json:"declaredType,omitempty"`
+	AbilityID      string                `json:"abilityId,omitempty"`
+	ModeIDs        []string              `json:"modeIds"`
+	MinModes       int                   `json:"minModes"`
+	MaxModes       int                   `json:"maxModes"`
+	TargetRefs     []objectRefPayload    `json:"targetRefs"`
+	MinTargets     int                   `json:"minTargets"`
+	MaxTargets     int                   `json:"maxTargets"`
+	PaymentRefs    []objectRefPayload    `json:"paymentRefs"`
+	PaymentCount   int                   `json:"paymentCount"`
+	InfluenceCosts []int                 `json:"influenceCosts"`
+	Placements     []PlayerViewPlacement `json:"placements"`
+	ShieldTargets  []objectRefPayload    `json:"shieldTargets"`
+}
+
+type PlayerViewPlacement struct {
+	Lane int              `json:"lane"`
+	Slot engine.BoardSlot `json:"slot"`
 }
 
 type PlayerViewChoiceOption struct {
@@ -120,14 +148,14 @@ func (codec referenceCodec) decode(state engine.State, value objectRefPayload) (
 	return engine.ObjectRef{}, fmt.Errorf("unknown or stale object reference")
 }
 
-func projectPlayerView(state engine.State, viewer engine.Seat, codec referenceCodec) PlayerView {
+func projectPlayerView(state engine.State, viewer engine.Seat, codec referenceCodec, legal ...[]engine.LegalAction) PlayerView {
 	view := PlayerView{
 		MatchID: state.MatchID, Versions: state.Versions, Revision: state.Revision,
 		Status: state.Status, Phase: state.Phase, CombatStep: state.CombatStep,
 		CombatLane: state.CombatLane, TurnNumber: state.TurnNumber,
 		OwnSeat: seatName(viewer), InitiativeSeat: seatName(state.InitiativeSeat),
 		ActingSeat: seatName(state.ActingSeat), Board: make([]PlayerViewCard, 0),
-		Choices: make([]PlayerViewChoice, 0),
+		Choices: make([]PlayerViewChoice, 0), LegalActions: make([]PlayerViewAction, 0),
 	}
 	for playerIndex, player := range state.Players {
 		projected := PlayerViewPlayer{
@@ -163,6 +191,7 @@ func projectPlayerView(state engine.State, viewer engine.Seat, codec referenceCo
 		projected := PlayerViewChoice{
 			ChoiceID: choice.ChoiceID, WaitingSeat: seatName(choice.WaitingSeat), Kind: choice.Kind,
 			Mandatory: choice.Mandatory, Revision: choice.Revision, OptionCount: choice.OptionCount,
+			MinSelections: choice.MinSelections, MaxSelections: choice.MaxSelections, OrderMatters: choice.OrderMatters,
 			Private: choice.Private, Redacted: choice.Redacted,
 		}
 		for _, option := range choice.Options {
@@ -173,6 +202,38 @@ func projectPlayerView(state engine.State, viewer engine.Seat, codec referenceCo
 			projected.Options = append(projected.Options, item)
 		}
 		view.Choices = append(view.Choices, projected)
+	}
+	if len(legal) > 0 {
+		for _, action := range legal[0] {
+			projected := PlayerViewAction{
+				Name: action.Name, DefinitionID: action.DefinitionID, DeclaredType: action.DeclaredType,
+				AbilityID: action.AbilityID, ModeIDs: append([]string(nil), action.ModeIDs...),
+				MinModes: action.MinModes, MaxModes: action.MaxModes, MinTargets: action.MinTargets,
+				MaxTargets: action.MaxTargets, PaymentCount: action.PaymentCount,
+				InfluenceCosts: append([]int(nil), action.InfluenceCosts...),
+				TargetRefs:     make([]objectRefPayload, 0, len(action.TargetRefs)),
+				PaymentRefs:    make([]objectRefPayload, 0, len(action.PaymentRefs)),
+				Placements:     make([]PlayerViewPlacement, 0, len(action.Placements)),
+				ShieldTargets:  make([]objectRefPayload, 0, len(action.ShieldTargets)),
+			}
+			if action.SourceRef != nil {
+				encoded := codec.encode(*action.SourceRef)
+				projected.SourceRef = &encoded
+			}
+			for _, ref := range action.TargetRefs {
+				projected.TargetRefs = append(projected.TargetRefs, codec.encode(ref))
+			}
+			for _, ref := range action.PaymentRefs {
+				projected.PaymentRefs = append(projected.PaymentRefs, codec.encode(ref))
+			}
+			for _, ref := range action.ShieldTargets {
+				projected.ShieldTargets = append(projected.ShieldTargets, codec.encode(ref))
+			}
+			for _, placement := range action.Placements {
+				projected.Placements = append(projected.Placements, PlayerViewPlacement{Lane: placement.Lane, Slot: placement.Slot})
+			}
+			view.LegalActions = append(view.LegalActions, projected)
+		}
 	}
 	if state.Result != nil {
 		result := &PlayerViewResult{Reason: state.Result.Reason}
