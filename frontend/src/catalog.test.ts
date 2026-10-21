@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { confirmedCard, decks } from "./catalog";
+import { cardImageUrl, confirmedCard, decks } from "./catalog";
 
 describe("утверждённый каталог", () => {
   it("содержит ровно шесть разных manifests и допускает одинаковый выбор", () => {
@@ -30,6 +30,19 @@ describe("утверждённый каталог", () => {
         ]) {
           expect(value === undefined || Number.isFinite(value)).toBe(true);
         }
+      }
+    }
+  });
+
+  it("сопоставляет каждую карту стартовых колод с официальным изображением", () => {
+    for (const deck of decks) {
+      for (const card of [deck.hero, ...deck.orders, ...deck.main]) {
+        expect(cardImageUrl(card.definitionId, "thumb")).toMatch(
+          /^https:\/\/response-league\.ru\/api\/v1\/card-images\//,
+        );
+        expect(cardImageUrl(card.definitionId, "medium")).toMatch(
+          /^https:\/\/response-league\.ru\/api\/v1\/card-images\//,
+        );
       }
     }
   });

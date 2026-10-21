@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 import {
   createRoom,
@@ -21,8 +21,10 @@ import {
 import { GameplayScreen } from "./GameplayScreen";
 import { acceptProjection, type ProjectionClock } from "./gameplay";
 import {
+  cardImageUrl,
   cardName,
   confirmedCard,
+  confirmedCardById,
   decks,
   findDeck,
   type ConfirmedCard,
@@ -34,6 +36,60 @@ import {
   type RoomSnapshot,
   type ServerEvent,
 } from "./protocol";
+
+const factionColors: Record<string, string> = {
+  Порядок: "#3274c8",
+  Хаос: "#c3423b",
+  Технологии: "#7a4ab5",
+  Смерть: "#25877f",
+  Природа: "#3f9556",
+  Жизнь: "#c99a5e",
+};
+
+function cardFactionStyle(card: ConfirmedCard): CSSProperties {
+  const colors = card.factions
+    .map((faction) => factionColors[faction])
+    .filter(Boolean);
+  const first = colors[0] ?? "#66736b";
+  const second = colors[1] ?? first;
+  return {
+    "--card-faction-a": first,
+    "--card-faction-b": second,
+  } as CSSProperties;
+}
+
+function LobbyCardImage({
+  definitionId,
+  size = "thumb",
+}: {
+  definitionId: string;
+  size?: "thumb" | "medium";
+}) {
+  const [failed, setFailed] = useState(false);
+  const name = cardName(definitionId);
+  const source = cardImageUrl(definitionId, size);
+  if (!source || failed) {
+    return (
+      <span
+        className="lobby-card-fallback"
+        role="img"
+        aria-label={`Изображение карты ${name} недоступно`}
+      >
+        <strong>{name.slice(0, 1)}</strong>
+        <span>{name}</span>
+      </span>
+    );
+  }
+  return (
+    <img
+      className="lobby-card-image"
+      src={source}
+      alt={name}
+      loading={size === "medium" ? "eager" : "lazy"}
+      onError={() => setFailed(true)}
+    />
+  );
+}
 
 type ConnectionState = "нет" | "подключение" | "подключено" | "восстановление";
 
@@ -56,6 +112,21 @@ export function moveItem<T>(items: T[], index: number, direction: -1 | 1): T[] {
     return items;
   const next = [...items];
   [next[index], next[destination]] = [next[destination], next[index]];
+  return next;
+}
+
+export function reorderItem<T>(items: T[], from: number, to: number): T[] {
+  if (
+    from < 0 ||
+    from >= items.length ||
+    to < 0 ||
+    to >= items.length ||
+    from === to
+  )
+    return items;
+  const next = [...items];
+  const [item] = next.splice(from, 1);
+  next.splice(to, 0, item);
   return next;
 }
 
@@ -497,8 +568,8 @@ export function DeckPicker({
               onClick={() => onInspect(deck)}
               aria-pressed={inspectedDeck.deckId === deck.deckId}
             >
-              <span className="deck-emblem" aria-hidden="true">
-                {deck.factionName.slice(0, 1)}
+              <span className="deck-hero-art">
+                <LobbyCardImage definitionId={deck.hero.definitionId} />
               </span>
               <span className="deck-name">{deck.displayName}</span>
               <span className="deck-faction">{deck.factionName}</span>
@@ -532,18 +603,20 @@ function DeckPreview({
 }) {
   const [openCard, setOpenCard] = useState<ConfirmedCard | null>(null);
   const cards = [deck.hero, ...deck.orders, ...deck.main];
+  const hero = confirmedCard(deck.hero);
   return (
     <article
       className="deck-preview"
       aria-label={`Состав колоды ${deck.displayName}`}
     >
       <header>
-        <div
-          className={`hero-orb faction-${deck.deckId.split("-")[0]}`}
-          aria-hidden="true"
+        <button
+          className="deck-preview-hero"
+          onClick={() => setOpenCard(hero)}
+          aria-label={`Открыть карту героя ${hero.name}`}
         >
-          {deck.displayName.slice(0, 1)}
-        </div>
+          <LobbyCardImage definitionId={deck.hero.definitionId} />
+        </button>
         <div>
           <p>{deck.factionName}</p>
           <h3>{deck.displayName}</h3>
@@ -551,19 +624,27 @@ function DeckPreview({
         </div>
       </header>
       <div className="card-list" aria-label="Подтверждённый состав">
-        {cards.map((card) => (
-          <button
-            className="card-row"
-            key={card.definitionId}
-            onClick={() => setOpenCard(confirmedCard(card))}
-          >
-            <span className="card-count">{card.count}×</span>
-            <span>{card.name}</span>
-            <span className="card-kind">
-              {categoryNames[card.category] ?? card.category}
-            </span>
-          </button>
-        ))}
+        {cards.map((card) => {
+          const details = confirmedCard(card);
+          return (
+            <button
+              className="card-row"
+              style={cardFactionStyle(details)}
+              key={card.definitionId}
+              onClick={() => setOpenCard(details)}
+              aria-label={`Открыть карту ${details.name}, ${card.count} копий, стоимость ${details.cost ?? "не указана"}, ${categoryNames[card.category] ?? card.category}`}
+            >
+              <span className="card-count">{card.count}×</span>
+              <span className="card-row-name">{details.name}</span>
+              <span className="card-cost" aria-label="Стоимость">
+                {details.cost ?? "—"}
+              </span>
+              <span className="card-kind">
+                {categoryNames[card.category] ?? card.category}
+              </span>
+            </button>
+          );
+        })}
       </div>
       <button
         className="primary wide"
@@ -619,50 +700,57 @@ function CardDialog({
         </button>
         <p className="step">Подтверждённые данные</p>
         <h2 id="card-dialog-title">{card.name}</h2>
-        <p>{[...card.types, ...card.subtypes].join(" · ")}</p>
-        <dl className="card-facts">
-          {card.faction && (
-            <>
-              <dt>Фракция</dt>
-              <dd>{card.faction}</dd>
-            </>
-          )}
-          {card.rarity && (
-            <>
-              <dt>Редкость</dt>
-              <dd>{card.rarity}</dd>
-            </>
-          )}
-          {card.cost !== undefined && (
-            <>
-              <dt>Стоимость</dt>
-              <dd>{card.cost}</dd>
-            </>
-          )}
-          {card.influence !== undefined && (
-            <>
-              <dt>Влияние</dt>
-              <dd>{card.influence}</dd>
-            </>
-          )}
-          {card.strength !== undefined && (
-            <>
-              <dt>Сила</dt>
-              <dd>{card.strength}</dd>
-            </>
-          )}
-          {card.durability !== undefined && (
-            <>
-              <dt>Прочность</dt>
-              <dd>{card.durability}</dd>
-            </>
-          )}
-        </dl>
-        {card.abilityText.map((text) => (
-          <p className="ability-text" key={text}>
-            {text}
-          </p>
-        ))}
+        <div className="card-dialog-layout">
+          <div className="card-dialog-art" style={cardFactionStyle(card)}>
+            <LobbyCardImage definitionId={card.definitionId} size="medium" />
+          </div>
+          <div className="card-dialog-copy">
+            <p>{[...card.types, ...card.subtypes].join(" · ")}</p>
+            <dl className="card-facts">
+              {card.faction && (
+                <>
+                  <dt>Фракция</dt>
+                  <dd>{card.faction}</dd>
+                </>
+              )}
+              {card.rarity && (
+                <>
+                  <dt>Редкость</dt>
+                  <dd>{card.rarity}</dd>
+                </>
+              )}
+              {card.cost !== undefined && (
+                <>
+                  <dt>Стоимость</dt>
+                  <dd>{card.cost}</dd>
+                </>
+              )}
+              {card.influence !== undefined && (
+                <>
+                  <dt>Влияние</dt>
+                  <dd>{card.influence}</dd>
+                </>
+              )}
+              {card.strength !== undefined && (
+                <>
+                  <dt>Сила</dt>
+                  <dd>{card.strength}</dd>
+                </>
+              )}
+              {card.durability !== undefined && (
+                <>
+                  <dt>Прочность</dt>
+                  <dd>{card.durability}</dd>
+                </>
+              )}
+            </dl>
+            {card.abilityText.map((text) => (
+              <p className="ability-text" key={text}>
+                {text}
+              </p>
+            ))}
+          </div>
+        </div>
         <button className="secondary wide" onClick={onClose}>
           Закрыть
         </button>
@@ -671,7 +759,7 @@ function CardDialog({
   );
 }
 
-function OrderEditor({
+export function OrderEditor({
   busy,
   onReorder,
   orderIds,
@@ -681,6 +769,8 @@ function OrderEditor({
   orderIds: string[];
 }) {
   const [announcement, setAnnouncement] = useState("");
+  const [dragging, setDragging] = useState<number | null>(null);
+  const [openCard, setOpenCard] = useState<ConfirmedCard | null>(null);
   const move = (index: number, direction: -1 | 1) => {
     const next = moveItem(orderIds, index, direction);
     if (next === orderIds) return;
@@ -688,6 +778,15 @@ function OrderEditor({
     setAnnouncement(
       `${cardName(orderIds[index])}: позиция ${destination + 1} из 5`,
     );
+    onReorder(next);
+  };
+  const drop = (destination: number) => {
+    if (dragging === null) return;
+    const next = reorderItem(orderIds, dragging, destination);
+    const moved = orderIds[dragging];
+    setDragging(null);
+    if (next === orderIds) return;
+    setAnnouncement(`${cardName(moved)}: позиция ${destination + 1} из 5`);
     onReorder(next);
   };
   return (
@@ -699,13 +798,30 @@ function OrderEditor({
         </div>
       </div>
       <p className="section-copy">
-        Первый Приказ находится сверху. Используйте кнопки или Alt со стрелками.
+        Перетаскивайте весь блок Приказа или его изображение: первый Приказ
+        находится сверху. Для клавиатуры используйте Alt со стрелками.
       </p>
       <ol className="order-list">
         {orderIds.map((orderId, index) => (
           <li
             key={orderId}
             tabIndex={0}
+            draggable={!busy}
+            className={dragging === index ? "dragging" : ""}
+            style={cardFactionStyle(confirmedCardById(orderId))}
+            onDragStart={(event) => {
+              setDragging(index);
+              event.dataTransfer.effectAllowed = "move";
+              event.dataTransfer.setData("text/plain", orderId);
+            }}
+            onDragEnd={() => setDragging(null)}
+            onDragOver={(event) => {
+              if (!busy) event.preventDefault();
+            }}
+            onDrop={(event) => {
+              event.preventDefault();
+              drop(index);
+            }}
             onKeyDown={(event) => {
               if (!event.altKey) return;
               if (event.key === "ArrowUp") {
@@ -719,24 +835,23 @@ function OrderEditor({
             }}
           >
             <span className="order-number">{index + 1}</span>
+            <button
+              className="order-card-preview"
+              draggable={!busy}
+              onDragStart={(event) => {
+                setDragging(index);
+                event.dataTransfer.effectAllowed = "move";
+                event.dataTransfer.setData("text/plain", orderId);
+              }}
+              onDragEnd={() => setDragging(null)}
+              onClick={() => setOpenCard(confirmedCardById(orderId))}
+              aria-label={`Открыть Приказ ${cardName(orderId)}`}
+            >
+              <LobbyCardImage definitionId={orderId} />
+            </button>
             <span className="order-name">{cardName(orderId)}</span>
-            <span className="order-controls">
-              <button
-                className="icon-button"
-                disabled={busy || index === 0}
-                onClick={() => move(index, -1)}
-                aria-label={`Поднять ${cardName(orderId)}`}
-              >
-                ↑
-              </button>
-              <button
-                className="icon-button"
-                disabled={busy || index === orderIds.length - 1}
-                onClick={() => move(index, 1)}
-                aria-label={`Опустить ${cardName(orderId)}`}
-              >
-                ↓
-              </button>
+            <span className="order-drag-handle" aria-hidden="true">
+              ⋮⋮
             </span>
           </li>
         ))}
@@ -744,6 +859,9 @@ function OrderEditor({
       <p className="visually-hidden" aria-live="polite">
         {announcement}
       </p>
+      {openCard && (
+        <CardDialog card={openCard} onClose={() => setOpenCard(null)} />
+      )}
     </section>
   );
 }
@@ -1057,8 +1175,8 @@ export function MatchScreen({
                       )
                     }
                   />
-                  <span className="hand-art" aria-hidden="true">
-                    {cardName(card.definitionId).slice(0, 1)}
+                  <span className="hand-art">
+                    <LobbyCardImage definitionId={card.definitionId} />
                   </span>
                   <strong>{cardName(card.definitionId)}</strong>
                   <span>

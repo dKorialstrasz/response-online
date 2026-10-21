@@ -1,4 +1,5 @@
 import cardDefinitions from "../../content/cards/base/card-definitions.json";
+import cardAssets from "./card-assets.json";
 import chaos from "../../content/decks/base/chaos-enitokl.json";
 import death from "../../content/decks/base/death-kassiy.json";
 import life from "../../content/decks/base/life-katarina.json";
@@ -16,6 +17,7 @@ export type CatalogCard = {
 export type ConfirmedCard = CatalogCard & {
   types: string[];
   subtypes: string[];
+  factions: string[];
   faction: string;
   rarity: string;
   cost?: number;
@@ -100,6 +102,11 @@ const definitions = new Map(
     .map((definition) => [definition.cardId, definition]),
 );
 
+const cardImages = cardAssets as Record<
+  string,
+  { thumb: string; medium: string }
+>;
+
 function fixedValue(field: ConfirmedNumber): number | undefined {
   return field.kind === "fixed" &&
     field.verificationStatus === "source-matched" &&
@@ -119,6 +126,7 @@ export function confirmedCard(card: CatalogCard): ConfirmedCard {
       ...card,
       types: [],
       subtypes: [],
+      factions: [],
       faction: "",
       rarity: "",
       abilityText: [],
@@ -129,6 +137,7 @@ export function confirmedCard(card: CatalogCard): ConfirmedCard {
     name: definition.name,
     types: definition.typeLine.types,
     subtypes: definition.typeLine.subtypes,
+    factions: definition.factions,
     faction: definition.factions.join(", "),
     rarity: definition.rarity,
     cost: fixedValue(definition.cost),
@@ -141,6 +150,23 @@ export function confirmedCard(card: CatalogCard): ConfirmedCard {
   };
 }
 
+export function confirmedCardById(definitionId: string): ConfirmedCard {
+  return confirmedCard({
+    definitionId,
+    name: cardName(definitionId),
+    category: "",
+    count: 1,
+  });
+}
+
 export function cardName(definitionId: string): string {
   return definitions.get(definitionId)?.name ?? "Неизвестная карта";
+}
+
+/** Official, evidence-pinned image URL for a concrete CardDefinition. */
+export function cardImageUrl(
+  definitionId: string,
+  size: "thumb" | "medium" = "thumb",
+): string | undefined {
+  return cardImages[definitionId]?.[size];
 }

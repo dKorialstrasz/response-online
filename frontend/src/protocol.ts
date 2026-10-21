@@ -177,6 +177,7 @@ export interface PlayerView {
       handCount: number;
       hand?: VisibleCard[];
       graveyard: VisibleCard[];
+      void: VisibleCard[];
       orders: Array<{
         position: number;
         revealed: boolean;
@@ -192,6 +193,7 @@ export interface PlayerView {
       handCount: number;
       hand?: VisibleCard[];
       graveyard: VisibleCard[];
+      void: VisibleCard[];
       orders: Array<{
         position: number;
         revealed: boolean;
@@ -204,6 +206,13 @@ export interface PlayerView {
   legalActions: PlayerViewAction[];
   queue: PlayerViewQueueItem[];
   journal: PlayerViewJournalEntry[];
+  combatEvents: Array<{
+    sequence: number;
+    kind: string;
+    seat?: SeatId;
+    lane?: number;
+    message: string;
+  }>;
   result?: {
     reason:
       | "rules_loss"

@@ -1,7 +1,14 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 
-import { DeckPicker, EntryScreen, MatchScreen, moveItem } from "./App";
+import {
+  DeckPicker,
+  EntryScreen,
+  MatchScreen,
+  OrderEditor,
+  moveItem,
+  reorderItem,
+} from "./App";
 import { decks } from "./catalog";
 import type { PlayerView, RoomSnapshot } from "./protocol";
 
@@ -63,6 +70,7 @@ const view: PlayerView = {
         },
       ],
       graveyard: [],
+      void: [],
       orders: [],
     },
     {
@@ -82,6 +90,7 @@ const view: PlayerView = {
         },
       ],
       graveyard: [],
+      void: [],
       orders: [],
     },
   ],
@@ -90,6 +99,7 @@ const view: PlayerView = {
   legalActions: [],
   queue: [],
   journal: [],
+  combatEvents: [],
 };
 
 describe("интерфейс комнаты", () => {
@@ -122,6 +132,9 @@ describe("интерфейс комнаты", () => {
     expect(decks).toHaveLength(6);
     for (const deck of decks) expect(html).toContain(deck.displayName);
     expect(html.match(/class="deck-tile/g)).toHaveLength(6);
+    expect(html.match(/class="deck-hero-art/g)).toHaveLength(6);
+    expect(html).toContain("card-cost");
+    expect(html).toContain("response-league.ru/api/v1/card-images/");
     expect(html).toContain("Показаны только подтверждённые данные");
   });
 
@@ -132,11 +145,50 @@ describe("интерфейс комнаты", () => {
     expect(moveItem(original, 2, 1)).toBe(original);
   });
 
+  it("переставляет Приказы drag-and-drop и показывает их изображениями без стрелок", () => {
+    expect(reorderItem(["а", "б", "в"], 0, 2)).toEqual(["б", "в", "а"]);
+    const original = ["а", "б", "в"];
+    expect(reorderItem(original, -1, 2)).toBe(original);
+    const html = renderToStaticMarkup(
+      <OrderEditor
+        busy={false}
+        orderIds={decks[0].orders.map((order) => order.definitionId)}
+        onReorder={vi.fn()}
+      />,
+    );
+    expect(html.match(/draggable="true"/g)).toHaveLength(10);
+    expect(html).toContain("--card-faction-a:#7a4ab5");
+    expect(html.match(/class="order-card-preview"/g)).toHaveLength(5);
+    expect(html).not.toContain("Поднять ");
+    expect(html).not.toContain("Опустить ");
+  });
+
+  it("использует исправленные цвета Технологий, Смерти и Жизни", () => {
+    const palette = new Map([
+      ["Технологии", "#7a4ab5"],
+      ["Смерть", "#25877f"],
+      ["Жизнь", "#c99a5e"],
+    ]);
+    for (const [faction, color] of palette) {
+      const deck = decks.find((candidate) => candidate.factionName === faction);
+      expect(deck).toBeDefined();
+      const html = renderToStaticMarkup(
+        <OrderEditor
+          busy={false}
+          orderIds={deck!.orders.map((order) => order.definitionId)}
+          onReorder={vi.fn()}
+        />,
+      );
+      expect(html).toContain(`--card-faction-a:${color}`);
+    }
+  });
+
   it("не выводит руку или решение соперника даже из лишнего поля ответа", () => {
     const html = renderToStaticMarkup(
       <MatchScreen
         connection="подключено"
         error=""
+        lifecycleNotice="Соединение восстановлено. Состояние игры обновлено"
         mulliganSubmitted
         room={room}
         view={view}
@@ -146,6 +198,8 @@ describe("интерфейс комнаты", () => {
     );
     expect(html).toContain("Рука соперника скрыта");
     expect(html).toContain("рука и выбор остаются скрыты");
+    expect(html.match(/class="hand-art"/g)).toHaveLength(1);
+    expect(html).toContain("response-league.ru/api/v1/card-images/");
     expect(html).not.toContain("секрет-соперника");
     expect(html).not.toContain("obj_BBBBB");
   });
@@ -203,7 +257,14 @@ describe("интерфейс комнаты", () => {
         onCommand={vi.fn()}
       />,
     );
-    expect(html).toContain("Разыграть Разумный выбор");
+    expect(html).toContain("Выбрать для розыгрыша карту");
+    expect(html).not.toContain("Центральная область розыгрыша");
+    expect(html).not.toContain(
+      "Соединение восстановлено. Состояние игры обновлено",
+    );
+    expect(html).toContain("Открыть вашего героя");
+    expect(html).toContain("Открыть героя соперника");
+    expect(html).not.toContain("Доступные действия");
   });
 
   it("показывает decline только для optional PendingChoice", () => {
@@ -319,7 +380,8 @@ describe("интерфейс комнаты", () => {
     expect(html).toContain("Изменение силы");
     expect(html).toContain("Публичный журнал");
     expect(html).toContain("Карта разыграна");
-    expect(html).toContain("Выключены");
+    expect(html).toContain("одной фиксированной скоростью");
+    expect(html).not.toContain("Выключены");
   });
 
   it("показывает протокольную ошибку и блокирует команды при рассинхронизации", () => {

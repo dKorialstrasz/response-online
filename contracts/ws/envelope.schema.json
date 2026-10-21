@@ -430,7 +430,7 @@
     "playerViewPlayer": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["seat", "heroId", "influence", "actionsRemaining", "deckCount", "handCount", "graveyard", "orders"],
+      "required": ["seat", "heroId", "influence", "actionsRemaining", "deckCount", "handCount", "graveyard", "void", "orders"],
       "properties": {
         "seat": {"enum": ["seat-1", "seat-2"]},
         "heroId": {"type": "string"},
@@ -440,6 +440,7 @@
         "handCount": {"type": "integer", "minimum": 0},
         "hand": {"type": "array", "items": {"$ref": "#/$defs/visibleCard"}},
         "graveyard": {"type": "array", "items": {"$ref": "#/$defs/visibleCard"}},
+        "void": {"type": "array", "items": {"$ref": "#/$defs/visibleCard"}},
         "orders": {"type": "array", "maxItems": 5, "items": {"$ref": "#/$defs/visibleOrder"}}
       }
     },
@@ -527,10 +528,22 @@
         "message": {"type": "string", "minLength": 1}
       }
     },
+    "playerViewCombatEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sequence", "kind", "message"],
+      "properties": {
+        "sequence": {"type": "integer", "minimum": 1},
+        "kind": {"type": "string", "minLength": 1},
+        "seat": {"enum": ["seat-1", "seat-2"]},
+        "lane": {"type": "integer", "minimum": 0, "maximum": 4},
+        "message": {"type": "string", "minLength": 1}
+      }
+    },
     "playerView": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["matchId", "versions", "revision", "status", "phase", "turnNumber", "ownSeat", "initiativeSeat", "actingSeat", "players", "board", "choices", "legalActions", "queue", "journal"],
+      "required": ["matchId", "versions", "revision", "status", "phase", "turnNumber", "ownSeat", "initiativeSeat", "actingSeat", "players", "board", "choices", "legalActions", "queue", "journal", "combatEvents"],
       "properties": {
         "matchId": {"type": "string"},
         "versions": {"$ref": "#/$defs/versions"},
@@ -549,6 +562,7 @@
         "legalActions": {"type": "array", "items": {"$ref": "#/$defs/playerViewAction"}},
         "queue": {"type": "array", "items": {"$ref": "#/$defs/playerViewQueueItem"}},
         "journal": {"type": "array", "items": {"$ref": "#/$defs/playerViewJournalEntry"}},
+        "combatEvents": {"type": "array", "items": {"$ref": "#/$defs/playerViewCombatEvent"}},
         "result": {
           "type": "object",
           "additionalProperties": false,

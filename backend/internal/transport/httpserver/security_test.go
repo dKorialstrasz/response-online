@@ -502,6 +502,41 @@ func TestQueueAndJournalExposeOnlyPublicAllowlistedFacts(t *testing.T) {
 	}
 }
 
+func TestVoidAndCombatPlaybackProjectionArePublicAndTyped(t *testing.T) {
+	state := newProjectionMatch(t).State()
+	state.Players[0].Objects[0].Zone = engine.ZoneVoid
+	state.Players[0].Objects[0].ZoneIndex = 0
+	state.Players[0].Objects[1].Zone = engine.ZoneBoard
+	state.Players[0].Objects[1].Lane = 0
+	state.Players[0].Objects[1].Slot = engine.SlotUnit
+	seat := engine.SeatB
+	state.Events = append(state.Events,
+		engine.Event{Sequence: uint64(len(state.Events) + 1), Kind: "combat_lane_started", Detail: "lane=3"},
+		engine.Event{Sequence: uint64(len(state.Events) + 2), Kind: "hero_hit", Seat: &seat, Detail: "lane=3 secret-internal-detail"},
+	)
+	view := projectPlayerView(state, engine.SeatA, newReferenceCodec(bytes.Repeat([]byte{21}, 32)))
+	if len(view.Players[0].Void) != 1 || view.Players[0].Void[0].DefinitionID == "" {
+		t.Fatalf("void projection = %+v", view.Players[0].Void)
+	}
+	if len(view.CombatEvents) != 2 || view.CombatEvents[0].Lane == nil || *view.CombatEvents[0].Lane != 3 || view.CombatEvents[1].Seat != string(applicationSeatTwo) {
+		t.Fatalf("combat playback projection = %+v", view.CombatEvents)
+	}
+	encoded, err := json.Marshal(view.CombatEvents)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if strings.Contains(string(encoded), "secret-internal-detail") {
+		t.Fatalf("combat playback leaked engine detail: %s", encoded)
+	}
+	viewJSON, err := json.Marshal(view)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(string(viewJSON), `"lane":0`) || strings.Contains(string(viewJSON), `"lane":-1`) {
+		t.Fatalf("board lane projection does not match schema: %s", viewJSON)
+	}
+}
+
 func TestLegalActionProjectionUsesSchemaArraysInsteadOfNull(t *testing.T) {
 	state := newProjectionMatch(t).State()
 	view := projectPlayerView(

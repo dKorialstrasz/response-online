@@ -1,0 +1,538 @@
+{
+  "baz-001": {
+    "thumb": "https://response-league.ru/api/v1/card-images/1fd1ff4c-e9a2-4542-8c7b-d4e640ef0c4e",
+    "medium": "https://response-league.ru/api/v1/card-images/18839a86-836c-41ff-804d-cb085577fd50"
+  },
+  "baz-002": {
+    "thumb": "https://response-league.ru/api/v1/card-images/6ffb35dc-52f4-4e06-b880-5b2fe7e302f5",
+    "medium": "https://response-league.ru/api/v1/card-images/8fb9d663-1217-4f21-9ee8-5588df1a7f4d"
+  },
+  "baz-003": {
+    "thumb": "https://response-league.ru/api/v1/card-images/dc88b5bb-8bbd-42b3-9751-85a3eb95ae94",
+    "medium": "https://response-league.ru/api/v1/card-images/44d883d8-520e-4ccc-8a3b-8687605cbe14"
+  },
+  "baz-004": {
+    "thumb": "https://response-league.ru/api/v1/card-images/46a074b5-4530-4482-860a-80f04dde878d",
+    "medium": "https://response-league.ru/api/v1/card-images/b5f1f415-4e69-4f4e-a794-5a3df857b367"
+  },
+  "baz-005": {
+    "thumb": "https://response-league.ru/api/v1/card-images/81d6c1b5-8331-4a78-a6b6-b9828b8c9b8d",
+    "medium": "https://response-league.ru/api/v1/card-images/11eefdeb-850b-44a1-ad63-e988317574ad"
+  },
+  "baz-005a": {
+    "thumb": "https://response-league.ru/api/v1/card-images/d1dd9872-3648-4273-8937-d69195b09d8d",
+    "medium": "https://response-league.ru/api/v1/card-images/cbf3be2a-d98a-4588-bc2b-55d3f4a24efc"
+  },
+  "baz-006": {
+    "thumb": "https://response-league.ru/api/v1/card-images/80d1f346-6d57-4802-abe6-0d0be3c9bc7b",
+    "medium": "https://response-league.ru/api/v1/card-images/9888dd48-5b7f-4b1a-b105-2a7a8991c27c"
+  },
+  "baz-007": {
+    "thumb": "https://response-league.ru/api/v1/card-images/98fa1543-d6e3-45f0-9563-84bdc0341576",
+    "medium": "https://response-league.ru/api/v1/card-images/4d2ad564-f0cb-4f1d-8b8f-9256d75f01b6"
+  },
+  "baz-008": {
+    "thumb": "https://response-league.ru/api/v1/card-images/19812444-f5ac-4545-b8ad-d338bad14050",
+    "medium": "https://response-league.ru/api/v1/card-images/36607fda-31a4-42d1-b26c-98536195eb83"
+  },
+  "baz-009": {
+    "thumb": "https://response-league.ru/api/v1/card-images/b6b4b577-67dd-496e-ac8b-285ad8a9d9e5",
+    "medium": "https://response-league.ru/api/v1/card-images/4be3adc8-1fc4-41b6-9f90-e6994706a669"
+  },
+  "baz-010": {
+    "thumb": "https://response-league.ru/api/v1/card-images/31128964-c992-4401-b71c-c9684c5f5aaf",
+    "medium": "https://response-league.ru/api/v1/card-images/a6e585f2-9e56-4cd6-8c97-bcac0753eda4"
+  },
+  "baz-011": {
+    "thumb": "https://response-league.ru/api/v1/card-images/da206cab-0ba7-4452-b28b-562059b4749b",
+    "medium": "https://response-league.ru/api/v1/card-images/7b111b7c-e2a3-4d56-a761-57940468b194"
+  },
+  "baz-012": {
+    "thumb": "https://response-league.ru/api/v1/card-images/c445f988-9e50-497a-8ae2-39288e9b14ef",
+    "medium": "https://response-league.ru/api/v1/card-images/f7b5d391-96dc-4674-8deb-8f774d32b86e"
+  },
+  "baz-013": {
+    "thumb": "https://response-league.ru/api/v1/card-images/d3746c14-efcd-4640-9911-bfe18ae655c4",
+    "medium": "https://response-league.ru/api/v1/card-images/3b081be7-a72d-4844-9954-26531c63233e"
+  },
+  "baz-014": {
+    "thumb": "https://response-league.ru/api/v1/card-images/2bd9ffed-4f7b-4e94-840d-b7e018b0e293",
+    "medium": "https://response-league.ru/api/v1/card-images/d5c14f46-216d-4c36-a491-2e34cbdfa31d"
+  },
+  "baz-015": {
+    "thumb": "https://response-league.ru/api/v1/card-images/cca326e7-a607-41af-b751-232867e84233",
+    "medium": "https://response-league.ru/api/v1/card-images/fe9cc4b0-0fca-41a7-b553-b34e46cbc8ed"
+  },
+  "baz-016": {
+    "thumb": "https://response-league.ru/api/v1/card-images/32a07ecc-96f9-4e99-88c2-8a1ec59f9e5a",
+    "medium": "https://response-league.ru/api/v1/card-images/179dcf29-7623-4aca-ab56-4ecf60f7ea5e"
+  },
+  "baz-017": {
+    "thumb": "https://response-league.ru/api/v1/card-images/1fc35446-440d-4b1b-817c-d2ee949fdd76",
+    "medium": "https://response-league.ru/api/v1/card-images/7d558f3e-cbff-4670-836d-1bc6d0328e5c"
+  },
+  "baz-018": {
+    "thumb": "https://response-league.ru/api/v1/card-images/f632cf1c-d05b-45fb-a66d-25a8b584a8fa",
+    "medium": "https://response-league.ru/api/v1/card-images/496e0336-c7c0-47a6-8ac2-404e3fef6903"
+  },
+  "baz-019": {
+    "thumb": "https://response-league.ru/api/v1/card-images/457049f1-37e0-4a18-8d67-cd67e622ae82",
+    "medium": "https://response-league.ru/api/v1/card-images/25eda1cc-8edf-4f95-989f-d4b5a5ef7c2e"
+  },
+  "baz-020": {
+    "thumb": "https://response-league.ru/api/v1/card-images/5ba5662c-22e4-4880-ba3c-a51f60ed4af8",
+    "medium": "https://response-league.ru/api/v1/card-images/017ec869-4fdd-4718-8fed-e1aa32fe1f77"
+  },
+  "baz-021": {
+    "thumb": "https://response-league.ru/api/v1/card-images/eff452a5-365d-4614-9956-c9b7ac96a0d2",
+    "medium": "https://response-league.ru/api/v1/card-images/a39bd779-199e-47d6-8229-9e48ef9c103a"
+  },
+  "baz-022": {
+    "thumb": "https://response-league.ru/api/v1/card-images/f3c9a42c-a0ca-4508-9c21-8b3a3647585c",
+    "medium": "https://response-league.ru/api/v1/card-images/1089ccfe-6a70-474d-a65e-59490f096a68"
+  },
+  "baz-023": {
+    "thumb": "https://response-league.ru/api/v1/card-images/dbaf3989-5247-4869-8913-591c1748754e",
+    "medium": "https://response-league.ru/api/v1/card-images/ba9417b4-6c6f-42f8-8bb8-8b65d9cb5258"
+  },
+  "baz-024": {
+    "thumb": "https://response-league.ru/api/v1/card-images/227a2597-0d79-4379-a991-f64c3441323f",
+    "medium": "https://response-league.ru/api/v1/card-images/67cde46e-0795-41b8-bcf9-3039d6f53ff2"
+  },
+  "baz-025": {
+    "thumb": "https://response-league.ru/api/v1/card-images/737edce1-a4ee-4602-9766-2011e78e0f17",
+    "medium": "https://response-league.ru/api/v1/card-images/2ed2af22-1576-4929-aa7d-572a4cded983"
+  },
+  "baz-026": {
+    "thumb": "https://response-league.ru/api/v1/card-images/e46cd0ca-d362-48a6-83db-2d8da018e4e0",
+    "medium": "https://response-league.ru/api/v1/card-images/bf9fc681-2103-444e-93c3-c9f7e5d9ddc5"
+  },
+  "baz-027": {
+    "thumb": "https://response-league.ru/api/v1/card-images/f7ffb11e-8e3e-4052-9e68-d40baf26341c",
+    "medium": "https://response-league.ru/api/v1/card-images/4e592950-3cc1-4b25-bdde-024143703c04"
+  },
+  "baz-028": {
+    "thumb": "https://response-league.ru/api/v1/card-images/a42db8d9-35be-40b7-a41d-101d7e2f0aa0",
+    "medium": "https://response-league.ru/api/v1/card-images/f0b4a05a-8ef6-41ca-9697-cafaeaa85b14"
+  },
+  "baz-029": {
+    "thumb": "https://response-league.ru/api/v1/card-images/2df90dfc-cf38-46db-a430-b0408eb61d0a",
+    "medium": "https://response-league.ru/api/v1/card-images/a73a4d6a-29c8-4b95-a129-e6aeb26974db"
+  },
+  "baz-030": {
+    "thumb": "https://response-league.ru/api/v1/card-images/19eddeb0-5427-46fe-b8c9-6d3a74953fe8",
+    "medium": "https://response-league.ru/api/v1/card-images/b1a4f868-a566-4fdc-84e0-199245da1821"
+  },
+  "baz-031": {
+    "thumb": "https://response-league.ru/api/v1/card-images/5b9eabaf-b10d-474a-b6ba-86fefbf187b2",
+    "medium": "https://response-league.ru/api/v1/card-images/a9d822e5-e107-4331-8e27-33bd0ca276e4"
+  },
+  "baz-032": {
+    "thumb": "https://response-league.ru/api/v1/card-images/111d2a8c-7e2f-4332-a53e-c82a985eef98",
+    "medium": "https://response-league.ru/api/v1/card-images/1777845a-872a-4995-ba22-2f2e472cf480"
+  },
+  "baz-033": {
+    "thumb": "https://response-league.ru/api/v1/card-images/0befd408-fc25-4222-a348-c6e41150d54a",
+    "medium": "https://response-league.ru/api/v1/card-images/528fdc42-d731-4224-abda-7b66ea8f2006"
+  },
+  "baz-034": {
+    "thumb": "https://response-league.ru/api/v1/card-images/8d206f4d-b406-4170-bf3e-99784fce72e8",
+    "medium": "https://response-league.ru/api/v1/card-images/7e672427-fb3c-4b85-b50b-d539b273ee32"
+  },
+  "baz-035": {
+    "thumb": "https://response-league.ru/api/v1/card-images/e7411f5b-772d-42cc-8ac0-8c0bbb4892f5",
+    "medium": "https://response-league.ru/api/v1/card-images/5c1c9d9e-f62f-466c-9600-c3fb34df1ea3"
+  },
+  "baz-036": {
+    "thumb": "https://response-league.ru/api/v1/card-images/36fe2b2a-b592-47fe-98fd-6ac748720685",
+    "medium": "https://response-league.ru/api/v1/card-images/da4fe5e4-f0c3-45a8-84b7-0b91ed1b3710"
+  },
+  "baz-037": {
+    "thumb": "https://response-league.ru/api/v1/card-images/4877c427-af51-4665-8c49-c5935296472d",
+    "medium": "https://response-league.ru/api/v1/card-images/35b77076-e816-4618-9696-c63ec352859c"
+  },
+  "baz-038": {
+    "thumb": "https://response-league.ru/api/v1/card-images/5ecb9fc6-9b07-498e-912a-c1065b30e38d",
+    "medium": "https://response-league.ru/api/v1/card-images/327f71dc-7cf7-45c2-a4b6-9ad16a451d40"
+  },
+  "baz-039": {
+    "thumb": "https://response-league.ru/api/v1/card-images/f3fc10b3-e1a3-4cf0-a87e-7ba32254f095",
+    "medium": "https://response-league.ru/api/v1/card-images/9e1b51ac-0a92-44f2-bef9-f9a717addba6"
+  },
+  "baz-040": {
+    "thumb": "https://response-league.ru/api/v1/card-images/7b11aaaf-e41c-4527-b57e-dc9b77aaee50",
+    "medium": "https://response-league.ru/api/v1/card-images/1d41455d-5f73-4007-810a-095dda8f5527"
+  },
+  "baz-041": {
+    "thumb": "https://response-league.ru/api/v1/card-images/375f4368-d516-4eda-a22e-4b87b22dfb29",
+    "medium": "https://response-league.ru/api/v1/card-images/41976ce9-e99b-4981-bbc7-8b4b6a99e551"
+  },
+  "baz-042": {
+    "thumb": "https://response-league.ru/api/v1/card-images/be75a581-acff-4298-9f83-4701160d1509",
+    "medium": "https://response-league.ru/api/v1/card-images/259681cf-efad-41bd-800b-697038cd1dd6"
+  },
+  "baz-043": {
+    "thumb": "https://response-league.ru/api/v1/card-images/9478327f-e505-45b1-acb1-f80b18f8400e",
+    "medium": "https://response-league.ru/api/v1/card-images/342c47f9-ab7f-4f46-927d-bf738beaf2a8"
+  },
+  "baz-044": {
+    "thumb": "https://response-league.ru/api/v1/card-images/f0ad798f-1a0d-454e-89ca-5ac3bf3e6189",
+    "medium": "https://response-league.ru/api/v1/card-images/a24fa28c-1700-4ad7-b470-18615fa6143d"
+  },
+  "baz-045": {
+    "thumb": "https://response-league.ru/api/v1/card-images/92cf4eb3-8f52-4c32-8d40-b5201a51bc4f",
+    "medium": "https://response-league.ru/api/v1/card-images/04a1e78b-e5cf-431f-9fd2-fc291798de2a"
+  },
+  "baz-046": {
+    "thumb": "https://response-league.ru/api/v1/card-images/d9da89d1-3289-4749-a344-d69978daebf1",
+    "medium": "https://response-league.ru/api/v1/card-images/f249c06c-841f-43c9-abc8-be7fb00a5186"
+  },
+  "baz-047": {
+    "thumb": "https://response-league.ru/api/v1/card-images/6611e272-c531-4d30-9e97-cd71b9b92352",
+    "medium": "https://response-league.ru/api/v1/card-images/f0a8bc75-3411-4d18-ae40-e84b00ed5e72"
+  },
+  "baz-048": {
+    "thumb": "https://response-league.ru/api/v1/card-images/4b944e46-e8c5-43b5-a3fe-29a3e8ff35a2",
+    "medium": "https://response-league.ru/api/v1/card-images/7b44fba3-69d6-4163-acd6-fd63afd2a513"
+  },
+  "baz-049": {
+    "thumb": "https://response-league.ru/api/v1/card-images/0c80da1e-134a-485a-9912-747dfc667e6d",
+    "medium": "https://response-league.ru/api/v1/card-images/c801e0d6-8e39-45df-aeaa-b29d33161ef8"
+  },
+  "baz-050": {
+    "thumb": "https://response-league.ru/api/v1/card-images/eb671fff-c18b-4a3e-a81b-ba152d37316b",
+    "medium": "https://response-league.ru/api/v1/card-images/08ca3cb3-db22-4334-94d9-ada637d66678"
+  },
+  "baz-051": {
+    "thumb": "https://response-league.ru/api/v1/card-images/93207157-5b7d-4a66-ba35-d8e3f287b23b",
+    "medium": "https://response-league.ru/api/v1/card-images/e632fc8c-4f64-41fe-8642-54ebe810ff23"
+  },
+  "baz-052": {
+    "thumb": "https://response-league.ru/api/v1/card-images/1b1fa06b-f0f5-4336-895a-39bb92d71c84",
+    "medium": "https://response-league.ru/api/v1/card-images/9da5cad6-174b-4d3b-9887-d4a03d388ea7"
+  },
+  "baz-053": {
+    "thumb": "https://response-league.ru/api/v1/card-images/24eaf7e6-6466-4e9f-82e7-bf0006d74c26",
+    "medium": "https://response-league.ru/api/v1/card-images/2c2cdfb6-07b5-4152-a90a-cceb06850ebf"
+  },
+  "baz-054": {
+    "thumb": "https://response-league.ru/api/v1/card-images/d5c2222a-4eb4-4c3c-a57d-ffb8715ba3d2",
+    "medium": "https://response-league.ru/api/v1/card-images/c2206cd7-327d-4d7d-9330-33927a7f24f0"
+  },
+  "baz-055": {
+    "thumb": "https://response-league.ru/api/v1/card-images/d054d981-ac7f-48ed-88f6-d2d1351d012d",
+    "medium": "https://response-league.ru/api/v1/card-images/f006107f-abf9-45e4-b5a8-bab1fea1ee5f"
+  },
+  "baz-056": {
+    "thumb": "https://response-league.ru/api/v1/card-images/65206a9a-5391-438b-9ab6-836a326aecc3",
+    "medium": "https://response-league.ru/api/v1/card-images/a65abebe-e35d-4062-b132-d6d413def79a"
+  },
+  "baz-057": {
+    "thumb": "https://response-league.ru/api/v1/card-images/b68f9d2c-8196-43e1-bfea-b5ab9304e93f",
+    "medium": "https://response-league.ru/api/v1/card-images/803744da-2445-4655-8bc4-c57c16efddb5"
+  },
+  "baz-058": {
+    "thumb": "https://response-league.ru/api/v1/card-images/0934b10b-f621-4406-a250-e6a874d347fe",
+    "medium": "https://response-league.ru/api/v1/card-images/984b5c17-daf9-4a1d-925d-4a9cf8e144a9"
+  },
+  "baz-059": {
+    "thumb": "https://response-league.ru/api/v1/card-images/16cc3506-1a84-42b9-8714-7500ceb9421b",
+    "medium": "https://response-league.ru/api/v1/card-images/3e98af2a-e6a1-4441-a36d-78a511858d49"
+  },
+  "baz-060": {
+    "thumb": "https://response-league.ru/api/v1/card-images/ef998b5e-d097-4801-b940-ade46110984a",
+    "medium": "https://response-league.ru/api/v1/card-images/e3aa8567-34c9-4d0d-93aa-5fdb65d789cd"
+  },
+  "baz-061": {
+    "thumb": "https://response-league.ru/api/v1/card-images/4a64c822-e662-4dd5-872a-a58c4d507807",
+    "medium": "https://response-league.ru/api/v1/card-images/66b9ef4f-b4be-425f-b510-f6c982e6d11a"
+  },
+  "baz-062": {
+    "thumb": "https://response-league.ru/api/v1/card-images/cdace269-b5f7-4f17-a4c8-3410847060ab",
+    "medium": "https://response-league.ru/api/v1/card-images/5069193c-81bf-49a0-8915-a859db86679f"
+  },
+  "baz-063": {
+    "thumb": "https://response-league.ru/api/v1/card-images/9951392b-46a9-4df3-b444-fbcfd1a64ae3",
+    "medium": "https://response-league.ru/api/v1/card-images/717775f7-9a3f-4f67-958a-99c9ff8fc428"
+  },
+  "baz-064": {
+    "thumb": "https://response-league.ru/api/v1/card-images/d42c1d11-1172-4b66-9eab-16053a9e7517",
+    "medium": "https://response-league.ru/api/v1/card-images/f6e6ac81-07b9-47bb-9e6d-66a74a67b6ae"
+  },
+  "baz-065": {
+    "thumb": "https://response-league.ru/api/v1/card-images/984bf43f-4fc1-4739-a9a3-5948ed21f908",
+    "medium": "https://response-league.ru/api/v1/card-images/bb7340ea-d819-484a-8803-30a300d0d77e"
+  },
+  "baz-066": {
+    "thumb": "https://response-league.ru/api/v1/card-images/4e9e394b-595a-4a2b-911a-1dba5b110262",
+    "medium": "https://response-league.ru/api/v1/card-images/fe653477-bba7-4c8f-823e-91f774d558a8"
+  },
+  "baz-067": {
+    "thumb": "https://response-league.ru/api/v1/card-images/e2e5abf5-57d6-458f-865c-59603a057751",
+    "medium": "https://response-league.ru/api/v1/card-images/1a029cb5-a6b9-4ddb-b453-249b2e312eb7"
+  },
+  "baz-068": {
+    "thumb": "https://response-league.ru/api/v1/card-images/4518a571-3256-4e3a-9934-dafec5b28111",
+    "medium": "https://response-league.ru/api/v1/card-images/b72583de-99f7-43f8-ab02-27483fd753fa"
+  },
+  "baz-069": {
+    "thumb": "https://response-league.ru/api/v1/card-images/9274b2af-da7f-44e2-841a-84a7d1a78cad",
+    "medium": "https://response-league.ru/api/v1/card-images/da24c950-a40e-447b-80ec-5bd554678865"
+  },
+  "baz-070": {
+    "thumb": "https://response-league.ru/api/v1/card-images/394befcd-e338-4790-8c89-ed6c28d1c93f",
+    "medium": "https://response-league.ru/api/v1/card-images/8f504d2b-cdb8-4567-9260-711d8dafe085"
+  },
+  "baz-071": {
+    "thumb": "https://response-league.ru/api/v1/card-images/16266f7f-b6c4-420c-b33e-9a2455ab7089",
+    "medium": "https://response-league.ru/api/v1/card-images/f6ec19aa-4373-4827-8743-6f93843cbae1"
+  },
+  "baz-072": {
+    "thumb": "https://response-league.ru/api/v1/card-images/84032773-cd6a-4261-ad54-4865e484e749",
+    "medium": "https://response-league.ru/api/v1/card-images/a1388c60-1924-4ec9-a733-2e3fcfdb1c1b"
+  },
+  "baz-073": {
+    "thumb": "https://response-league.ru/api/v1/card-images/a5e5a905-ba9e-40a9-9908-2dc8d7586461",
+    "medium": "https://response-league.ru/api/v1/card-images/08558f49-dfa3-4ce7-b56e-77006d2b2de1"
+  },
+  "baz-074": {
+    "thumb": "https://response-league.ru/api/v1/card-images/2d1d56a9-e942-4dd0-88a7-545ea5455b3a",
+    "medium": "https://response-league.ru/api/v1/card-images/c05de637-43f3-446f-8425-71f11d458012"
+  },
+  "baz-075": {
+    "thumb": "https://response-league.ru/api/v1/card-images/94f85907-349a-4d2c-954f-ee550195079e",
+    "medium": "https://response-league.ru/api/v1/card-images/0abd45ee-2adf-4272-a8f8-d6283e1d73b1"
+  },
+  "baz-075a": {
+    "thumb": "https://response-league.ru/api/v1/card-images/97a8e1c1-c244-45fb-91e2-01b53e1a91cc",
+    "medium": "https://response-league.ru/api/v1/card-images/405e5584-d948-4b00-9955-d86123553bec"
+  },
+  "baz-076": {
+    "thumb": "https://response-league.ru/api/v1/card-images/de0d9292-80a7-4f40-9743-46ab57698800",
+    "medium": "https://response-league.ru/api/v1/card-images/e17855a6-a1b4-4709-bb33-5d4217f15f33"
+  },
+  "baz-077": {
+    "thumb": "https://response-league.ru/api/v1/card-images/4778745c-a80e-497a-8dbf-e81dab315b0b",
+    "medium": "https://response-league.ru/api/v1/card-images/a6783e25-9477-4a08-9e43-31cf7dcbadc6"
+  },
+  "baz-078": {
+    "thumb": "https://response-league.ru/api/v1/card-images/eacea418-3fcb-4990-bbb7-6f2521f465fc",
+    "medium": "https://response-league.ru/api/v1/card-images/d2bc10cc-7107-4ba5-972b-e813781f0da7"
+  },
+  "baz-079": {
+    "thumb": "https://response-league.ru/api/v1/card-images/d44de5a6-f61f-4f69-8052-530352ca8f15",
+    "medium": "https://response-league.ru/api/v1/card-images/ee9edb19-999f-4d24-89ce-d8f4672ba280"
+  },
+  "baz-080": {
+    "thumb": "https://response-league.ru/api/v1/card-images/6fd2be93-f865-4d9b-a533-b992f3a8a46e",
+    "medium": "https://response-league.ru/api/v1/card-images/8220af2c-49d7-4801-af99-6b12ff17e5a1"
+  },
+  "baz-081": {
+    "thumb": "https://response-league.ru/api/v1/card-images/c437066b-a774-4de2-a8c2-9514848157e9",
+    "medium": "https://response-league.ru/api/v1/card-images/53fd3460-fb78-4a88-be49-29afaaf22770"
+  },
+  "baz-082": {
+    "thumb": "https://response-league.ru/api/v1/card-images/e2f8f8da-5f90-46f3-9f29-7b45777c6021",
+    "medium": "https://response-league.ru/api/v1/card-images/f728fbe9-a9ba-4149-b232-9db42b2067e0"
+  },
+  "baz-083": {
+    "thumb": "https://response-league.ru/api/v1/card-images/29db8fea-9983-4c05-8403-c5767b5ea376",
+    "medium": "https://response-league.ru/api/v1/card-images/d83acad7-cc9d-4569-9441-3a401c7ae14a"
+  },
+  "baz-084": {
+    "thumb": "https://response-league.ru/api/v1/card-images/15d45d9f-1007-46a5-8887-a23c9d01fcf4",
+    "medium": "https://response-league.ru/api/v1/card-images/788ea1fb-64a5-44df-8fe8-1e721c04fea6"
+  },
+  "baz-085": {
+    "thumb": "https://response-league.ru/api/v1/card-images/f886b6fe-9a4e-44da-b89b-b0030c27141a",
+    "medium": "https://response-league.ru/api/v1/card-images/c9e0189a-53de-4d20-9b23-02ba90f94b50"
+  },
+  "baz-086": {
+    "thumb": "https://response-league.ru/api/v1/card-images/977c89ae-db4b-4689-bfd2-734aa2dd2889",
+    "medium": "https://response-league.ru/api/v1/card-images/e5da7412-1263-4513-93a7-0383e70cfea9"
+  },
+  "baz-087": {
+    "thumb": "https://response-league.ru/api/v1/card-images/b5871a5e-8e54-47fc-bd6c-060f742372c1",
+    "medium": "https://response-league.ru/api/v1/card-images/ea0e55c7-f59c-4325-a7e9-8dcafb6d4597"
+  },
+  "baz-088": {
+    "thumb": "https://response-league.ru/api/v1/card-images/06142563-9fd2-4612-b11a-ad01be1eb807",
+    "medium": "https://response-league.ru/api/v1/card-images/bce33952-c528-4502-9473-f88f10ae3380"
+  },
+  "baz-089": {
+    "thumb": "https://response-league.ru/api/v1/card-images/aed1e08c-ed1b-4d72-aae2-711ccf5786ba",
+    "medium": "https://response-league.ru/api/v1/card-images/b8e412fb-89d4-420b-8515-3a714d18d5f4"
+  },
+  "baz-090": {
+    "thumb": "https://response-league.ru/api/v1/card-images/2680794b-88ba-44ca-b400-975d82e693fb",
+    "medium": "https://response-league.ru/api/v1/card-images/737b6767-71c8-48f9-baf2-e113b9e583df"
+  },
+  "baz-091": {
+    "thumb": "https://response-league.ru/api/v1/card-images/0b3a4820-6028-4953-bc80-a4760619f8e2",
+    "medium": "https://response-league.ru/api/v1/card-images/fb860d5a-8b90-4513-82ef-9a3abbb782ad"
+  },
+  "baz-092": {
+    "thumb": "https://response-league.ru/api/v1/card-images/40b203a3-b94f-4906-aca2-d7952f007c8d",
+    "medium": "https://response-league.ru/api/v1/card-images/569edb99-da72-4827-be72-11dff995cb4f"
+  },
+  "baz-093": {
+    "thumb": "https://response-league.ru/api/v1/card-images/4e795805-7841-4664-8143-a341b0a79a97",
+    "medium": "https://response-league.ru/api/v1/card-images/c1937fcd-3d01-415d-84cd-4c73a2523708"
+  },
+  "baz-094": {
+    "thumb": "https://response-league.ru/api/v1/card-images/07191c58-398e-45b5-8a21-5609fce33c9e",
+    "medium": "https://response-league.ru/api/v1/card-images/e95fe3af-1716-4abd-9557-d3d197dd97e4"
+  },
+  "baz-095": {
+    "thumb": "https://response-league.ru/api/v1/card-images/b9628e6f-439c-43a9-b91a-8c365a375acc",
+    "medium": "https://response-league.ru/api/v1/card-images/b38d9a6f-c1dd-4f8a-9f94-32c79e435fdb"
+  },
+  "baz-096": {
+    "thumb": "https://response-league.ru/api/v1/card-images/f2fbacfe-3f41-4704-adfd-036f13345e71",
+    "medium": "https://response-league.ru/api/v1/card-images/4fb3535c-c45a-4bc1-bb55-3af1c452db00"
+  },
+  "baz-097": {
+    "thumb": "https://response-league.ru/api/v1/card-images/b7540f13-a91b-4eb1-bd60-5a30675d99b1",
+    "medium": "https://response-league.ru/api/v1/card-images/97e742ec-3173-48e3-9186-26cc2bf9b1b4"
+  },
+  "baz-098": {
+    "thumb": "https://response-league.ru/api/v1/card-images/e443781d-036e-4f7f-964b-b03cf41d1aa9",
+    "medium": "https://response-league.ru/api/v1/card-images/2f839b9f-7f3c-42b4-bcb5-e010746a5661"
+  },
+  "baz-099": {
+    "thumb": "https://response-league.ru/api/v1/card-images/06ac8054-4b42-4742-9241-ebf981cb80a2",
+    "medium": "https://response-league.ru/api/v1/card-images/009899d2-9a56-4757-b308-245cd4ffbcea"
+  },
+  "baz-100": {
+    "thumb": "https://response-league.ru/api/v1/card-images/5aa069ab-d49c-4d27-8263-e067fe4e26c3",
+    "medium": "https://response-league.ru/api/v1/card-images/5af27a25-3b6a-4499-b6f2-b3fc826117b2"
+  },
+  "baz-101": {
+    "thumb": "https://response-league.ru/api/v1/card-images/5d03277a-c74c-4e98-8c45-b0de51b5f321",
+    "medium": "https://response-league.ru/api/v1/card-images/46162696-196b-4be1-b1d7-b75936cd5a18"
+  },
+  "baz-102": {
+    "thumb": "https://response-league.ru/api/v1/card-images/3144a85a-3c3c-4560-a339-4f388878a01b",
+    "medium": "https://response-league.ru/api/v1/card-images/fa9a382b-1ecb-4a1a-9b62-763551ee998d"
+  },
+  "baz-103": {
+    "thumb": "https://response-league.ru/api/v1/card-images/d4ed6205-3c75-486d-bae9-1f3387a8f933",
+    "medium": "https://response-league.ru/api/v1/card-images/f65c0158-46de-444a-a37b-abbb8316fef6"
+  },
+  "baz-104": {
+    "thumb": "https://response-league.ru/api/v1/card-images/f05f887f-84ac-41a2-9c6e-eae571d099ed",
+    "medium": "https://response-league.ru/api/v1/card-images/4384f85b-ae56-4c0c-a417-a12dc7177b97"
+  },
+  "baz-105": {
+    "thumb": "https://response-league.ru/api/v1/card-images/895fa998-9dc6-4b1c-9e2a-5a2323195497",
+    "medium": "https://response-league.ru/api/v1/card-images/b4041d40-33a1-4d6d-84d3-6373d34bb9c0"
+  },
+  "baz-106": {
+    "thumb": "https://response-league.ru/api/v1/card-images/63111ce3-0edb-466d-9205-b9ec1d6488e2",
+    "medium": "https://response-league.ru/api/v1/card-images/7a802491-14c9-4a3c-b9ac-938d4bccb48f"
+  },
+  "baz-107": {
+    "thumb": "https://response-league.ru/api/v1/card-images/cb46bf85-f3c8-4cdd-a4cb-2de98076a864",
+    "medium": "https://response-league.ru/api/v1/card-images/d1f623be-071c-4fac-932b-b5cd433018e2"
+  },
+  "baz-108": {
+    "thumb": "https://response-league.ru/api/v1/card-images/8764a75e-17a3-4a59-b8ab-d16d800cef4c",
+    "medium": "https://response-league.ru/api/v1/card-images/caa46433-4f03-4945-a0a8-a04f1d38f0de"
+  },
+  "baz-109": {
+    "thumb": "https://response-league.ru/api/v1/card-images/676487b1-90a7-4e87-aedc-5323a073f74a",
+    "medium": "https://response-league.ru/api/v1/card-images/639ec21d-0de6-4788-8154-ab81e095bea5"
+  },
+  "baz-110": {
+    "thumb": "https://response-league.ru/api/v1/card-images/6986b9d3-36e5-4267-9a83-94c599097377",
+    "medium": "https://response-league.ru/api/v1/card-images/356cc5f0-280d-4f03-8040-dcde66ca477e"
+  },
+  "baz-111": {
+    "thumb": "https://response-league.ru/api/v1/card-images/3d12ec0d-ea1d-4808-8263-7e3be5307ff9",
+    "medium": "https://response-league.ru/api/v1/card-images/79983177-fd18-4a63-8459-9c24c9ae516a"
+  },
+  "baz-112": {
+    "thumb": "https://response-league.ru/api/v1/card-images/648d9915-64c1-4467-b24f-a14b323ad8bb",
+    "medium": "https://response-league.ru/api/v1/card-images/c1056acc-1867-46a5-9f98-44ad2485ce17"
+  },
+  "baz-113": {
+    "thumb": "https://response-league.ru/api/v1/card-images/cadd4628-5275-4879-9a44-b4b938eb07c6",
+    "medium": "https://response-league.ru/api/v1/card-images/c9830b30-1ee5-4def-8374-df3312308768"
+  },
+  "baz-114": {
+    "thumb": "https://response-league.ru/api/v1/card-images/d2cca8e0-7043-4907-87a8-f755264c1265",
+    "medium": "https://response-league.ru/api/v1/card-images/a99a83d3-93b0-4599-9a94-687b2a9ac8d9"
+  },
+  "baz-115": {
+    "thumb": "https://response-league.ru/api/v1/card-images/51a971cd-d5cf-4be1-b7c2-ed7552f1b714",
+    "medium": "https://response-league.ru/api/v1/card-images/ee061b39-2907-40af-89f2-6f2e0a77d040"
+  },
+  "baz-116": {
+    "thumb": "https://response-league.ru/api/v1/card-images/90bb0df1-1d39-4af7-95b6-c8d1c6d8aed6",
+    "medium": "https://response-league.ru/api/v1/card-images/6a2c5139-3760-4424-9326-409ab9e105f5"
+  },
+  "baz-117": {
+    "thumb": "https://response-league.ru/api/v1/card-images/35e9f23b-e07e-4f2f-aff9-e07edc429a80",
+    "medium": "https://response-league.ru/api/v1/card-images/40d2a803-e2d1-4d6c-a746-b56ce69d039f"
+  },
+  "baz-118": {
+    "thumb": "https://response-league.ru/api/v1/card-images/2c0aae10-febe-4b10-aa70-6e1dc37e241a",
+    "medium": "https://response-league.ru/api/v1/card-images/b99c12ec-ef23-424e-b459-9c1574c62afd"
+  },
+  "baz-119": {
+    "thumb": "https://response-league.ru/api/v1/card-images/d1be1403-55c6-4992-93b7-9462130f9980",
+    "medium": "https://response-league.ru/api/v1/card-images/3bb31f41-55f2-401c-bcad-849df7684f66"
+  },
+  "baz-120": {
+    "thumb": "https://response-league.ru/api/v1/card-images/41afad5d-f858-4a1c-bd30-0c948dd84947",
+    "medium": "https://response-league.ru/api/v1/card-images/4b5aa975-f285-4b56-b19b-2812dd686ebb"
+  },
+  "baz-121": {
+    "thumb": "https://response-league.ru/api/v1/card-images/2b7091c5-5500-4ee9-a2ad-7dc403a90138",
+    "medium": "https://response-league.ru/api/v1/card-images/ed7df58d-54ec-449c-b4b7-e40fc45bb676"
+  },
+  "baz-122": {
+    "thumb": "https://response-league.ru/api/v1/card-images/0bd5d582-84c3-43c6-8a0d-7708fd85d435",
+    "medium": "https://response-league.ru/api/v1/card-images/60de7bc2-65a7-4768-a3de-9bced77c5a94"
+  },
+  "baz-123": {
+    "thumb": "https://response-league.ru/api/v1/card-images/e9666eed-9dfb-4c87-aec3-766d97a652b3",
+    "medium": "https://response-league.ru/api/v1/card-images/3c6c0fc5-9e76-4ffa-91d2-84b24d682527"
+  },
+  "baz-124": {
+    "thumb": "https://response-league.ru/api/v1/card-images/ab888d3f-7965-427e-8cfd-7c1dc183a79b",
+    "medium": "https://response-league.ru/api/v1/card-images/a4aa5e03-a441-4c1f-9901-d03f81a8d14c"
+  },
+  "baz-125": {
+    "thumb": "https://response-league.ru/api/v1/card-images/4425a229-2183-436c-9939-3cdf1cad5436",
+    "medium": "https://response-league.ru/api/v1/card-images/ff0a3352-c6bb-46a4-bc85-7f417e745fe6"
+  },
+  "baz-126": {
+    "thumb": "https://response-league.ru/api/v1/card-images/1a3159d0-87ce-4296-b461-037e38086f9f",
+    "medium": "https://response-league.ru/api/v1/card-images/907f5eda-9b45-4208-b3d9-03e00b3148a0"
+  },
+  "baz-127": {
+    "thumb": "https://response-league.ru/api/v1/card-images/fe9d0a02-a5e7-45a1-bbf3-5509846c579c",
+    "medium": "https://response-league.ru/api/v1/card-images/4f167897-4b6f-47a7-bbdd-176e6c4277ae"
+  },
+  "baz-128": {
+    "thumb": "https://response-league.ru/api/v1/card-images/69dee9aa-55f1-4dba-947c-1b7edd53e284",
+    "medium": "https://response-league.ru/api/v1/card-images/b2945aaf-e7bd-42d2-ad54-a3b8f397e9d9"
+  },
+  "baz-129": {
+    "thumb": "https://response-league.ru/api/v1/card-images/aeaa5f6d-98cf-4211-bc06-0a4db590b49a",
+    "medium": "https://response-league.ru/api/v1/card-images/301fbc46-696d-406d-b1e1-8b0c641b11ff"
+  },
+  "baz-130": {
+    "thumb": "https://response-league.ru/api/v1/card-images/4e388136-e32b-437d-85eb-e52d58e64888",
+    "medium": "https://response-league.ru/api/v1/card-images/bb741fe1-0350-47b9-bf23-904388cb1ecf"
+  },
+  "baz-131": {
+    "thumb": "https://response-league.ru/api/v1/card-images/51d0ed90-732b-45d1-b419-43d00067d003",
+    "medium": "https://response-league.ru/api/v1/card-images/dac84cc2-fcda-4599-b0ce-fa48d3816958"
+  },
+  "baz-132": {
+    "thumb": "https://response-league.ru/api/v1/card-images/18be0b2d-dc27-49a9-b72a-956d9300720e",
+    "medium": "https://response-league.ru/api/v1/card-images/7a585277-04f3-4a9e-bcd4-9654837c3c99"
+  }
+}

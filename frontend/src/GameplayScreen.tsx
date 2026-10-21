@@ -1,11 +1,16 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from "react";
+import type { CSSProperties, DragEvent } from "react";
 
 import type { MatchCommand } from "./api";
-import { cardName, confirmedCard, type CatalogCard } from "./catalog";
+import {
+  cardImageUrl,
+  cardName,
+  confirmedCard,
+  type CatalogCard,
+} from "./catalog";
 import {
   composeDraftCommand,
   type ActionDraft,
-  draftReady,
   draftReducer,
   phaseName,
   resultText,
@@ -63,59 +68,234 @@ function CardButton({
   card,
   compact = false,
   onOpen,
+  onPlay,
+  selected = false,
+  draggable = false,
+  onDragAction,
+  onDragActionEnd,
 }: {
   card: VisibleCard;
   compact?: boolean;
-  onOpen: (card: VisibleCard) => void;
+  onOpen?: (card: VisibleCard) => void;
+  onPlay?: (card: VisibleCard) => void;
+  selected?: boolean;
+  draggable?: boolean;
+  onDragAction?: (card: VisibleCard) => void;
+  onDragActionEnd?: () => void;
 }) {
   return (
     <button
-      className={`game-card ${compact ? "compact" : ""} ${card.tapped ? "tapped" : ""}`}
-      onClick={() => onOpen(card)}
-      aria-label={`Открыть карту ${cardName(card.definitionId)}`}
+      className={`game-card ${compact ? "compact" : ""} ${card.tapped ? "tapped" : ""} ${selected ? "selected" : ""}`}
+      onClick={() => (onPlay ? onPlay(card) : onOpen?.(card))}
+      onDoubleClick={() => onOpen?.(card)}
+      draggable={draggable}
+      onDragStart={(event) => {
+        event.dataTransfer.setData(
+          "application/x-response-card",
+          card.objectRef.zoneObjectId,
+        );
+        event.dataTransfer.effectAllowed = "move";
+        onDragAction?.(card);
+      }}
+      onDragEnd={onDragActionEnd}
+      aria-label={`${onPlay ? "Выбрать для розыгрыша" : "Открыть"} карту ${cardName(card.definitionId)}`}
+      aria-pressed={onPlay ? selected : undefined}
     >
-      <span className="game-card-mark" aria-hidden="true">
-        {cardName(card.definitionId).slice(0, 1)}
-      </span>
-      <strong>{cardName(card.definitionId)}</strong>
+      <CardArtwork definitionId={card.definitionId} />
       {(card.power !== undefined || card.durability !== undefined) && (
         <span className="game-card-stats">
-          Сила {card.power ?? "—"} · Прочность {card.durability ?? "—"}
+          <b>{card.power ?? "—"}</b>
+          <span aria-hidden="true"> / </span>
+          <b>{card.durability ?? "—"}</b>
         </span>
       )}
     </button>
   );
 }
 
-function EmptySlot({ label }: { label: string }) {
-  return <span className="empty-slot">{label}</span>;
+function CardArtwork({
+  definitionId,
+  large = false,
+}: {
+  definitionId: string;
+  large?: boolean;
+}) {
+  const [failed, setFailed] = useState(false);
+  const source = cardImageUrl(definitionId, large ? "medium" : "thumb");
+  const name = cardName(definitionId);
+  if (!source || failed) {
+    return (
+      <span
+        className="card-image-fallback"
+        role="img"
+        aria-label={`Изображение карты ${name} недоступно`}
+      >
+        <span>{name.slice(0, 1)}</span>
+        <strong>{name}</strong>
+      </span>
+    );
+  }
+  return (
+    <span className="card-artwork">
+      <span className="card-image-loading" aria-hidden="true">
+        Загрузка…
+      </span>
+      <img
+        src={source}
+        alt={name}
+        loading={large ? "eager" : "lazy"}
+        onError={() => setFailed(true)}
+      />
+    </span>
+  );
 }
 
-function GraveyardRow({
+function EmptySlot({
+  enabled = false,
+  label,
+  onActivate,
+}: {
+  enabled?: boolean;
+  label: string;
+  onActivate?: (event?: DragEvent<HTMLButtonElement>) => void;
+}) {
+  if (!enabled || !onActivate)
+    return <span className="empty-slot">{label}</span>;
+  return (
+    <button
+      className="empty-slot drop-enabled"
+      type="button"
+      onClick={() => onActivate()}
+      onDragOver={(event) => {
+        event.preventDefault();
+        event.dataTransfer.dropEffect = "move";
+      }}
+      onDrop={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        onActivate(event);
+      }}
+      aria-label={`${label}: разыграть сюда выбранную карту`}
+    >
+      {label}
+    </button>
+  );
+}
+
+function OrderCard({
+  definitionId,
+  hidden,
+  onOpen,
+}: {
+  definitionId?: string;
+  hidden?: boolean;
+  onOpen?: (definitionId: string) => void;
+}) {
+  return hidden || !definitionId ? (
+    <span className="order-card card-back" aria-label="Закрытый приказ">
+      <span>R</span>
+    </span>
+  ) : (
+    <button
+      className="order-card"
+      aria-label={`Приказ ${cardName(definitionId)}`}
+      onClick={() => onOpen?.(definitionId)}
+    >
+      <CardArtwork definitionId={definitionId} />
+    </button>
+  );
+}
+
+function HiddenHand({ count }: { count: number }) {
+  return (
+    <div className="hidden-hand" aria-label={`В руке соперника ${count} карт`}>
+      {Array.from({ length: Math.min(count, 10) }, (_, index) => (
+        <span
+          className="card-back"
+          key={index}
+          style={{ "--fan": index } as CSSProperties}
+        >
+          <span>R</span>
+        </span>
+      ))}
+      <span className="count-badge">{count}</span>
+    </div>
+  );
+}
+
+function ZoneButton({
   cards,
   label,
   onOpen,
 }: {
   cards: VisibleCard[];
   label: string;
-  onOpen: (card: VisibleCard) => void;
+  onOpen: () => void;
 }) {
   return (
-    <section className="graveyard-strip" aria-label={label}>
+    <button
+      className="zone-pile"
+      onClick={onOpen}
+      aria-label={`${label}: ${cards.length} карт. Открыть галерею`}
+    >
+      {cards[0] ? (
+        <CardArtwork definitionId={cards[cards.length - 1].definitionId} />
+      ) : (
+        <span className="zone-empty" />
+      )}
       <strong>{label}</strong>
       <span className="count-badge">{cards.length}</span>
-      <div>
-        {cards.map((card) => (
-          <CardButton
-            card={card}
-            compact
-            key={card.objectRef.zoneObjectId}
-            onOpen={onOpen}
-          />
-        ))}
-        {cards.length === 0 && <span className="help">Пусто</span>}
-      </div>
-    </section>
+    </button>
+  );
+}
+
+function ZoneGallery({
+  title,
+  cards,
+  onClose,
+  onCard,
+}: {
+  title: string;
+  cards: VisibleCard[];
+  onClose: () => void;
+  onCard: (card: VisibleCard) => void;
+}) {
+  const closeRef = useDialogClose(onClose);
+  return (
+    <div className="dialog-backdrop" role="presentation" onMouseDown={onClose}>
+      <section
+        className="zone-gallery"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="gallery-title"
+        onMouseDown={(event) => event.stopPropagation()}
+      >
+        <button
+          ref={closeRef}
+          className="icon-button dialog-close"
+          onClick={onClose}
+          aria-label="Закрыть галерею"
+        >
+          ×
+        </button>
+        <p className="step">Открытая игровая зона</p>
+        <h2 id="gallery-title">
+          {title} · {cards.length}
+        </h2>
+        <div className="gallery-grid">
+          {cards.map((card) => (
+            <CardButton
+              card={card}
+              key={card.objectRef.zoneObjectId}
+              onOpen={onCard}
+            />
+          ))}
+        </div>
+        {cards.length === 0 && (
+          <p className="help">В этой зоне пока нет карт.</p>
+        )}
+      </section>
+    </div>
   );
 }
 
@@ -123,7 +303,7 @@ function CardZoom({
   card,
   onClose,
 }: {
-  card: VisibleCard;
+  card: Pick<VisibleCard, "definitionId" | "power" | "durability">;
   onClose: () => void;
 }) {
   const details = displayCard(card.definitionId);
@@ -147,32 +327,37 @@ function CardZoom({
         </button>
         <p className="step">Увеличенная карта</p>
         <h2 id="zoom-title">{details.name}</h2>
-        <p>{[...details.types, ...details.subtypes].join(" · ")}</p>
-        <dl className="card-facts">
-          {details.cost !== undefined && (
-            <>
-              <dt>Стоимость</dt>
-              <dd>{details.cost}</dd>
-            </>
-          )}
-          {details.strength !== undefined && (
-            <>
-              <dt>Сила</dt>
-              <dd>{card.power ?? details.strength}</dd>
-            </>
-          )}
-          {details.durability !== undefined && (
-            <>
-              <dt>Прочность</dt>
-              <dd>{card.durability ?? details.durability}</dd>
-            </>
-          )}
-        </dl>
-        {details.abilityText.map((text) => (
-          <p className="ability-text" key={text}>
-            {text}
-          </p>
-        ))}
+        <div className="zoom-layout">
+          <CardArtwork definitionId={card.definitionId} large />
+          <div className="zoom-copy">
+            <p>{[...details.types, ...details.subtypes].join(" · ")}</p>
+            <dl className="card-facts">
+              {details.cost !== undefined && (
+                <>
+                  <dt>Стоимость</dt>
+                  <dd>{details.cost}</dd>
+                </>
+              )}
+              {details.strength !== undefined && (
+                <>
+                  <dt>Сила</dt>
+                  <dd>{card.power ?? details.strength}</dd>
+                </>
+              )}
+              {details.durability !== undefined && (
+                <>
+                  <dt>Прочность</dt>
+                  <dd>{card.durability ?? details.durability}</dd>
+                </>
+              )}
+            </dl>
+            {details.abilityText.map((text) => (
+              <p className="ability-text" key={text}>
+                {text}
+              </p>
+            ))}
+          </div>
+        </div>
         <p className="verified-note">
           Показаны подтверждённые русские поля закреплённой версии контента.
         </p>
@@ -206,8 +391,8 @@ function HelpDialog({ onClose }: { onClose: () => void }) {
         <h2 id="help-title">Справка по игре</h2>
         <h3>Управление</h3>
         <p>
-          Все карты, варианты и клетки выбираются кнопками. Перетаскивание и
-          наведение мыши не требуются. Нажмите Escape, чтобы закрыть окно.
+          Карту можно перетащить из руки в центр стола или выбрать кликом, а
+          затем нажать на область розыгрыша. Escape отменяет незавершённый ввод.
         </p>
         <h3>Ход и решения</h3>
         <p>
@@ -267,6 +452,21 @@ function SurrenderDialog({
         aria-modal="true"
         aria-labelledby="surrender-title"
         onMouseDown={(event) => event.stopPropagation()}
+        onKeyDown={(event) => {
+          if (event.key !== "Tab") return;
+          const buttons = Array.from(
+            event.currentTarget.querySelectorAll<HTMLButtonElement>("button"),
+          );
+          const first = buttons[0];
+          const last = buttons.at(-1);
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last?.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first?.focus();
+          }
+        }}
       >
         <h2 id="surrender-title">Подтвердить сдачу?</h2>
         <p>
@@ -340,10 +540,10 @@ function ChoicePanel({
       <div className="choice-options">
         {(choice.options ?? []).map((option, index) => {
           const active = selected.includes(option.id);
-          const names = (option.objects ?? [])
+          const cards = (option.objects ?? [])
             .map((ref) => findVisibleCard(view, ref))
-            .filter((card): card is VisibleCard => Boolean(card))
-            .map((card) => cardName(card.definitionId));
+            .filter((card): card is VisibleCard => Boolean(card));
+          const names = cards.map((card) => cardName(card.definitionId));
           return (
             <button
               className={active ? "choice-option active" : "choice-option"}
@@ -359,6 +559,12 @@ function ChoicePanel({
                 )
               }
             >
+              {cards.map((card) => (
+                <CardArtwork
+                  definitionId={card.definitionId}
+                  key={card.objectRef.zoneObjectId}
+                />
+              ))}
               {names.length > 0 ? names.join(" · ") : `Вариант ${index + 1}`}
             </button>
           );
@@ -420,8 +626,15 @@ function ActionComposer({
       action.placements.length === 1 ? action.placements[0] : undefined,
   };
   const [draft, dispatch] = useReducer(draftReducer, initialDraft);
+  const submitted = useRef(false);
   if (!draft) return null;
   const command = composeDraftCommand(draft);
+  useEffect(() => {
+    if (command && !submitted.current) {
+      submitted.current = true;
+      onConfirm(command);
+    }
+  }, [command, onConfirm]);
   return (
     <section className="action-composer" aria-labelledby="composer-title">
       <p className="step">Многошаговый ввод</p>
@@ -430,6 +643,12 @@ function ActionComposer({
           ? `Разыграть «${cardName(action.definitionId ?? "")}»`
           : `Активировать «${cardName(action.definitionId ?? "")}»`}
       </h2>
+      {action.definitionId && (
+        <div className="staged-card">
+          <CardArtwork definitionId={action.definitionId} large />
+          <span>Карта остаётся в области розыгрыша до завершения выбора.</span>
+        </div>
+      )}
       {action.modeIds.length > 0 && (
         <fieldset>
           <legend>
@@ -490,6 +709,7 @@ function ActionComposer({
                   key={ref.zoneObjectId}
                   onClick={() => dispatch({ type: "цель", ref })}
                 >
+                  {card && <CardArtwork definitionId={card.definitionId} />}
                   {card ? cardName(card.definitionId) : `Цель ${index + 1}`}
                 </button>
               );
@@ -512,6 +732,7 @@ function ActionComposer({
                   key={ref.zoneObjectId}
                   onClick={() => dispatch({ type: "оплата", ref })}
                 >
+                  {card && <CardArtwork definitionId={card.definitionId} />}
                   {card ? cardName(card.definitionId) : `Оплата ${index + 1}`}
                 </button>
               );
@@ -559,6 +780,7 @@ function ActionComposer({
                   key={ref.zoneObjectId}
                   onClick={() => dispatch({ type: "щит", ref })}
                 >
+                  {card && <CardArtwork definitionId={card.definitionId} />}
                   {card
                     ? `Оплатить щит: ${cardName(card.definitionId)}`
                     : `Оплатить щит цели ${index + 1}`}
@@ -583,16 +805,46 @@ function ActionComposer({
         <button className="secondary" onClick={onCancel}>
           Отменить ввод
         </button>
-        <button
-          className="primary"
-          disabled={!draftReady(draft) || !command}
-          onClick={() => command && onConfirm(command)}
-        >
-          Подтвердить и отправить
-        </button>
+        <span className="help">
+          Команда отправится автоматически после последнего обязательного
+          выбора.
+        </span>
       </div>
     </section>
   );
+}
+
+function useCombatPlayback(events: PlayerView["combatEvents"]) {
+  const seen = useRef<number | null>(null);
+  const [queue, setQueue] = useState<PlayerView["combatEvents"]>([]);
+  const [active, setActive] = useState<
+    PlayerView["combatEvents"][number] | null
+  >(null);
+  useEffect(() => {
+    const latest = events.at(-1)?.sequence ?? 0;
+    if (seen.current === null) {
+      seen.current = latest; // snapshot/resync establishes state without replaying old effects
+      return;
+    }
+    const additions = events.filter(
+      (event) => event.sequence > (seen.current ?? 0),
+    );
+    if (additions.length) {
+      seen.current = latest;
+      setQueue((current) => [...current, ...additions]);
+    }
+  }, [events]);
+  useEffect(() => {
+    if (active || queue.length === 0) return;
+    setActive(queue[0]);
+    setQueue((current) => current.slice(1));
+  }, [active, queue]);
+  useEffect(() => {
+    if (!active) return;
+    const timer = window.setTimeout(() => setActive(null), 720);
+    return () => window.clearTimeout(timer);
+  }, [active]);
+  return { active, replaying: Boolean(active) || queue.length > 0 };
 }
 
 export function GameplayScreen({
@@ -614,19 +866,65 @@ export function GameplayScreen({
   room: RoomSnapshot;
   view: PlayerView;
 }) {
-  const [zoom, setZoom] = useState<VisibleCard | null>(null);
+  const [zoom, setZoom] = useState<Pick<
+    VisibleCard,
+    "definitionId" | "power" | "durability"
+  > | null>(null);
   const [help, setHelp] = useState(false);
   const [draftAction, setDraftAction] = useState<PlayerViewAction | null>(null);
+  const [selectedAction, setSelectedAction] = useState<PlayerViewAction | null>(
+    null,
+  );
+  const [draggingAction, setDraggingAction] = useState<PlayerViewAction | null>(
+    null,
+  );
+  const [gallery, setGallery] = useState<{
+    title: string;
+    cards: VisibleCard[];
+  } | null>(null);
   const [confirmSurrender, setConfirmSurrender] = useState(false);
-  const [animations, setAnimations] = useState<
-    "обычные" | "быстрые" | "выключены"
-  >("обычные");
+  const playback = useCombatPlayback(view.combatEvents ?? []);
   const own = view.players.find((player) => player.seat === view.ownSeat)!;
   const opponent = view.players.find((player) => player.seat !== view.ownSeat)!;
   const pendingChoice = view.choices[0];
   const actionSuggestions = view.legalActions.filter(
     (action) => action.name === "playCard" || action.name === "activateAbility",
   );
+  const interactionBlocked = actionsBlocked || playback.replaying;
+  const actionForCard = (card: VisibleCard) =>
+    actionSuggestions.find(
+      (action) => action.sourceRef && sameRef(action.sourceRef, card.objectRef),
+    );
+  const stageAction = (action: PlayerViewAction | null) => {
+    if (!action || interactionBlocked || pendingChoice || result) return;
+    setSelectedAction(null);
+    setDraftAction(action);
+  };
+  const actionFromDrop = (event: DragEvent<HTMLElement>) => {
+    const id = event.dataTransfer.getData("application/x-response-card");
+    return actionSuggestions.find(
+      (candidate) => candidate.sourceRef?.zoneObjectId === id,
+    );
+  };
+  const canPlace = (
+    action: PlayerViewAction | null,
+    lane: number,
+    slot: "unit" | "support",
+  ) =>
+    Boolean(
+      action?.placements.some(
+        (placement) => placement.lane === lane && placement.slot === slot,
+      ),
+    );
+  const stagePlacement = (
+    action: PlayerViewAction | null | undefined,
+    lane: number,
+    slot: "unit" | "support",
+  ) => {
+    if (!action || !canPlace(action, lane, slot)) return;
+    stageAction({ ...action, placements: [{ lane, slot }] });
+    setDraggingAction(null);
+  };
   const passAvailable = view.legalActions.some(
     (action) => action.name === "passAction",
   );
@@ -640,6 +938,12 @@ export function GameplayScreen({
       ),
     [view.board],
   );
+  const ownLocation = view.board.find(
+    (card) => card.controllerSeat === own.seat && card.slot === "location",
+  );
+  const opponentLocation = view.board.find(
+    (card) => card.controllerSeat === opponent.seat && card.slot === "location",
+  );
   const result = view.result;
   const ownRematchReady = room.seats.find(
     (seat) => seat.seatId === view.ownSeat,
@@ -648,8 +952,25 @@ export function GameplayScreen({
     (seat) => seat.seatId !== view.ownSeat,
   )?.rematchReady;
 
+  useEffect(() => {
+    setSelectedAction(null);
+    setDraftAction(null);
+  }, [view.matchId, view.revision]);
+  useEffect(() => {
+    const cancel = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSelectedAction(null);
+        setDraftAction(null);
+      }
+    };
+    window.addEventListener("keydown", cancel);
+    return () => window.removeEventListener("keydown", cancel);
+  }, []);
+
   return (
-    <main className={`game-shell animations-${animations}`}>
+    <main
+      className={`game-shell ${playback.replaying ? "combat-replaying" : ""}`}
+    >
       <header className="game-topbar">
         <div>
           <p className="eyebrow">Комната {room.code}</p>
@@ -668,17 +989,11 @@ export function GameplayScreen({
           </div>
         </div>
       </header>
-      {(desynced || lifecycleNotice) && (
-        <div
-          className={desynced ? "sync-banner danger" : "sync-banner"}
-          role="alert"
-        >
-          {lifecycleNotice ||
-            "Состояние синхронизируется. Действия временно заблокированы."}
-          {desynced && lifecycleNotice && (
-            <span className="sync-detail">
-              Состояние синхронизируется. Действия временно заблокированы.
-            </span>
+      {desynced && (
+        <div className="sync-banner danger" role="alert">
+          Состояние синхронизируется. Действия временно заблокированы.
+          {lifecycleNotice && (
+            <span className="sync-detail">{lifecycleNotice}</span>
           )}
         </div>
       )}
@@ -708,17 +1023,13 @@ export function GameplayScreen({
           <span>Ваши действия</span>
           <strong>{own.actionsRemaining}</strong>
         </div>
-        <div>
-          <span>Связь</span>
-          <strong>{connectionLabel}</strong>
-        </div>
       </section>
 
       {pendingChoice && (
         <ChoicePanel
           key={`${pendingChoice.choiceId ?? "redacted"}-${pendingChoice.revision}`}
           choice={pendingChoice}
-          disabled={actionsBlocked}
+          disabled={interactionBlocked}
           view={view}
           onSubmit={(optionIds) =>
             onCommand({
@@ -734,38 +1045,93 @@ export function GameplayScreen({
           <div className="player-ribbon opponent">
             <div>
               <strong>Соперник</strong>
-              <span>
-                Влияние: {opponent.influence} · Рука: {opponent.handCount} ·
-                Колода: {opponent.deckCount}
-              </span>
+              <span>Влияние: {opponent.influence}</span>
             </div>
-            <div className="orders" aria-label="Приказы соперника">
-              {opponent.orders.map((order) => (
-                <span key={order.position}>
-                  {order.revealed
-                    ? cardName(order.definitionId ?? "")
-                    : "Закрыт"}
-                </span>
-              ))}
+            <HiddenHand count={opponent.handCount} />
+            <div className="player-location">
+              <button
+                className="hero-card"
+                onClick={() => setZoom({ definitionId: opponent.heroId })}
+                aria-label={`Открыть героя соперника ${cardName(opponent.heroId)}`}
+              >
+                <CardArtwork definitionId={opponent.heroId} />
+              </button>
+              {opponentLocation ? (
+                <CardButton compact card={opponentLocation} onOpen={setZoom} />
+              ) : (
+                <EmptySlot label="Локация соперника" />
+              )}
+            </div>
+            <div className="player-zones">
+              <span
+                className="deck-pile card-back"
+                aria-label={`Колода соперника: ${opponent.deckCount}`}
+              >
+                <span>R</span>
+                <b>{opponent.deckCount}</b>
+              </span>
+              <ZoneButton
+                cards={opponent.graveyard}
+                label="Кладбище"
+                onOpen={() =>
+                  setGallery({
+                    title: "Кладбище соперника",
+                    cards: opponent.graveyard,
+                  })
+                }
+              />
+              <ZoneButton
+                cards={opponent.void ?? []}
+                label="Космос"
+                onOpen={() =>
+                  setGallery({
+                    title: "Космос соперника",
+                    cards: opponent.void ?? [],
+                  })
+                }
+              />
             </div>
           </div>
-          <GraveyardRow
-            cards={opponent.graveyard}
-            label="Кладбище соперника"
-            onOpen={setZoom}
-          />
           <div className="lanes">
             {Array.from({ length: 5 }, (_, lane) => (
               <article
-                className={
-                  view.combatLane === lane ? "lane active-combat" : "lane"
-                }
+                className={`${
+                  (playback.active?.lane ?? view.combatLane) === lane
+                    ? "lane active-combat"
+                    : "lane"
+                } ${(draggingAction ?? selectedAction)?.placements.length === 0 ? "spell-drop-target" : ""}`}
                 key={lane}
                 aria-label={`Линия ${lane + 1}`}
+                onClick={(event) => {
+                  if (
+                    selectedAction?.placements.length === 0 &&
+                    !(event.target as Element).closest("button")
+                  )
+                    stageAction(selectedAction);
+                }}
+                onDragOver={(event) => {
+                  if (
+                    !interactionBlocked &&
+                    draggingAction?.placements.length === 0
+                  )
+                    event.preventDefault();
+                }}
+                onDrop={(event) => {
+                  const action = actionFromDrop(event);
+                  if (!action || action.placements.length > 0) return;
+                  event.preventDefault();
+                  stageAction(action);
+                  setDraggingAction(null);
+                }}
               >
                 <h2>Линия {lane + 1}</h2>
                 <div className="lane-side opponent-side">
-                  {(["location", "support", "unit"] as const).map((slot) => {
+                  <OrderCard
+                    definitionId={opponent.orders[lane]?.definitionId}
+                    hidden={!opponent.orders[lane]?.revealed}
+                    onOpen={(definitionId) => setZoom({ definitionId })}
+                  />
+                  {(["support", "unit"] as const).map((slot) => {
                     const card = cardByCell.get(
                       `${opponent.seat}-${lane}-${slot}`,
                     );
@@ -779,13 +1145,7 @@ export function GameplayScreen({
                     ) : (
                       <EmptySlot
                         key={slot}
-                        label={
-                          slot === "unit"
-                            ? "Юнит"
-                            : slot === "support"
-                              ? "Поддержка"
-                              : "Локация"
-                        }
+                        label={slot === "unit" ? "Юнит" : "Усиление"}
                       />
                     );
                   })}
@@ -794,7 +1154,7 @@ export function GameplayScreen({
                   ◆
                 </div>
                 <div className="lane-side own-side">
-                  {(["unit", "support", "location"] as const).map((slot) => {
+                  {(["unit", "support"] as const).map((slot) => {
                     const card = cardByCell.get(`${own.seat}-${lane}-${slot}`);
                     return card ? (
                       <CardButton
@@ -806,56 +1166,141 @@ export function GameplayScreen({
                     ) : (
                       <EmptySlot
                         key={slot}
-                        label={
-                          slot === "unit"
-                            ? "Юнит"
-                            : slot === "support"
-                              ? "Поддержка"
-                              : "Локация"
+                        label={slot === "unit" ? "Юнит" : "Усиление"}
+                        enabled={canPlace(
+                          draggingAction ?? selectedAction,
+                          lane,
+                          slot,
+                        )}
+                        onActivate={(event) =>
+                          stagePlacement(
+                            event ? actionFromDrop(event) : selectedAction,
+                            lane,
+                            slot,
+                          )
                         }
                       />
                     );
                   })}
+                  <OrderCard
+                    definitionId={own.orders[lane]?.definitionId}
+                    hidden={
+                      !own.orders[lane]?.revealed &&
+                      !own.orders[lane]?.definitionId
+                    }
+                    onOpen={(definitionId) => setZoom({ definitionId })}
+                  />
                 </div>
               </article>
             ))}
           </div>
-          <div className="player-ribbon own">
-            <div>
-              <strong>Вы · {cardName(own.heroId)}</strong>
-              <span>
-                Влияние: {own.influence} · Колода: {own.deckCount} · Кладбище:{" "}
-                {own.graveyard.length}
-              </span>
-            </div>
-            <div className="orders" aria-label="Ваши Приказы">
-              {own.orders.map((order) => (
-                <span key={order.position}>
-                  {cardName(order.definitionId ?? "")}
-                </span>
-              ))}
-            </div>
-          </div>
-          <GraveyardRow
-            cards={own.graveyard}
-            label="Ваше кладбище"
-            onOpen={setZoom}
-          />
-          <section className="own-hand" aria-labelledby="hand-title">
-            <div className="section-heading">
-              <h2 id="hand-title">Ваша рука</h2>
-              <span className="count-badge">{own.handCount}</span>
-            </div>
-            <div className="hand gameplay-hand">
-              {(own.hand ?? []).map((card) => (
-                <CardButton
-                  card={card}
-                  onOpen={setZoom}
-                  key={card.objectRef.zoneObjectId}
+          {draftAction && (
+            <div className="action-draft-backdrop">
+              <section
+                className="action-draft-panel"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Продолжение розыгрыша карты"
+              >
+                <ActionComposer
+                  key={`${draftAction.name}-${draftAction.sourceRef?.zoneObjectId ?? ""}`}
+                  action={draftAction}
+                  view={view}
+                  onCancel={() => setDraftAction(null)}
+                  onConfirm={(command) => {
+                    onCommand(command);
+                    setDraftAction(null);
+                  }}
                 />
-              ))}
+              </section>
             </div>
-          </section>
+          )}
+          {playback.active && (
+            <div className="combat-cue" role="status">
+              <strong>
+                {playback.active.lane !== undefined
+                  ? `Линия ${playback.active.lane + 1}`
+                  : "Бой"}
+              </strong>
+              <span>{playback.active.message}</span>
+            </div>
+          )}
+          <div className="own-dashboard">
+            <div className="player-ribbon own">
+              <div>
+                <strong>Вы · {cardName(own.heroId)}</strong>
+                <span>Влияние: {own.influence}</span>
+              </div>
+              <div className="player-location">
+                <button
+                  className="hero-card"
+                  onClick={() => setZoom({ definitionId: own.heroId })}
+                  aria-label={`Открыть вашего героя ${cardName(own.heroId)}`}
+                >
+                  <CardArtwork definitionId={own.heroId} />
+                </button>
+                {ownLocation ? (
+                  <CardButton compact card={ownLocation} onOpen={setZoom} />
+                ) : (
+                  <EmptySlot label="Ваша локация" />
+                )}
+              </div>
+              <div className="player-zones">
+                <span
+                  className="deck-pile card-back"
+                  aria-label={`Ваша колода: ${own.deckCount}`}
+                >
+                  <span>R</span>
+                  <b>{own.deckCount}</b>
+                </span>
+                <ZoneButton
+                  cards={own.graveyard}
+                  label="Кладбище"
+                  onOpen={() =>
+                    setGallery({ title: "Ваше кладбище", cards: own.graveyard })
+                  }
+                />
+                <ZoneButton
+                  cards={own.void ?? []}
+                  label="Космос"
+                  onOpen={() =>
+                    setGallery({ title: "Ваш космос", cards: own.void ?? [] })
+                  }
+                />
+              </div>
+            </div>
+            <section className="own-hand" aria-labelledby="hand-title">
+              <div className="section-heading">
+                <h2 id="hand-title">Ваша рука</h2>
+                <span className="count-badge">{own.handCount}</span>
+              </div>
+              <div className="hand gameplay-hand">
+                {(own.hand ?? []).map((card) => (
+                  <CardButton
+                    card={card}
+                    onOpen={setZoom}
+                    onPlay={
+                      actionForCard(card)
+                        ? () => setSelectedAction(actionForCard(card) ?? null)
+                        : undefined
+                    }
+                    selected={Boolean(
+                      selectedAction?.sourceRef &&
+                      sameRef(selectedAction.sourceRef, card.objectRef),
+                    )}
+                    draggable={
+                      Boolean(actionForCard(card)) && !interactionBlocked
+                    }
+                    onDragAction={(draggedCard) =>
+                      setDraggingAction(actionForCard(draggedCard) ?? null)
+                    }
+                    onDragActionEnd={() => setDraggingAction(null)}
+                    key={card.objectRef.zoneObjectId}
+                  />
+                ))}
+              </div>
+            </section>
+          </div>
         </section>
 
         <aside className="game-sidebar">
@@ -863,65 +1308,34 @@ export function GameplayScreen({
             className="sidebar-card actions-panel"
             aria-labelledby="actions-title"
           >
-            <h2 id="actions-title">Доступные действия</h2>
-            {draftAction ? (
-              <ActionComposer
-                key={`${draftAction.name}-${draftAction.sourceRef?.zoneObjectId ?? ""}`}
-                action={draftAction}
-                view={view}
-                onCancel={() => setDraftAction(null)}
-                onConfirm={(command) => {
-                  onCommand(command);
-                  setDraftAction(null);
-                }}
-              />
-            ) : (
-              <>
-                <div className="action-list">
-                  {actionSuggestions.map((action, index) => (
-                    <button
-                      className="primary"
-                      disabled={
-                        actionsBlocked ||
-                        Boolean(pendingChoice) ||
-                        Boolean(result)
-                      }
-                      key={`${action.name}-${action.sourceRef?.zoneObjectId ?? index}`}
-                      onClick={() => setDraftAction(action)}
-                    >
-                      {action.name === "playCard"
-                        ? `Разыграть ${cardName(action.definitionId ?? "")}`
-                        : `Активировать ${cardName(action.definitionId ?? "")}`}
-                    </button>
-                  ))}
-                </div>
-                <button
-                  className="secondary wide"
-                  disabled={
-                    actionsBlocked ||
-                    !passAvailable ||
-                    Boolean(pendingChoice) ||
-                    Boolean(result)
-                  }
-                  onClick={() => onCommand({ name: "passAction", payload: {} })}
-                >
-                  Спасовать
-                </button>
-                <button
-                  className="danger-button wide"
-                  disabled={actionsBlocked || Boolean(result)}
-                  onClick={() => setConfirmSurrender(true)}
-                >
-                  Сдаться
-                </button>
-                {actionSuggestions.length === 0 &&
-                  !passAvailable &&
-                  !result && (
-                    <p className="help">
-                      Сервер не предлагает действий: ожидаем ход или решение.
-                    </p>
-                  )}
-              </>
+            <h2 id="actions-title">Системные действия</h2>
+            <p className="help">
+              Карты разыгрываются через руку и поле. Здесь остаются только
+              действия матча.
+            </p>
+            <button
+              className="secondary wide"
+              disabled={
+                interactionBlocked ||
+                !passAvailable ||
+                Boolean(pendingChoice) ||
+                Boolean(result)
+              }
+              onClick={() => onCommand({ name: "passAction", payload: {} })}
+            >
+              Спасовать
+            </button>
+            <button
+              className="danger-button wide"
+              disabled={interactionBlocked || Boolean(result)}
+              onClick={() => setConfirmSurrender(true)}
+            >
+              Сдаться
+            </button>
+            {actionSuggestions.length === 0 && !passAvailable && !result && (
+              <p className="help">
+                Сервер не предлагает действий: ожидаем ход или решение.
+              </p>
             )}
           </section>
           <section
@@ -944,19 +1358,10 @@ export function GameplayScreen({
             ) : (
               <p className="help">Публичная очередь пуста.</p>
             )}
-            <label className="animation-setting">
-              Анимации
-              <select
-                value={animations}
-                onChange={(event) =>
-                  setAnimations(event.target.value as typeof animations)
-                }
-              >
-                <option value="обычные">Обычные</option>
-                <option value="быстрые">Быстрые</option>
-                <option value="выключены">Выключены</option>
-              </select>
-            </label>
+            <p className="help">
+              Бой воспроизводится для обоих игроков с одной фиксированной
+              скоростью.
+            </p>
           </section>
           <section
             className="sidebar-card journal-panel"
@@ -1019,6 +1424,14 @@ export function GameplayScreen({
         </section>
       )}
       {zoom && <CardZoom card={zoom} onClose={() => setZoom(null)} />}
+      {gallery && (
+        <ZoneGallery
+          title={gallery.title}
+          cards={gallery.cards}
+          onClose={() => setGallery(null)}
+          onCard={setZoom}
+        />
+      )}
       {help && <HelpDialog onClose={() => setHelp(false)} />}
       {confirmSurrender && (
         <SurrenderDialog

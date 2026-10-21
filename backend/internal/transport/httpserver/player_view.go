@@ -31,6 +31,7 @@ type PlayerView struct {
 	LegalActions   []PlayerViewAction       `json:"legalActions"`
 	Queue          []PlayerViewQueueItem    `json:"queue"`
 	Journal        []PlayerViewJournalEntry `json:"journal"`
+	CombatEvents   []PlayerViewCombatEvent  `json:"combatEvents"`
 	Result         *PlayerViewResult        `json:"result,omitempty"`
 }
 
@@ -43,6 +44,7 @@ type PlayerViewPlayer struct {
 	HandCount        int               `json:"handCount"`
 	Hand             []PlayerViewCard  `json:"hand,omitempty"`
 	Graveyard        []PlayerViewCard  `json:"graveyard"`
+	Void             []PlayerViewCard  `json:"void"`
 	Orders           []PlayerViewOrder `json:"orders"`
 }
 
@@ -51,7 +53,7 @@ type PlayerViewCard struct {
 	DefinitionID   string           `json:"definitionId"`
 	OwnerSeat      string           `json:"ownerSeat,omitempty"`
 	ControllerSeat string           `json:"controllerSeat,omitempty"`
-	Lane           int              `json:"lane,omitempty"`
+	Lane           *int             `json:"lane,omitempty"`
 	Slot           engine.BoardSlot `json:"slot,omitempty"`
 	Power          int              `json:"power,omitempty"`
 	Durability     int              `json:"durability,omitempty"`
@@ -119,6 +121,16 @@ type PlayerViewJournalEntry struct {
 	Message  string `json:"message"`
 }
 
+// PlayerViewCombatEvent is a privacy-safe playback cue. It deliberately
+// exposes neither engine details nor hidden object references.
+type PlayerViewCombatEvent struct {
+	Sequence uint64 `json:"sequence"`
+	Kind     string `json:"kind"`
+	Seat     string `json:"seat,omitempty"`
+	Lane     *int   `json:"lane,omitempty"`
+	Message  string `json:"message"`
+}
+
 type PlayerViewResult struct {
 	Reason     engine.ResultReason `json:"reason"`
 	WinnerSeat string              `json:"winnerSeat,omitempty"`
@@ -170,12 +182,14 @@ func projectPlayerView(state engine.State, viewer engine.Seat, codec referenceCo
 		ActingSeat: seatName(state.ActingSeat), Board: make([]PlayerViewCard, 0),
 		Choices: make([]PlayerViewChoice, 0), LegalActions: make([]PlayerViewAction, 0),
 		Queue: make([]PlayerViewQueueItem, 0), Journal: make([]PlayerViewJournalEntry, 0),
+		CombatEvents: make([]PlayerViewCombatEvent, 0),
 	}
 	for playerIndex, player := range state.Players {
 		projected := PlayerViewPlayer{
 			Seat: seatName(player.Seat), HeroID: player.HeroID, Influence: player.Influence,
 			ActionsRemaining: player.ActionsRemaining, Hand: make([]PlayerViewCard, 0),
 			Graveyard: make([]PlayerViewCard, 0), Orders: make([]PlayerViewOrder, 0, len(player.Orders)),
+			Void: make([]PlayerViewCard, 0),
 		}
 		for _, object := range player.Objects {
 			switch object.Zone {
@@ -190,6 +204,8 @@ func projectPlayerView(state engine.State, viewer engine.Seat, codec referenceCo
 				view.Board = append(view.Board, projectKnownCard(object, codec, true))
 			case engine.ZoneGraveyard:
 				projected.Graveyard = append(projected.Graveyard, projectKnownCard(object, codec, true))
+			case engine.ZoneVoid:
+				projected.Void = append(projected.Void, projectKnownCard(object, codec, true))
 			}
 		}
 		for _, order := range player.Orders {
@@ -267,6 +283,17 @@ func projectPlayerView(state engine.State, viewer engine.Seat, codec referenceCo
 			item.Seat = seatName(*event.Seat)
 		}
 		view.Journal = append(view.Journal, item)
+		if isCombatEvent(event.Kind) {
+			combat := PlayerViewCombatEvent{Sequence: event.Sequence, Kind: event.Kind, Message: message}
+			if event.Seat != nil {
+				combat.Seat = seatName(*event.Seat)
+			}
+			var lane int
+			if _, err := fmt.Sscanf(event.Detail, "lane=%d", &lane); err == nil && lane >= 0 && lane < engine.LaneCount {
+				combat.Lane = &lane
+			}
+			view.CombatEvents = append(view.CombatEvents, combat)
+		}
 	}
 	if state.Result != nil {
 		result := &PlayerViewResult{Reason: state.Result.Reason}
@@ -279,6 +306,15 @@ func projectPlayerView(state engine.State, viewer engine.Seat, codec referenceCo
 		view.Result = result
 	}
 	return view
+}
+
+func isCombatEvent(kind string) bool {
+	switch kind {
+	case "combat_started", "combat_lane_started", "units_collided", "unit_died", "location_hit", "location_destroyed", "hero_attack_skipped", "hero_hit", "order_revealed", "combat_ended":
+		return true
+	default:
+		return false
+	}
 }
 
 func publicObjectRef(state engine.State, ref engine.ObjectRef) bool {
@@ -373,8 +409,11 @@ func projectKnownCard(object engine.CardObject, codec referenceCodec, public boo
 	if public {
 		card.OwnerSeat = seatName(object.OwnerSeat)
 		card.ControllerSeat = seatName(object.ControllerSeat)
-		card.Lane = object.Lane
 		card.Slot = object.Slot
+		if (object.Slot == engine.SlotUnit || object.Slot == engine.SlotSupport) && object.Lane >= 0 && object.Lane < engine.LaneCount {
+			lane := object.Lane
+			card.Lane = &lane
+		}
 		card.Power = object.Power
 		card.Durability = object.Durability
 		card.Tapped = object.Tapped
